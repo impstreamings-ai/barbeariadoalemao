@@ -120,7 +120,6 @@ function Header() {
 function Hero() {
   return (
     <section id="topo" className="relative overflow-hidden">
-      <div className="absolute inset-0">
       <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 pb-16 pt-28 md:min-h-[88vh] md:grid-cols-2 md:gap-12 md:pb-20">
         <div className="order-2 md:order-1">
           <p className="font-condensed text-sm font-medium uppercase tracking-[0.3em] text-primary">
