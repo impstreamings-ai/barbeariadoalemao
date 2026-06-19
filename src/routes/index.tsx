@@ -77,7 +77,6 @@ function Index() {
         <Galeria />
         <Servicos />
         <Horarios />
-        <Tatuagem />
         <CtaFinal />
       </main>
       <Footer />
