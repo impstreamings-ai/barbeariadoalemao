@@ -84,6 +84,7 @@ function Index() {
         <CtaFinal />
       </main>
       <Footer />
+      <FloatingWhatsApp />
     </div>
   );
 }
