@@ -250,6 +250,7 @@ function Header() {
   }, []);
 
   return (
+    <>
     <header
       className={`sticky top-0 z-50 transition-all duration-300 ${
         scrolled
@@ -297,12 +298,13 @@ function Header() {
           <Menu size={22} strokeWidth={1.75} aria-hidden="true" />
         </button>
       </div>
-      <MobileMenu
-        open={menuOpen}
-        active={active}
-        onClose={() => setMenuOpen(false)}
-      />
     </header>
+    <MobileMenu
+      open={menuOpen}
+      active={active}
+      onClose={() => setMenuOpen(false)}
+    />
+    </>
   );
 }
 
