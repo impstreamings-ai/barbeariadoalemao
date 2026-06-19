@@ -569,13 +569,13 @@ function Sobre() {
             O Alemão
           </h2>
           <p className="mt-6 font-body text-muted-foreground">
-            Alemão é o rosto por trás da barbearia. Conhecido pelo atendimento
-            tranquilo, pela atenção aos detalhes e pela conversa boa durante o
-            corte.
+            Desde 2015, o Alemão atende clientes em Sorocaba com atenção aos
+            detalhes, respeito ao horário e foco em um atendimento tranquilo e de
+            qualidade.
           </p>
           <p className="mt-4 font-body text-muted-foreground">
-            Quem entra pela primeira vez entende rápido por que tantos clientes
-            voltam.
+            Ao longo dos anos, esse cuidado ajudou a construir uma avaliação 5,0
+            estrelas no Google e a confiança de centenas de clientes.
           </p>
           <div className="mt-8 flex items-center gap-4 border-t border-border pt-6">
             <span className="grid h-12 w-12 shrink-0 place-items-center rounded-sm border border-border text-primary">
