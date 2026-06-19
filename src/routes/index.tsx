@@ -207,6 +207,8 @@ const WHATSAPP_URL =
 
 const GOOGLE_MAPS_URL = "https://maps.app.goo.gl/9QmcRTjmGaU3DDd37";
 
+const INSTAGRAM_URL = "https://www.instagram.com/barbeariadoalemao";
+
 const destaques = [
   { valor: "5,0", Icon: Star, label: "Estrelas", desc: "Avaliação média dos clientes" },
   { valor: "134", Icon: MessageSquare, label: "Avaliações", desc: "Feedbacks reais no Google" },
