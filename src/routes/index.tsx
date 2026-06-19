@@ -33,6 +33,44 @@ export const Route = createFileRoute("/")({
       { name: "twitter:image", content: ownerWorking.url },
     ],
     links: [{ rel: "canonical", href: "/" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Barbershop",
+          name: "Barbearia do Alemão",
+          description:
+            "Barbearia em Sorocaba/SP com corte masculino, barba, acabamento e atendimento presencial desde 2015.",
+          url: "https://barbeariadoalemao.lovable.app",
+          telephone: "+5515988030574",
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: "R. Maria Germani, 826",
+            addressLocality: "Sorocaba",
+            addressRegion: "SP",
+            postalCode: "18053-030",
+            addressCountry: "BR",
+          },
+          openingHoursSpecification: [
+            { "@type": "OpeningHoursSpecification", dayOfWeek: "Tuesday", opens: "09:00", closes: "21:00" },
+            { "@type": "OpeningHoursSpecification", dayOfWeek: "Wednesday", opens: "07:30", closes: "20:00" },
+            { "@type": "OpeningHoursSpecification", dayOfWeek: "Thursday", opens: "07:30", closes: "21:00" },
+            { "@type": "OpeningHoursSpecification", dayOfWeek: "Friday", opens: "07:30", closes: "21:00" },
+            { "@type": "OpeningHoursSpecification", dayOfWeek: "Saturday", opens: "07:30", closes: "20:00" },
+          ],
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: "5.0",
+            reviewCount: "134",
+          },
+          sameAs: [
+            "https://maps.app.goo.gl/9QmcRTjmGaU3DDd37",
+            "https://www.instagram.com/barbeariadoalemao",
+          ],
+        }),
+      },
+    ],
   }),
   component: Index,
 });
