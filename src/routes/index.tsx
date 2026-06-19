@@ -111,7 +111,7 @@ function Header() {
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
         <a href="#topo" className="flex items-center gap-3">
           <img src={logo.url} alt="Logo Barbearia do Alemão" className="h-11 w-11 rounded-full object-cover" />
-          <span className="font-condensed text-sm font-600 uppercase tracking-[0.2em] text-foreground">
+          <span className="font-condensed text-sm font-semibold uppercase tracking-[0.2em] text-foreground">
             Barbearia do Alemão
           </span>
         </a>
@@ -120,7 +120,7 @@ function Header() {
             <a
               key={n.href}
               href={n.href}
-              className="font-condensed text-xs font-500 uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-foreground"
+              className="font-condensed text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-foreground"
             >
               {n.label}
             </a>
@@ -128,7 +128,7 @@ function Header() {
         </nav>
         <a
           href="#cta"
-          className="font-condensed text-xs font-600 uppercase tracking-[0.16em] border border-primary bg-primary px-4 py-2 text-primary-foreground transition-opacity hover:opacity-90"
+          className="font-condensed text-xs font-semibold uppercase tracking-[0.16em] border border-primary bg-primary px-4 py-2 text-primary-foreground transition-opacity hover:opacity-90"
         >
           Agendar
         </a>
@@ -146,7 +146,7 @@ function Hero() {
         <div className="absolute inset-0 bg-gradient-to-r from-background/85 to-transparent" />
       </div>
       <div className="relative mx-auto flex min-h-[88vh] max-w-6xl flex-col justify-end px-5 pb-16 pt-28">
-        <p className="font-condensed text-sm font-500 uppercase tracking-[0.3em] text-primary">
+        <p className="font-condensed text-sm font-medium uppercase tracking-[0.3em] text-primary">
           Barba, Cabelo e Amigos · Desde 2015
         </p>
         <h1 className="mt-4 max-w-3xl text-5xl uppercase leading-[0.92] sm:text-7xl md:text-8xl">
@@ -161,13 +161,13 @@ function Hero() {
         <div className="mt-9 flex flex-wrap gap-3">
           <a
             href="#cta"
-            className="font-condensed text-sm font-600 uppercase tracking-[0.16em] bg-primary px-7 py-3.5 text-primary-foreground transition-opacity hover:opacity-90"
+            className="font-condensed text-sm font-semibold uppercase tracking-[0.16em] bg-primary px-7 py-3.5 text-primary-foreground transition-opacity hover:opacity-90"
           >
             Agendar Horário
           </a>
           <a
             href="#servicos"
-            className="font-condensed text-sm font-600 uppercase tracking-[0.16em] border border-border px-7 py-3.5 text-foreground transition-colors hover:border-foreground"
+            className="font-condensed text-sm font-semibold uppercase tracking-[0.16em] border border-border px-7 py-3.5 text-foreground transition-colors hover:border-foreground"
           >
             Ver Serviços
           </a>
@@ -187,12 +187,12 @@ function Sobre() {
             alt="O Alemão, barbeiro fundador da Barbearia do Alemão"
             className="aspect-[4/5] w-full rounded-sm object-cover grayscale"
           />
-          <span className="absolute -bottom-4 left-4 bg-primary px-4 py-2 font-condensed text-xs font-600 uppercase tracking-[0.18em] text-primary-foreground">
+          <span className="absolute -bottom-4 left-4 bg-primary px-4 py-2 font-condensed text-xs font-semibold uppercase tracking-[0.18em] text-primary-foreground">
             O Alemão
           </span>
         </div>
         <div>
-          <p className="font-condensed text-sm font-500 uppercase tracking-[0.28em] text-primary">
+          <p className="font-condensed text-sm font-medium uppercase tracking-[0.28em] text-primary">
             Sobre o Alemão
           </p>
           <h2 className="mt-3 text-4xl uppercase leading-tight sm:text-5xl">
@@ -232,7 +232,7 @@ function Identidade() {
         <div className="absolute inset-0 bg-background/70" />
       </div>
       <div className="relative mx-auto max-w-6xl px-5 py-20 md:py-28">
-        <p className="font-condensed text-sm font-500 uppercase tracking-[0.28em] text-primary">
+        <p className="font-condensed text-sm font-medium uppercase tracking-[0.28em] text-primary">
           A identidade da barbearia
         </p>
         <h2 className="mt-3 max-w-2xl text-4xl uppercase leading-tight sm:text-5xl">
@@ -271,7 +271,7 @@ function Trabalhos() {
       <div className="mx-auto max-w-6xl px-5 py-20 md:py-28">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="font-condensed text-sm font-500 uppercase tracking-[0.28em] text-primary">
+            <p className="font-condensed text-sm font-medium uppercase tracking-[0.28em] text-primary">
               Trabalhos reais
             </p>
             <h2 className="mt-3 text-4xl uppercase leading-tight sm:text-5xl">
@@ -302,7 +302,7 @@ function Servicos() {
   return (
     <section id="servicos" className="border-t border-border">
       <div className="mx-auto max-w-6xl px-5 py-20 md:py-28">
-        <p className="font-condensed text-sm font-500 uppercase tracking-[0.28em] text-primary">
+        <p className="font-condensed text-sm font-medium uppercase tracking-[0.28em] text-primary">
           Serviços
         </p>
         <h2 className="mt-3 text-4xl uppercase leading-tight sm:text-5xl">
@@ -337,7 +337,7 @@ function Horarios() {
     <section id="horarios" className="border-t border-border bg-surface">
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-20 md:grid-cols-2 md:py-28">
         <div>
-          <p className="font-condensed text-sm font-500 uppercase tracking-[0.28em] text-primary">
+          <p className="font-condensed text-sm font-medium uppercase tracking-[0.28em] text-primary">
             Horários
           </p>
           <h2 className="mt-3 text-4xl uppercase leading-tight sm:text-5xl">
@@ -349,7 +349,7 @@ function Horarios() {
           </p>
           <a
             href="#cta"
-            className="mt-8 inline-block font-condensed text-sm font-600 uppercase tracking-[0.16em] bg-primary px-7 py-3.5 text-primary-foreground transition-opacity hover:opacity-90"
+            className="mt-8 inline-block font-condensed text-sm font-semibold uppercase tracking-[0.16em] bg-primary px-7 py-3.5 text-primary-foreground transition-opacity hover:opacity-90"
           >
             Agendar agora
           </a>
@@ -385,13 +385,13 @@ function CtaFinal() {
             href="https://wa.me/5500000000000"
             target="_blank"
             rel="noreferrer"
-            className="font-condensed text-sm font-600 uppercase tracking-[0.16em] bg-primary px-8 py-4 text-primary-foreground transition-opacity hover:opacity-90"
+            className="font-condensed text-sm font-semibold uppercase tracking-[0.16em] bg-primary px-8 py-4 text-primary-foreground transition-opacity hover:opacity-90"
           >
             Chamar no WhatsApp
           </a>
           <a
             href="#servicos"
-            className="font-condensed text-sm font-600 uppercase tracking-[0.16em] border border-border px-8 py-4 text-foreground transition-colors hover:border-foreground"
+            className="font-condensed text-sm font-semibold uppercase tracking-[0.16em] border border-border px-8 py-4 text-foreground transition-colors hover:border-foreground"
           >
             Ver serviços
           </a>
@@ -408,7 +408,7 @@ function Footer() {
         <div className="flex items-center gap-3">
           <img src={logo.url} alt="Logo Barbearia do Alemão" className="h-12 w-12 rounded-full object-cover" />
           <div>
-            <p className="font-condensed text-sm font-600 uppercase tracking-[0.18em]">Barbearia do Alemão</p>
+            <p className="font-condensed text-sm font-semibold uppercase tracking-[0.18em]">Barbearia do Alemão</p>
             <p className="font-body text-xs text-muted-foreground">Barba, Cabelo e Amigos · Desde 2015</p>
           </div>
         </div>
