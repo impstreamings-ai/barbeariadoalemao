@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { MapPin, Phone, Clock, Scissors, User, Sparkles, Baby, Star, Check, X, Menu, MessageSquare } from "lucide-react";
+import { MapPin, Phone, Clock, Scissors, User, Sparkles, Baby, Star, Check, X, Menu, MessageSquare, Instagram } from "lucide-react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
 import logo from "@/assets/barbearia/a2.png.asset.json";
@@ -206,6 +206,8 @@ const WHATSAPP_URL =
   );
 
 const GOOGLE_MAPS_URL = "https://maps.app.goo.gl/9QmcRTjmGaU3DDd37";
+
+const INSTAGRAM_URL = "https://www.instagram.com/barbeariadoalemao";
 
 const destaques = [
   { valor: "5,0", Icon: Star, label: "Estrelas", desc: "Avaliação média dos clientes" },
@@ -978,12 +980,22 @@ function Footer() {
             <p className="font-body text-xs text-muted-foreground">Corte · Barba · Acabamento</p>
           </div>
         </div>
-        <nav className="flex flex-wrap justify-center gap-5">
+        <nav className="flex flex-wrap items-center justify-center gap-5">
           {nav.map((n) => (
             <a key={n.href} href={n.href} className="font-condensed text-xs uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-foreground">
               {n.label}
             </a>
           ))}
+          <a
+            href={INSTAGRAM_URL}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Instagram da Barbearia do Alemão"
+            className="inline-flex items-center gap-2 font-condensed text-xs uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-foreground"
+          >
+            <Instagram size={16} strokeWidth={1.75} aria-hidden="true" />
+            Instagram
+          </a>
         </nav>
       </div>
       <div className="border-t border-border py-5 text-center font-body text-xs text-muted-foreground">
