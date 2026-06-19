@@ -45,11 +45,11 @@ const nav = [
 ];
 
 const servicos = [
-  { nome: "Corte Masculino", desc: "Corte na tesoura ou máquina, do clássico ao degradê." },
-  { nome: "Barba", desc: "Toalha quente, navalha e contorno bem feito." },
-  { nome: "Corte + Barba", desc: "Corte e barba no mesmo atendimento." },
-  { nome: "Acabamento", desc: "Manutenção rápida do corte e contorno." },
-  { nome: "Corte Infantil", desc: "Atendimento com paciência para as crianças." },
+  { nome: "Corte Masculino", desc: "Corte realizado na tesoura ou máquina, do clássico ao degradê." },
+  { nome: "Barba", desc: "Alinhamento, contorno e acabamento da barba." },
+  { nome: "Corte + Barba", desc: "Atendimento completo para cabelo e barba na mesma sessão." },
+  { nome: "Acabamento", desc: "Manutenção rápida para manter o corte alinhado." },
+  { nome: "Corte Infantil", desc: "Atendimento pensado para crianças, com paciência e atenção." },
 ];
 
 const resultados = [
