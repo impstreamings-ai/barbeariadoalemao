@@ -231,19 +231,20 @@ function Hero() {
       <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 pb-16 pt-28 md:min-h-[88vh] md:grid-cols-2 md:gap-12 md:pb-20">
         <div className="order-2 md:order-1">
           <p className="font-condensed text-sm font-medium uppercase tracking-[0.3em] text-primary motion-safe:animate-[fade-in_0.6s_ease-out_both]">
-            Barbearia do Alemão • Sorocaba/SP
+            Barbearia do Alemão • Júlio de Mesquita Filho, Sorocaba/SP
           </p>
-          <h1 className="mt-5 text-5xl uppercase leading-[1.06] sm:text-6xl md:text-7xl motion-safe:animate-[fade-in_0.7s_ease-out_0.08s_both]">
-            Confiança não se pede.
+          <h1 className="mt-6 text-4xl uppercase leading-[1.08] sm:text-5xl md:text-6xl motion-safe:animate-[fade-in_0.7s_ease-out_0.08s_both]">
+            Corte no capricho.
             <br />
-            <span className="text-primary">Se conquista.</span>
+            Barba alinhada.
+            <br />
+            <span className="text-primary">Atendimento sem pressa.</span>
           </h1>
-          <p className="mt-8 max-w-md font-body text-base leading-relaxed text-muted-foreground sm:text-lg motion-safe:animate-[fade-in_0.7s_ease-out_0.16s_both]">
-            Na Barbearia do Alemão, cada atendimento é construído com atenção aos
-            detalhes, respeito ao cliente e o compromisso de entregar um
-            resultado à altura da confiança recebida.
+          <p className="mt-7 max-w-md font-body text-base leading-relaxed text-muted-foreground sm:text-lg motion-safe:animate-[fade-in_0.7s_ease-out_0.16s_both]">
+            Barbearia no Júlio de Mesquita Filho para quem valoriza atendimento
+            tranquilo, atenção aos detalhes e resultado bem feito.
           </p>
-          <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap motion-safe:animate-[fade-in_0.7s_ease-out_0.24s_both]">
+          <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap motion-safe:animate-[fade-in_0.7s_ease-out_0.24s_both]">
             <a
               href={WHATSAPP_URL}
               target="_blank"
