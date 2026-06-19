@@ -563,8 +563,8 @@ function CtaFinal() {
   return (
     <section id="cta" className="relative overflow-hidden border-t border-border">
       <div className="absolute inset-0 grain opacity-60" />
-      <div className="relative mx-auto max-w-4xl px-5 py-24 text-center md:py-32">
-        <img src={logo.url} alt="Logo Barbearia do Alemão" className="mx-auto h-20 w-20 rounded-full object-cover" />
+      <Reveal className="relative mx-auto max-w-4xl px-5 py-24 text-center md:py-32">
+        <img src={logo.url} alt="Logo Barbearia do Alemão" className="mx-auto h-20 w-20 rounded-full object-cover transition-transform duration-500 hover:scale-105" />
         <h2 className="mt-8 text-4xl uppercase leading-[0.95] sm:text-6xl">
           Agende seu horário
         </h2>
@@ -576,12 +576,12 @@ function CtaFinal() {
             href="https://wa.me/5500000000000"
             target="_blank"
             rel="noreferrer"
-            className="font-condensed text-sm font-semibold uppercase tracking-[0.16em] bg-primary px-8 py-4 text-primary-foreground transition-opacity hover:opacity-90"
+            className="font-condensed text-sm font-semibold uppercase tracking-[0.16em] bg-primary px-8 py-4 text-primary-foreground transition-all duration-300 hover:opacity-90 hover:-translate-y-0.5"
           >
             Agendar no WhatsApp
           </a>
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }
