@@ -205,12 +205,32 @@ function FloatingWhatsApp() {
 
 function Header() {
   const [scrolled, setScrolled] = useState(false);
+  const [active, setActive] = useState<string>("");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const ids = nav.map((n) => n.href.replace("#", ""));
+    const sections = ids
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+    if (sections.length === 0) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        if (visible[0]) setActive(`#${visible[0].target.id}`);
+      },
+      { rootMargin: "-45% 0px -50% 0px", threshold: [0, 0.25, 0.5, 1] },
+    );
+    sections.forEach((s) => observer.observe(s));
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -233,7 +253,12 @@ function Header() {
             <a
               key={n.href}
               href={n.href}
-              className="font-condensed text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-foreground"
+              aria-current={active === n.href ? "true" : undefined}
+              className={`relative font-condensed text-xs font-medium uppercase tracking-[0.18em] transition-colors after:absolute after:-bottom-1.5 after:left-0 after:h-px after:bg-primary after:transition-all after:duration-300 hover:text-foreground ${
+                active === n.href
+                  ? "text-foreground after:w-full"
+                  : "text-muted-foreground after:w-0"
+              }`}
             >
               {n.label}
             </a>
