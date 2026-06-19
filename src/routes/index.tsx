@@ -417,6 +417,7 @@ function Horarios() {
   return (
     <section id="horarios" className="border-t border-border bg-surface">
       <div className="mx-auto max-w-3xl px-5 py-20 md:py-28">
+        <Reveal>
         <p className="font-condensed text-sm font-medium uppercase tracking-[0.28em] text-primary">
           Horários
         </p>
@@ -426,15 +427,17 @@ function Horarios() {
         <p className="mt-4 max-w-xl font-body text-muted-foreground">
           Confira os dias e horários de funcionamento da Barbearia do Alemão.
         </p>
+        </Reveal>
 
-        <ul className="mt-10 flex flex-col gap-3">
+        <Reveal asChild={false} className="mt-10 flex flex-col gap-3" delay={80}>
+        <ul className="flex flex-col gap-3">
           {dias.map((d) => (
             <li
               key={d.d}
-              className={`flex items-center justify-between gap-4 border px-5 py-4 sm:px-6 ${
+              className={`flex items-center justify-between gap-4 border px-5 py-4 transition-colors duration-300 sm:px-6 ${
                 d.fechado
                   ? "border-border/60 bg-background/40"
-                  : "border-border bg-card"
+                  : "border-border bg-card hover:border-primary/50"
               }`}
             >
               <span
@@ -456,6 +459,7 @@ function Horarios() {
             </li>
           ))}
         </ul>
+        </Reveal>
 
         <div className="mt-10 border-t border-border pt-8 text-center sm:text-left">
           <p className="font-body text-sm text-muted-foreground">
