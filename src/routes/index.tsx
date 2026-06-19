@@ -236,7 +236,7 @@ const avaliacoes = [
 function Prova() {
   return (
     <section id="prova" className="border-t border-border bg-surface">
-      <div className="mx-auto max-w-6xl px-5 py-20 md:py-28">
+      <div className="mx-auto max-w-6xl px-5 py-14 md:py-20">
         <Reveal>
           <p className="font-condensed text-sm font-medium uppercase tracking-[0.28em] text-primary">
             Prova social
@@ -277,18 +277,25 @@ function Prova() {
           {avaliacoes.map((a) => (
             <figure
               key={a.nome}
-              className="flex flex-col border border-border bg-card p-6 transition-colors duration-300 hover:border-primary/50"
+              className="flex flex-col border border-border bg-card/80 p-6 transition-colors duration-300 hover:border-primary/50"
             >
-              <div className="flex gap-0.5 text-primary" aria-label="5 de 5 estrelas">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} size={16} className="fill-current" aria-hidden="true" />
-                ))}
+              <div className="flex items-center justify-between">
+                <div className="flex gap-0.5 text-amber-400" aria-label="5 de 5 estrelas">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star key={i} size={16} className="fill-current" aria-hidden="true" />
+                  ))}
+                </div>
+                <span className="font-condensed text-[0.6rem] font-medium uppercase tracking-[0.16em] text-muted-foreground">
+                  Avaliações no Google
+                </span>
               </div>
-              <blockquote className="mt-4 flex-1 font-body text-sm leading-relaxed text-muted-foreground">
+              <blockquote className="mt-4 flex-1 font-body text-sm leading-relaxed text-foreground/90">
                 {a.texto}
               </blockquote>
-              <figcaption className="mt-4 border-t border-border pt-4 font-condensed text-sm font-semibold uppercase tracking-[0.12em] text-foreground">
-                {a.nome}
+              <figcaption className="mt-5 border-t border-border pt-4">
+                <span className="font-condensed text-base font-semibold uppercase tracking-[0.12em] text-foreground">
+                  {a.nome}
+                </span>
               </figcaption>
             </figure>
           ))}
