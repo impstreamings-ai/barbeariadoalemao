@@ -149,6 +149,7 @@ function Index() {
         <Hero />
         <Sobre />
         <Galeria />
+        <Prova />
         <Servicos />
         <Horarios />
         <Localizacao />
