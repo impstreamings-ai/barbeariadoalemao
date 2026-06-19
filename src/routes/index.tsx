@@ -198,7 +198,7 @@ function Header() {
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
         <a href="#topo" className="flex items-center gap-3">
-          <img src={logo.url} alt="Logo Barbearia do Alemão" className="h-11 w-11 rounded-full object-cover" />
+          <img src={logo.url} alt="Logo Barbearia do Alemão" className="h-11 w-11 rounded-full object-cover transition-transform duration-300 hover:scale-105" />
           <span className="font-condensed text-sm font-semibold uppercase tracking-[0.2em] text-foreground">
             Barbearia do Alemão
           </span>
@@ -216,7 +216,7 @@ function Header() {
         </nav>
         <a
           href="#cta"
-          className="font-condensed text-xs font-semibold uppercase tracking-[0.16em] border border-primary bg-primary px-4 py-2 text-primary-foreground transition-opacity hover:opacity-90"
+          className="font-condensed text-xs font-semibold uppercase tracking-[0.16em] border border-primary bg-primary px-4 py-2 text-primary-foreground transition-all duration-300 hover:opacity-90 hover:-translate-y-0.5"
         >
           Agendar
         </a>
