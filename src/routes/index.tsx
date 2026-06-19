@@ -326,41 +326,43 @@ function Galeria() {
   return (
     <section id="galeria" className="border-t border-border">
       <div className="mx-auto max-w-6xl px-5 py-20 md:py-28">
+        <Reveal>
         <p className="font-condensed text-sm font-medium uppercase tracking-[0.28em] text-primary">
           Galeria
         </p>
         <h2 className="mt-3 text-4xl uppercase leading-tight sm:text-5xl">
           A barbearia por dentro
         </h2>
+        </Reveal>
 
-        <div className="mt-14">
+        <Reveal className="mt-14" delay={80}>
           <h3 className="font-condensed text-lg font-semibold uppercase tracking-[0.18em]">
             Ambiente
           </h3>
           <div className="mt-5 grid gap-4 sm:grid-cols-2">
             <div className="overflow-hidden border border-border">
-              <img src={interior.url} alt="Ambiente da Barbearia do Alemão" className="aspect-[4/3] w-full object-cover" />
+              <img src={interior.url} alt="Ambiente da Barbearia do Alemão" className="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out hover:scale-105" />
             </div>
             <div className="overflow-hidden border border-border">
-              <img src={rockWall.url} alt="Parede decorada da barbearia" className="aspect-[4/3] w-full object-cover" />
+              <img src={rockWall.url} alt="Parede decorada da barbearia" className="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out hover:scale-105" />
             </div>
           </div>
-        </div>
+        </Reveal>
 
-        <div className="mt-14">
+        <Reveal className="mt-14" delay={80}>
           <h3 className="font-condensed text-lg font-semibold uppercase tracking-[0.18em]">
             Resultados
           </h3>
           <div className="mt-5 grid gap-8 md:grid-cols-2">
             {resultados.map((t) => (
-              <figure key={t.titulo} className="border border-border bg-card p-4">
+              <figure key={t.titulo} className="border border-border bg-card p-4 transition-colors duration-300 hover:border-primary/50">
                 <div className="grid grid-cols-2 gap-3">
                   <div className="relative overflow-hidden">
-                    <img src={t.antes.url} alt={`${t.titulo} — antes`} className="aspect-[4/5] w-full object-cover" />
+                    <img src={t.antes.url} alt={`${t.titulo} — antes`} className="aspect-[4/5] w-full object-cover transition-transform duration-700 ease-out hover:scale-105" />
                     <span className="absolute left-2 top-2 bg-background/85 px-2.5 py-1 font-condensed text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground">Antes</span>
                   </div>
                   <div className="relative overflow-hidden">
-                    <img src={t.depois.url} alt={`${t.titulo} — depois`} className="aspect-[4/5] w-full object-cover" />
+                    <img src={t.depois.url} alt={`${t.titulo} — depois`} className="aspect-[4/5] w-full object-cover transition-transform duration-700 ease-out hover:scale-105" />
                     <span className="absolute left-2 top-2 bg-primary px-2.5 py-1 font-condensed text-[0.65rem] uppercase tracking-[0.16em] text-primary-foreground">Depois</span>
                   </div>
                 </div>
@@ -371,7 +373,7 @@ function Galeria() {
               </figure>
             ))}
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
