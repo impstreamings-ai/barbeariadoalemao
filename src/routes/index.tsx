@@ -380,9 +380,6 @@ function CtaFinal() {
   return (
     <section id="cta" className="relative overflow-hidden border-t border-border">
       <div className="absolute inset-0 grain opacity-60" />
-  return (
-    <section id="cta" className="relative overflow-hidden border-t border-border">
-      <div className="absolute inset-0 grain opacity-60" />
       <div className="relative mx-auto max-w-4xl px-5 py-24 text-center md:py-32">
         <img src={logo.url} alt="Logo Barbearia do Alemão" className="mx-auto h-20 w-20 rounded-full object-cover" />
         <h2 className="mt-8 text-4xl uppercase leading-[0.95] sm:text-6xl">
