@@ -562,7 +562,7 @@ function Horarios() {
             da visita.
           </p>
           <a
-            href="https://wa.me/5500000000000"
+            href={WHATSAPP_URL}
             target="_blank"
             rel="noreferrer"
             className="mt-6 inline-block font-condensed text-sm font-semibold uppercase tracking-[0.16em] bg-primary px-7 py-3.5 text-primary-foreground transition-opacity hover:opacity-90"
