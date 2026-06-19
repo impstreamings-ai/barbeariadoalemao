@@ -170,7 +170,7 @@ function Hero() {
           <p className="font-condensed text-sm font-medium uppercase tracking-[0.3em] text-primary">
             Barbearia · Atendimento presencial
           </p>
-          <h1 className="mt-5 text-4xl uppercase leading-[0.98] sm:text-5xl md:text-6xl">
+          <h1 className="mt-5 text-4xl uppercase leading-[1.08] sm:text-5xl md:text-6xl">
             Experiência você não improvisa.
             <br />
             <span className="text-primary">Corte você não arrisca.</span>
