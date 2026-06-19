@@ -77,7 +77,6 @@ function Index() {
         <Galeria />
         <Servicos />
         <Horarios />
-        <Tatuagem />
         <CtaFinal />
       </main>
       <Footer />
@@ -208,6 +207,17 @@ function Sobre() {
             Quem entra pela primeira vez entende rápido por que tantos clientes
             voltam.
           </p>
+          <div className="mt-8 flex items-center gap-4 border border-border bg-card p-4">
+            <img
+              src={tattoo.url}
+              alt="Tatuagem do Alemão"
+              className="h-16 w-16 shrink-0 rounded-sm object-cover"
+            />
+            <p className="min-w-0 font-body text-sm text-muted-foreground">
+              Uma das tatuagens do Alemão — um detalhe da história pessoal dele,
+              não o logo da barbearia.
+            </p>
+          </div>
         </div>
       </div>
     </section>
@@ -358,22 +368,6 @@ function Horarios() {
           >
             Agendar no WhatsApp
           </a>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Tatuagem() {
-  return (
-    <section className="border-t border-border">
-      <div className="mx-auto flex max-w-4xl items-center gap-6 px-5 py-12">
-        <img src={tattoo.url} alt="Tatuagem do Alemão" className="h-24 w-24 shrink-0 rounded-sm object-cover" />
-        <div>
-          <h3 className="font-condensed text-sm font-semibold uppercase tracking-[0.18em]">Curiosidade</h3>
-          <p className="mt-2 font-body text-sm text-muted-foreground">
-            Uma tatuagem do Alemão — detalhe pessoal, não o logo da barbearia.
-          </p>
         </div>
       </div>
     </section>
