@@ -374,22 +374,6 @@ function Horarios() {
   );
 }
 
-function Tatuagem() {
-  return (
-    <section className="border-t border-border">
-      <div className="mx-auto flex max-w-4xl items-center gap-6 px-5 py-12">
-        <img src={tattoo.url} alt="Tatuagem do Alemão" className="h-24 w-24 shrink-0 rounded-sm object-cover" />
-        <div>
-          <h3 className="font-condensed text-sm font-semibold uppercase tracking-[0.18em]">Curiosidade</h3>
-          <p className="mt-2 font-body text-sm text-muted-foreground">
-            Uma tatuagem do Alemão — detalhe pessoal, não o logo da barbearia.
-          </p>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function CtaFinal() {
   return (
     <section id="cta" className="relative overflow-hidden border-t border-border">
