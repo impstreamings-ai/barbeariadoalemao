@@ -763,7 +763,7 @@ function Servicos() {
                   href={WHATSAPP_URL}
                   target="_blank"
                   rel="noreferrer"
-                  className="mt-2 inline-block self-start font-condensed text-xs font-semibold uppercase tracking-[0.16em] bg-primary px-5 py-2.5 text-primary-foreground transition-opacity hover:opacity-90"
+                  className="mt-2 inline-block self-start font-condensed text-xs font-semibold uppercase tracking-[0.16em] bg-primary px-5 py-2.5 text-primary-foreground transition-all duration-300 hover:opacity-90 hover:-translate-y-0.5"
                 >
                   Agendar
                 </a>
