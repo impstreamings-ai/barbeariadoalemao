@@ -170,15 +170,15 @@ function Hero() {
           <p className="font-condensed text-sm font-medium uppercase tracking-[0.3em] text-primary">
             Barbearia do Alemão • Sorocaba/SP
           </p>
-          <h1 className="mt-5 text-4xl uppercase leading-[1.08] sm:text-5xl md:text-6xl">
-            O Alemão na cadeira.
+          <h1 className="mt-5 text-5xl uppercase leading-[1.06] sm:text-6xl md:text-7xl">
+            Confiança não se pede.
             <br />
-            <span className="text-primary">O cliente em primeiro lugar.</span>
+            <span className="text-primary">Se conquista.</span>
           </h1>
-          <p className="mt-6 max-w-md font-body text-base text-muted-foreground sm:text-lg">
-            Mais do que corte e barba, a Barbearia do Alemão é conhecida pelo
-            atendimento próximo, pela atenção aos detalhes e pela confiança
-            construída com cada cliente.
+          <p className="mt-8 max-w-md font-body text-base leading-relaxed text-muted-foreground sm:text-lg">
+            Na Barbearia do Alemão, cada atendimento é construído com atenção aos
+            detalhes, respeito ao cliente e o compromisso de entregar um
+            resultado à altura da confiança recebida.
           </p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <a
