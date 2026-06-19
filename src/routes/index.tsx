@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { MapPin, Phone, Clock, Scissors, User, Sparkles, Baby, Star, Check, X, Menu } from "lucide-react";
+import { MapPin, Phone, Clock, Scissors, User, Sparkles, Baby, Star, Check, X, Menu, MessageSquare } from "lucide-react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
 import logo from "@/assets/barbearia/a2.png.asset.json";
@@ -149,6 +149,7 @@ function Index() {
         <Hero />
         <Sobre />
         <Galeria />
+        <Prova />
         <Servicos />
         <Horarios />
         <Localizacao />
@@ -165,6 +166,109 @@ const WHATSAPP_URL =
   encodeURIComponent(
     "Olá! Vim pelo site da Barbearia do Alemão e gostaria de agendar um horário.",
   );
+
+const GOOGLE_MAPS_URL = "https://maps.app.goo.gl/9QmcRTjmGaU3DDd37";
+
+const destaques = [
+  { valor: "5,0", Icon: Star, label: "Estrelas", desc: "Avaliação média dos clientes" },
+  { valor: "134", Icon: MessageSquare, label: "Avaliações", desc: "Feedbacks reais no Google" },
+  { valor: "2015", Icon: MapPin, label: "Desde", desc: "Mais de uma década atendendo Sorocaba" },
+];
+
+const avaliacoes = [
+  {
+    nome: "Walter Junior",
+    texto:
+      "Ambiente bacana, resenha boa e agradável. Corte rápido e bem feito, barba feita nos detalhes. Horário agendado e respeitado, não te deixando esperando para ser atendido. Atendimento muito bom, indico sem medo.",
+  },
+  {
+    nome: "Wagner Galone",
+    texto:
+      "Belo corte, com agilidade e muito simpatia. Gente boa demais. Fora uma bela geladeira de Heineken.",
+  },
+  {
+    nome: "Henrique Thiago",
+    texto:
+      "Excelente profissional e o ambiente é bem agradável e leve. Foi top minha experiência.",
+  },
+];
+
+function Prova() {
+  return (
+    <section id="prova" className="border-t border-border bg-surface">
+      <div className="mx-auto max-w-6xl px-5 py-20 md:py-28">
+        <Reveal>
+          <p className="font-condensed text-sm font-medium uppercase tracking-[0.28em] text-primary">
+            Prova social
+          </p>
+          <h2 className="mt-3 text-4xl uppercase leading-tight sm:text-5xl">
+            Confiança construída ao longo dos anos
+          </h2>
+          <p className="mt-4 max-w-xl font-body text-muted-foreground">
+            Desde 2015 atendendo clientes em Sorocaba com avaliação máxima no Google.
+          </p>
+        </Reveal>
+
+        <Reveal className="mt-12 grid gap-4 sm:grid-cols-3" delay={80}>
+          {destaques.map((d) => (
+            <div
+              key={d.label}
+              className="flex items-center gap-4 border border-border bg-card p-6 transition-colors duration-300 hover:border-primary/50"
+            >
+              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-sm bg-secondary text-primary">
+                <d.Icon size={22} strokeWidth={1.75} aria-hidden="true" />
+              </span>
+              <div className="min-w-0">
+                <p className="font-condensed text-2xl font-semibold leading-none text-foreground">
+                  {d.valor}
+                  <span className="ml-1 text-sm font-medium uppercase tracking-[0.16em] text-muted-foreground">
+                    {d.label}
+                  </span>
+                </p>
+                <p className="mt-1.5 font-body text-xs leading-relaxed text-muted-foreground">
+                  {d.desc}
+                </p>
+              </div>
+            </div>
+          ))}
+        </Reveal>
+
+        <Reveal className="mt-6 grid gap-4 md:grid-cols-3" delay={120}>
+          {avaliacoes.map((a) => (
+            <figure
+              key={a.nome}
+              className="flex flex-col border border-border bg-card p-6 transition-colors duration-300 hover:border-primary/50"
+            >
+              <div className="flex gap-0.5 text-primary" aria-label="5 de 5 estrelas">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star key={i} size={16} className="fill-current" aria-hidden="true" />
+                ))}
+              </div>
+              <blockquote className="mt-4 flex-1 font-body text-sm leading-relaxed text-muted-foreground">
+                {a.texto}
+              </blockquote>
+              <figcaption className="mt-4 border-t border-border pt-4 font-condensed text-sm font-semibold uppercase tracking-[0.12em] text-foreground">
+                {a.nome}
+              </figcaption>
+            </figure>
+          ))}
+        </Reveal>
+
+        <Reveal className="mt-10" delay={160}>
+          <a
+            href={GOOGLE_MAPS_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 border border-border px-7 py-3.5 font-condensed text-sm font-semibold uppercase tracking-[0.16em] text-foreground transition-all duration-300 hover:border-foreground hover:-translate-y-0.5"
+          >
+            <Star size={16} className="fill-current text-primary" aria-hidden="true" />
+            Ver mais avaliações no Google
+          </a>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
 
 function FloatingWhatsApp() {
   const [firstVisit, setFirstVisit] = useState(false);
@@ -399,6 +503,14 @@ function Hero() {
             <br />
             <span className="text-primary">Atendimento sem pressa.</span>
           </h1>
+          <p className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1 font-condensed text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground sm:text-sm motion-safe:animate-[fade-in_0.7s_ease-out_0.12s_both]">
+            <Star size={15} className="fill-current text-primary" aria-hidden="true" />
+            <span className="text-foreground">5,0 no Google</span>
+            <span aria-hidden="true" className="text-border">•</span>
+            <span>134 avaliações</span>
+            <span aria-hidden="true" className="text-border">•</span>
+            <span>Desde 2015</span>
+          </p>
           <p className="mt-4 max-w-md font-body text-base leading-relaxed text-muted-foreground sm:mt-7 sm:text-lg motion-safe:animate-[fade-in_0.7s_ease-out_0.16s_both]">
             Barbearia no Júlio de Mesquita Filho para quem valoriza atendimento
             tranquilo, atenção aos detalhes e resultado bem feito.
@@ -457,13 +569,13 @@ function Sobre() {
             O Alemão
           </h2>
           <p className="mt-6 font-body text-muted-foreground">
-            Alemão é o rosto por trás da barbearia. Conhecido pelo atendimento
-            tranquilo, pela atenção aos detalhes e pela conversa boa durante o
-            corte.
+            Desde 2015, o Alemão atende clientes em Sorocaba com atenção aos
+            detalhes, respeito ao horário e foco em um atendimento tranquilo e de
+            qualidade.
           </p>
           <p className="mt-4 font-body text-muted-foreground">
-            Quem entra pela primeira vez entende rápido por que tantos clientes
-            voltam.
+            Ao longo dos anos, esse cuidado ajudou a construir uma avaliação 5,0
+            estrelas no Google e a confiança de centenas de clientes.
           </p>
           <div className="mt-8 flex items-center gap-4 border-t border-border pt-6">
             <span className="grid h-12 w-12 shrink-0 place-items-center rounded-sm border border-border text-primary">
