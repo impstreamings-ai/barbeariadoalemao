@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { MapPin, Phone, Clock } from "lucide-react";
+import { MapPin, Phone, Clock, Scissors, User, Sparkles, Baby, Star } from "lucide-react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
 import logo from "@/assets/barbearia/a2.png.asset.json";
@@ -48,11 +48,36 @@ const nav = [
 ];
 
 const servicos = [
-  { nome: "Corte Masculino", desc: "Corte realizado na tesoura ou máquina, do clássico ao degradê." },
-  { nome: "Barba", desc: "Alinhamento, contorno e acabamento da barba." },
-  { nome: "Corte + Barba", desc: "Atendimento completo para cabelo e barba na mesma sessão." },
-  { nome: "Acabamento", desc: "Manutenção rápida para manter o corte alinhado." },
-  { nome: "Corte Infantil", desc: "Atendimento pensado para crianças, com paciência e atenção." },
+  {
+    nome: "Corte Masculino",
+    desc: "Do clássico ao degradê, executado com atenção aos detalhes.",
+    Icon: Scissors,
+    destaque: false,
+  },
+  {
+    nome: "Barba",
+    desc: "Alinhamento, contorno e acabamento para manter o visual sempre em ordem.",
+    Icon: User,
+    destaque: false,
+  },
+  {
+    nome: "Corte + Barba",
+    desc: "Atendimento completo para cabelo e barba na mesma sessão.",
+    Icon: Star,
+    destaque: true,
+  },
+  {
+    nome: "Acabamento",
+    desc: "Manutenção rápida para manter o corte alinhado.",
+    Icon: Sparkles,
+    destaque: false,
+  },
+  {
+    nome: "Corte Infantil",
+    desc: "Atendimento pensado para crianças, com paciência e atenção.",
+    Icon: Baby,
+    destaque: false,
+  },
 ];
 
 const resultados = [
