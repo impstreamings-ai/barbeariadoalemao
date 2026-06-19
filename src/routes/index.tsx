@@ -294,29 +294,70 @@ function Servicos() {
 
 function Horarios() {
   const dias = [
-    { d: "Terça a Sexta", h: "09h — 20h" },
-    { d: "Sábado", h: "09h — 18h" },
-    { d: "Domingo e Segunda", h: "Fechado" },
+    { d: "Terça-feira", h: "09:00 às 20:00", fechado: false },
+    { d: "Quarta-feira", h: "09:00 às 20:00", fechado: false },
+    { d: "Quinta-feira", h: "09:00 às 20:00", fechado: false },
+    { d: "Sexta-feira", h: "09:00 às 20:00", fechado: false },
+    { d: "Sábado", h: "09:00 às 18:00", fechado: false },
+    { d: "Domingo", h: "Fechado", fechado: true },
+    { d: "Segunda-feira", h: "Fechado", fechado: true },
   ];
   return (
     <section id="horarios" className="border-t border-border bg-surface">
       <div className="mx-auto max-w-3xl px-5 py-20 md:py-28">
         <p className="font-condensed text-sm font-medium uppercase tracking-[0.28em] text-primary">
-          Horários de Atendimento
+          Horários
         </p>
-        <div className="mt-8 overflow-hidden border border-border">
-          <div className="grid grid-cols-2 bg-card px-6 py-4">
-            <span className="font-condensed text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Dias</span>
-            <span className="text-right font-condensed text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Horários</span>
-          </div>
-          <div className="divide-y divide-border">
-            {dias.map((d) => (
-              <div key={d.d} className="grid grid-cols-2 items-center px-6 py-5">
-                <span className="font-condensed text-sm uppercase tracking-[0.14em] text-foreground">{d.d}</span>
-                <span className="text-right font-condensed text-sm uppercase tracking-[0.14em] text-muted-foreground">{d.h}</span>
-              </div>
-            ))}
-          </div>
+        <h2 className="mt-3 text-4xl uppercase leading-tight sm:text-5xl">
+          Horários de Atendimento
+        </h2>
+        <p className="mt-4 max-w-xl font-body text-muted-foreground">
+          Confira os dias e horários de funcionamento da Barbearia do Alemão.
+        </p>
+
+        <ul className="mt-10 flex flex-col gap-3">
+          {dias.map((d) => (
+            <li
+              key={d.d}
+              className={`flex items-center justify-between gap-4 border px-5 py-4 sm:px-6 ${
+                d.fechado
+                  ? "border-border/60 bg-background/40"
+                  : "border-border bg-card"
+              }`}
+            >
+              <span
+                className={`font-condensed text-base uppercase tracking-[0.14em] ${
+                  d.fechado ? "text-muted-foreground" : "text-foreground"
+                }`}
+              >
+                {d.d}
+              </span>
+              {d.fechado ? (
+                <span className="font-condensed text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground border border-border/60 px-3 py-1">
+                  Fechado
+                </span>
+              ) : (
+                <span className="font-body text-base text-muted-foreground tabular-nums">
+                  {d.h}
+                </span>
+              )}
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-10 border-t border-border pt-8 text-center sm:text-left">
+          <p className="font-body text-sm text-muted-foreground">
+            Para garantir disponibilidade, entre em contato pelo WhatsApp antes
+            da visita.
+          </p>
+          <a
+            href="https://wa.me/5500000000000"
+            target="_blank"
+            rel="noreferrer"
+            className="mt-6 inline-block font-condensed text-sm font-semibold uppercase tracking-[0.16em] bg-primary px-7 py-3.5 text-primary-foreground transition-opacity hover:opacity-90"
+          >
+            Agendar no WhatsApp
+          </a>
         </div>
       </div>
     </section>
