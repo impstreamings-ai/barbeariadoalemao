@@ -452,7 +452,7 @@ function Servicos() {
               key={s.nome}
               className={`group relative flex flex-col gap-4 border p-7 transition-all duration-300 hover:-translate-y-1 ${
                 s.destaque
-                  ? "border-primary bg-primary/10 lg:row-span-2 lg:justify-between"
+                  ? "border-primary bg-primary/10 shadow-lg shadow-primary/10"
                   : "border-border bg-card hover:border-primary/50"
               }`}
             >
