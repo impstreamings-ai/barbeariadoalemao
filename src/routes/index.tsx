@@ -595,7 +595,7 @@ function Hero() {
 function Sobre() {
   return (
     <section id="sobre" className="border-t border-border bg-surface">
-      <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 py-20 md:grid-cols-2 md:py-28">
+      <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 py-14 md:grid-cols-2 md:py-20">
         <Reveal className="relative">
           <div className="overflow-hidden rounded-sm">
             <img
