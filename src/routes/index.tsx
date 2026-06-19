@@ -703,10 +703,10 @@ function Galeria() {
 function Servicos() {
   return (
     <section id="servicos" className="border-t border-border">
-      <div className="mx-auto max-w-6xl px-5 py-20 md:py-28">
+      <div className="mx-auto max-w-6xl px-5 py-14 md:py-20">
         <Reveal>
         <p className="font-condensed text-sm font-medium uppercase tracking-[0.28em] text-primary">
-          Serviços
+          O que você pode agendar
         </p>
         <h2 className="mt-3 text-4xl uppercase leading-tight sm:text-5xl">
           Serviços
@@ -715,7 +715,7 @@ function Servicos() {
           Atendimento completo de cabelo e barba, feito com calma e capricho.
         </p>
         </Reveal>
-        <Reveal className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" delay={80}>
+        <Reveal className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" delay={80}>
           {servicos.map((s) => (
             <article
               key={s.nome}
