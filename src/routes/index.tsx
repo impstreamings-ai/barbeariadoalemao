@@ -120,37 +120,46 @@ function Header() {
 function Hero() {
   return (
     <section id="topo" className="relative overflow-hidden">
-      <div className="absolute inset-0">
-        <img src={interior.url} alt="Interior da Barbearia do Alemão" className="h-full w-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/30" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/85 to-transparent" />
-      </div>
-      <div className="relative mx-auto flex min-h-[88vh] max-w-6xl flex-col justify-end px-5 pb-16 pt-28">
-        <p className="font-condensed text-sm font-medium uppercase tracking-[0.3em] text-primary">
-          Barbearia do Alemão
-        </p>
-        <h1 className="mt-4 max-w-3xl text-5xl uppercase leading-[0.92] sm:text-7xl md:text-8xl">
-          Corte e barba <span className="text-stroke">bem feitos.</span>
-        </h1>
-        <p className="mt-6 max-w-xl font-body text-base text-muted-foreground sm:text-lg">
-          Corte masculino, barba e acabamento com atendimento tranquilo e atenção
-          aos detalhes. Agende seu horário pelo WhatsApp.
-        </p>
-        <div className="mt-9 flex flex-wrap gap-3">
-          <a
-            href="https://wa.me/5500000000000"
-            target="_blank"
-            rel="noreferrer"
-            className="font-condensed text-sm font-semibold uppercase tracking-[0.16em] bg-primary px-7 py-3.5 text-primary-foreground transition-opacity hover:opacity-90"
-          >
-            Agendar no WhatsApp
-          </a>
-          <a
-            href="#galeria"
-            className="font-condensed text-sm font-semibold uppercase tracking-[0.16em] border border-border px-7 py-3.5 text-foreground transition-colors hover:border-foreground"
-          >
-            Ver galeria
-          </a>
+      <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 pb-16 pt-28 md:min-h-[88vh] md:grid-cols-2 md:gap-12 md:pb-20">
+        <div className="order-2 md:order-1">
+          <p className="font-condensed text-sm font-medium uppercase tracking-[0.3em] text-primary">
+            Barbearia do Alemão
+          </p>
+          <h1 className="mt-5 text-4xl uppercase leading-[0.98] sm:text-5xl md:text-6xl">
+            Atendimento tranquilo.
+            <br />
+            Corte no capricho.
+            <br />
+            <span className="text-primary">Barba alinhada.</span>
+          </h1>
+          <p className="mt-6 max-w-md font-body text-base text-muted-foreground sm:text-lg">
+            Barbearia com atendimento direto, atenção aos detalhes e ambiente
+            autêntico. Fale com o Alemão e agende seu horário pelo WhatsApp.
+          </p>
+          <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <a
+              href="https://wa.me/5500000000000"
+              target="_blank"
+              rel="noreferrer"
+              className="text-center font-condensed text-sm font-semibold uppercase tracking-[0.16em] bg-primary px-7 py-3.5 text-primary-foreground transition-opacity hover:opacity-90"
+            >
+              Agendar no WhatsApp
+            </a>
+            <a
+              href="#galeria"
+              className="text-center font-condensed text-sm font-semibold uppercase tracking-[0.16em] border border-border px-7 py-3.5 text-foreground transition-colors hover:border-foreground"
+            >
+              Ver trabalhos
+            </a>
+          </div>
+        </div>
+        <div className="relative order-1 md:order-2">
+          <img
+            src={ownerWorking.url}
+            alt="O Alemão atendendo um cliente na Barbearia do Alemão"
+            className="aspect-[4/5] w-full rounded-sm object-cover md:aspect-[3/4]"
+          />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/30 to-transparent" />
         </div>
       </div>
     </section>
