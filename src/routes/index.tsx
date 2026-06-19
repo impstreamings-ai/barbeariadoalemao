@@ -659,8 +659,8 @@ function Galeria() {
             </figure>
             <figure className="overflow-hidden border border-border transition-colors duration-300 hover:border-primary/50">
               <img
-                src={owner.url}
-                alt="O Alemão, barbeiro da Barbearia do Alemão"
+                src={ambiente2.url}
+                alt="Detalhes e decoração do espaço da Barbearia do Alemão"
                 loading="lazy"
                 className="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out hover:scale-105"
               />
