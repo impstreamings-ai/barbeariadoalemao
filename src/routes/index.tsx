@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { MapPin, Phone, Clock, Scissors, User, Sparkles, Baby, Star, Check, X, Menu } from "lucide-react";
+import { MapPin, Phone, Clock, Scissors, User, Sparkles, Baby, Star, Check, X, Menu, MessageSquare } from "lucide-react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
 import logo from "@/assets/barbearia/a2.png.asset.json";
