@@ -377,6 +377,10 @@ function Horarios() {
 }
 
 function CtaFinal() {
+  return null;
+}
+
+function _Unused() {
   return (
     <section id="cta" className="relative overflow-hidden border-t border-border">
       <div className="absolute inset-0 grain opacity-60" />
