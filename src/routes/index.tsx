@@ -241,20 +241,6 @@ function Galeria() {
 
         <div className="mt-14">
           <h3 className="font-condensed text-lg font-semibold uppercase tracking-[0.18em]">
-            Trabalho
-          </h3>
-          <div className="mt-5 grid gap-4 sm:grid-cols-2">
-            <div className="overflow-hidden border border-border">
-              <img src={ownerWorking.url} alt="Alemão cortando cabelo" className="aspect-[4/3] w-full object-cover" />
-            </div>
-            <div className="overflow-hidden border border-border">
-              <img src={owner.url} alt="Alemão na barbearia" className="aspect-[4/3] w-full object-cover" />
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-14">
-          <h3 className="font-condensed text-lg font-semibold uppercase tracking-[0.18em]">
             Resultados
           </h3>
           <div className="mt-5 grid gap-8 md:grid-cols-2">
