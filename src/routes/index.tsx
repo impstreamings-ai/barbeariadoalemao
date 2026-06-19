@@ -503,6 +503,14 @@ function Hero() {
             <br />
             <span className="text-primary">Atendimento sem pressa.</span>
           </h1>
+          <p className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1 font-condensed text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground sm:text-sm motion-safe:animate-[fade-in_0.7s_ease-out_0.12s_both]">
+            <Star size={15} className="fill-current text-primary" aria-hidden="true" />
+            <span className="text-foreground">5,0 no Google</span>
+            <span aria-hidden="true" className="text-border">•</span>
+            <span>134 avaliações</span>
+            <span aria-hidden="true" className="text-border">•</span>
+            <span>Desde 2015</span>
+          </p>
           <p className="mt-4 max-w-md font-body text-base leading-relaxed text-muted-foreground sm:mt-7 sm:text-lg motion-safe:animate-[fade-in_0.7s_ease-out_0.16s_both]">
             Barbearia no Júlio de Mesquita Filho para quem valoriza atendimento
             tranquilo, atenção aos detalhes e resultado bem feito.
