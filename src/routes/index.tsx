@@ -775,12 +775,9 @@ function Horarios() {
   ];
   return (
     <section id="horarios" className="border-t border-border bg-surface">
-      <div className="mx-auto max-w-3xl px-5 py-20 md:py-28">
+      <div className="mx-auto max-w-3xl px-5 py-14 md:py-20">
         <Reveal>
-        <p className="font-condensed text-sm font-medium uppercase tracking-[0.28em] text-primary">
-          Horários
-        </p>
-        <h2 className="mt-3 text-4xl uppercase leading-tight sm:text-5xl">
+        <h2 className="text-4xl uppercase leading-tight sm:text-5xl">
           Horários de Atendimento
         </h2>
         <p className="mt-4 max-w-xl font-body text-muted-foreground">
