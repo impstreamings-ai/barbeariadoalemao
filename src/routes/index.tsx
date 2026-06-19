@@ -468,14 +468,12 @@ function Sobre() {
             voltam.
           </p>
           <div className="mt-8 flex items-center gap-4 border-t border-border pt-6">
-            <img
-              src={tattoo.url}
-              alt="Tatuagem do Alemão"
-              className="h-14 w-14 shrink-0 rounded-sm object-cover opacity-90"
-            />
+            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-sm border border-border text-primary">
+              <Scissors size={20} strokeWidth={1.75} aria-hidden="true" />
+            </span>
             <p className="min-w-0 font-body text-xs leading-relaxed text-muted-foreground">
-              Toda barbearia tem uma história. Algumas aparecem nas paredes,
-              outras nos pequenos detalhes de quem faz parte dela todos os dias.
+              Atendimento sem pressa, capricho em cada corte e um ambiente onde o
+              cliente se sente à vontade pra voltar sempre.
             </p>
           </div>
         </Reveal>
