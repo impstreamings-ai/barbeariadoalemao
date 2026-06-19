@@ -239,21 +239,16 @@ function Sobre() {
             Quem entra pela primeira vez entende rápido por que tantos clientes
             voltam.
           </p>
-          <div className="mt-8 flex items-center gap-5 border-t border-border pt-8">
+          <div className="mt-8 flex items-center gap-4 border-t border-border pt-6">
             <img
               src={tattoo.url}
               alt="Tatuagem do Alemão"
-              className="h-20 w-20 shrink-0 rounded-sm object-cover"
+              className="h-14 w-14 shrink-0 rounded-sm object-cover opacity-90"
             />
-            <div className="min-w-0">
-              <h3 className="font-condensed text-lg uppercase leading-tight tracking-[0.06em] sm:text-xl">
-                Detalhes que fazem parte da história
-              </h3>
-              <p className="mt-2 font-body text-sm leading-relaxed text-muted-foreground">
-                Toda barbearia tem uma história. Algumas aparecem nas paredes,
-                outras nos pequenos detalhes de quem faz parte dela todos os dias.
-              </p>
-            </div>
+            <p className="min-w-0 font-body text-xs leading-relaxed text-muted-foreground">
+              Toda barbearia tem uma história. Algumas aparecem nas paredes,
+              outras nos pequenos detalhes de quem faz parte dela todos os dias.
+            </p>
           </div>
         </div>
       </div>
