@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { MapPin, Phone, Clock } from "lucide-react";
+import { useEffect, useState } from "react";
 
 import logo from "@/assets/barbearia/a2.png.asset.json";
 import interior from "@/assets/barbearia/a1.png.asset.json";
