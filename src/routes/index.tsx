@@ -980,12 +980,22 @@ function Footer() {
             <p className="font-body text-xs text-muted-foreground">Corte · Barba · Acabamento</p>
           </div>
         </div>
-        <nav className="flex flex-wrap justify-center gap-5">
+        <nav className="flex flex-wrap items-center justify-center gap-5">
           {nav.map((n) => (
             <a key={n.href} href={n.href} className="font-condensed text-xs uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-foreground">
               {n.label}
             </a>
           ))}
+          <a
+            href={INSTAGRAM_URL}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Instagram da Barbearia do Alemão"
+            className="inline-flex items-center gap-2 font-condensed text-xs uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-foreground"
+          >
+            <Instagram size={16} strokeWidth={1.75} aria-hidden="true" />
+            Instagram
+          </a>
         </nav>
       </div>
       <div className="border-t border-border py-5 text-center font-body text-xs text-muted-foreground">
