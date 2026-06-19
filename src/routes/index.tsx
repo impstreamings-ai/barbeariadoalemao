@@ -123,7 +123,7 @@ function Hero() {
       <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 pb-16 pt-28 md:min-h-[88vh] md:grid-cols-2 md:gap-12 md:pb-20">
         <div className="order-2 md:order-1">
           <p className="font-condensed text-sm font-medium uppercase tracking-[0.3em] text-primary">
-            Barbearia do Alemão
+            Barbearia · Atendimento presencial
           </p>
           <h1 className="mt-5 text-4xl uppercase leading-[0.98] sm:text-5xl md:text-6xl">
             Atendimento tranquilo.
@@ -136,6 +136,18 @@ function Hero() {
             Barbearia com atendimento direto, atenção aos detalhes e ambiente
             autêntico. Fale com o Alemão e agende seu horário pelo WhatsApp.
           </p>
+          <ul className="mt-7 flex flex-wrap gap-2">
+            {["Corte masculino", "Barba na navalha", "Corte infantil", "Hora marcada"].map(
+              (item) => (
+                <li
+                  key={item}
+                  className="border border-border px-3 py-1.5 font-condensed text-xs uppercase tracking-[0.14em] text-muted-foreground"
+                >
+                  {item}
+                </li>
+              ),
+            )}
+          </ul>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <a
               href="https://wa.me/5500000000000"
