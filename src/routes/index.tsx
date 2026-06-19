@@ -925,16 +925,16 @@ function CtaFinal() {
     <section id="cta" className="relative overflow-hidden border-t border-border bg-surface">
       <div className="absolute inset-0 grain opacity-60" />
       <div className="pointer-events-none absolute left-1/2 top-1/2 h-[420px] w-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-3xl" />
-      <Reveal className="relative mx-auto flex max-w-3xl flex-col items-center px-5 py-28 text-center md:py-36">
+      <Reveal className="relative mx-auto flex max-w-3xl flex-col items-center px-5 py-16 text-center md:py-20">
         <img
           src={logo.url}
           alt="Logo Barbearia do Alemão"
-          className="h-20 w-20 rounded-full object-cover transition-transform duration-500 hover:scale-105"
+          className="h-16 w-16 rounded-full object-cover transition-transform duration-500 hover:scale-105"
         />
-        <h2 className="mt-8 text-4xl uppercase leading-[0.98] sm:text-5xl md:text-6xl">
+        <h2 className="mt-6 text-4xl uppercase leading-[0.98] sm:text-5xl md:text-6xl">
           Pronto pra dar um grau?
         </h2>
-        <p className="mx-auto mt-6 max-w-md font-body text-base leading-relaxed text-muted-foreground sm:text-lg">
+        <p className="mx-auto mt-5 max-w-md font-body text-base leading-relaxed text-muted-foreground sm:text-lg">
           Chame no WhatsApp e agende seu horário diretamente com a Barbearia do
           Alemão.
         </p>
@@ -942,7 +942,7 @@ function CtaFinal() {
           href={WHATSAPP_URL}
           target="_blank"
           rel="noreferrer"
-          className="mt-10 inline-block font-condensed text-sm font-semibold uppercase tracking-[0.16em] bg-primary px-9 py-4 text-primary-foreground transition-all duration-300 hover:opacity-90 hover:-translate-y-0.5"
+          className="mt-8 inline-block font-condensed text-sm font-semibold uppercase tracking-[0.16em] bg-primary px-9 py-4 text-primary-foreground transition-all duration-300 hover:opacity-90 hover:-translate-y-0.5"
         >
           Agendar no WhatsApp
         </a>
