@@ -878,7 +878,7 @@ function Localizacao() {
 
           <ul className="mt-8 flex flex-col gap-4">
             <li className="flex items-start gap-3">
-              <MapPin className="mt-0.5 shrink-0 text-primary" />
+              <MapPin size={20} strokeWidth={1.75} aria-hidden="true" className="mt-0.5 shrink-0 text-primary" />
               <div className="font-body text-sm text-muted-foreground">
                 <p className="font-condensed text-base uppercase tracking-[0.12em] text-foreground">
                   R. Maria Germani, 826
@@ -889,13 +889,13 @@ function Localizacao() {
               </div>
             </li>
             <li className="flex items-center gap-3">
-              <Phone className="shrink-0 text-primary" />
+              <Phone size={20} strokeWidth={1.75} aria-hidden="true" className="shrink-0 text-primary" />
               <span className="font-body text-sm text-muted-foreground">
                 (15) 98803-0574 · WhatsApp
               </span>
             </li>
             <li className="flex items-center gap-3">
-              <Clock className="shrink-0 text-primary" />
+              <Clock size={20} strokeWidth={1.75} aria-hidden="true" className="shrink-0 text-primary" />
               <span className="font-body text-sm text-muted-foreground">
                 Terça a sábado · Domingo e segunda fechado
               </span>
