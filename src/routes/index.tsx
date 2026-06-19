@@ -277,17 +277,19 @@ function Sobre() {
   return (
     <section id="sobre" className="border-t border-border bg-surface">
       <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 py-20 md:grid-cols-2 md:py-28">
-        <div className="relative">
-          <img
-            src={owner.url}
-            alt="O Alemão, barbeiro da Barbearia do Alemão"
-            className="aspect-[4/5] w-full rounded-sm object-cover"
-          />
+        <Reveal className="relative">
+          <div className="overflow-hidden rounded-sm">
+            <img
+              src={owner.url}
+              alt="O Alemão, barbeiro da Barbearia do Alemão"
+              className="aspect-[4/5] w-full rounded-sm object-cover transition-transform duration-700 ease-out hover:scale-105"
+            />
+          </div>
           <span className="absolute -bottom-4 left-4 bg-primary px-4 py-2 font-condensed text-xs font-semibold uppercase tracking-[0.18em] text-primary-foreground">
             O Alemão
           </span>
-        </div>
-        <div>
+        </Reveal>
+        <Reveal delay={120}>
           <p className="font-condensed text-sm font-medium uppercase tracking-[0.28em] text-primary">
             Sobre
           </p>
@@ -314,7 +316,7 @@ function Sobre() {
               outras nos pequenos detalhes de quem faz parte dela todos os dias.
             </p>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
