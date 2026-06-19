@@ -4,10 +4,8 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 
 import logo from "@/assets/barbearia/a2.png.asset.json";
 import interior from "@/assets/barbearia/a1.png.asset.json";
-import rockWall from "@/assets/barbearia/a14.png.asset.json";
 import owner from "@/assets/barbearia/a12.png.asset.json";
 import ownerWorking from "@/assets/barbearia/a11.png.asset.json";
-import tattoo from "@/assets/barbearia/a13.png.asset.json";
 import grisalhoAntes from "@/assets/barbearia/a5.png.asset.json";
 import grisalhoDepois from "@/assets/barbearia/a6.png.asset.json";
 import corteAntes from "@/assets/barbearia/a3.png.asset.json";
@@ -468,14 +466,12 @@ function Sobre() {
             voltam.
           </p>
           <div className="mt-8 flex items-center gap-4 border-t border-border pt-6">
-            <img
-              src={tattoo.url}
-              alt="Tatuagem do Alemão"
-              className="h-14 w-14 shrink-0 rounded-sm object-cover opacity-90"
-            />
+            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-sm border border-border text-primary">
+              <Scissors size={20} strokeWidth={1.75} aria-hidden="true" />
+            </span>
             <p className="min-w-0 font-body text-xs leading-relaxed text-muted-foreground">
-              Toda barbearia tem uma história. Algumas aparecem nas paredes,
-              outras nos pequenos detalhes de quem faz parte dela todos os dias.
+              Atendimento sem pressa, capricho em cada corte e um ambiente onde o
+              cliente se sente à vontade pra voltar sempre.
             </p>
           </div>
         </Reveal>
@@ -522,8 +518,8 @@ function Galeria() {
             </figure>
             <figure className="overflow-hidden border border-border transition-colors duration-300 hover:border-primary/50">
               <img
-                src={rockWall.url}
-                alt="Detalhe decorado da parede da barbearia"
+                src={ownerWorking.url}
+                alt="O Alemão atendendo um cliente no espaço da barbearia"
                 loading="lazy"
                 className="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out hover:scale-105"
               />
