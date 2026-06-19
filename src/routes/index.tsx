@@ -847,7 +847,7 @@ function Horarios() {
             href={WHATSAPP_URL}
             target="_blank"
             rel="noreferrer"
-            className="mt-6 inline-block font-condensed text-sm font-semibold uppercase tracking-[0.16em] bg-primary px-7 py-3.5 text-primary-foreground transition-opacity hover:opacity-90"
+            className="mt-6 inline-block font-condensed text-sm font-semibold uppercase tracking-[0.16em] bg-primary px-7 py-3.5 text-primary-foreground transition-all duration-300 hover:opacity-90 hover:-translate-y-0.5"
           >
             Agendar no WhatsApp
           </a>
