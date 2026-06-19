@@ -168,20 +168,21 @@ function Hero() {
       <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 pb-16 pt-28 md:min-h-[88vh] md:grid-cols-2 md:gap-12 md:pb-20">
         <div className="order-2 md:order-1">
           <p className="font-condensed text-sm font-medium uppercase tracking-[0.3em] text-primary">
-            Barbearia · Atendimento presencial
+            Barbearia do Alemão • Sorocaba/SP
           </p>
           <h1 className="mt-5 text-4xl uppercase leading-[1.08] sm:text-5xl md:text-6xl">
-            Experiência você não improvisa.
+            O Alemão na cadeira.
             <br />
-            <span className="text-primary">Corte você não arrisca.</span>
+            <span className="text-primary">O cliente em primeiro lugar.</span>
           </h1>
           <p className="mt-6 max-w-md font-body text-base text-muted-foreground sm:text-lg">
-            Na Barbearia do Alemão, cada atendimento é feito com atenção aos
-            detalhes e foco no resultado.
+            Mais do que corte e barba, a Barbearia do Alemão é conhecida pelo
+            atendimento próximo, pela atenção aos detalhes e pela confiança
+            construída com cada cliente.
           </p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <a
-              href="https://wa.me/5515988030574"
+              href={WHATSAPP_URL}
               target="_blank"
               rel="noreferrer"
               className="text-center font-condensed text-sm font-semibold uppercase tracking-[0.16em] bg-primary px-7 py-3.5 text-primary-foreground transition-opacity hover:opacity-90"
@@ -199,7 +200,7 @@ function Hero() {
         <div className="relative order-1 md:order-2">
           <img
             src={ownerWorking.url}
-            alt="O Alemão atendendo um cliente na Barbearia do Alemão"
+            alt="O Alemão atendendo um cliente na cadeira da Barbearia do Alemão"
             className="aspect-[4/5] w-full rounded-sm object-cover md:aspect-[3/4]"
           />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/30 to-transparent" />
