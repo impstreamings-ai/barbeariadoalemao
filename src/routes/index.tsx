@@ -236,7 +236,7 @@ const avaliacoes = [
 function Prova() {
   return (
     <section id="prova" className="border-t border-border bg-surface">
-      <div className="mx-auto max-w-6xl px-5 py-20 md:py-28">
+      <div className="mx-auto max-w-6xl px-5 py-14 md:py-20">
         <Reveal>
           <p className="font-condensed text-sm font-medium uppercase tracking-[0.28em] text-primary">
             Prova social
@@ -277,18 +277,25 @@ function Prova() {
           {avaliacoes.map((a) => (
             <figure
               key={a.nome}
-              className="flex flex-col border border-border bg-card p-6 transition-colors duration-300 hover:border-primary/50"
+              className="flex flex-col border border-border bg-card/80 p-6 transition-colors duration-300 hover:border-primary/50"
             >
-              <div className="flex gap-0.5 text-primary" aria-label="5 de 5 estrelas">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} size={16} className="fill-current" aria-hidden="true" />
-                ))}
+              <div className="flex items-center justify-between">
+                <div className="flex gap-0.5 text-amber-400" aria-label="5 de 5 estrelas">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star key={i} size={16} className="fill-current" aria-hidden="true" />
+                  ))}
+                </div>
+                <span className="font-condensed text-[0.6rem] font-medium uppercase tracking-[0.16em] text-muted-foreground">
+                  Avaliações no Google
+                </span>
               </div>
-              <blockquote className="mt-4 flex-1 font-body text-sm leading-relaxed text-muted-foreground">
+              <blockquote className="mt-4 flex-1 font-body text-sm leading-relaxed text-foreground/90">
                 {a.texto}
               </blockquote>
-              <figcaption className="mt-4 border-t border-border pt-4 font-condensed text-sm font-semibold uppercase tracking-[0.12em] text-foreground">
-                {a.nome}
+              <figcaption className="mt-5 border-t border-border pt-4">
+                <span className="font-condensed text-base font-semibold uppercase tracking-[0.12em] text-foreground">
+                  {a.nome}
+                </span>
               </figcaption>
             </figure>
           ))}
@@ -588,7 +595,7 @@ function Hero() {
 function Sobre() {
   return (
     <section id="sobre" className="border-t border-border bg-surface">
-      <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 py-20 md:grid-cols-2 md:py-28">
+      <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 py-14 md:grid-cols-2 md:py-20">
         <Reveal className="relative">
           <div className="overflow-hidden rounded-sm">
             <img
@@ -635,30 +642,11 @@ function Sobre() {
 function Galeria() {
   return (
     <section id="galeria" className="border-t border-border">
-      <div className="mx-auto max-w-6xl px-5 py-20 md:py-28">
+      <div className="mx-auto max-w-6xl px-5 py-14 md:py-20">
         <Reveal>
-        <p className="font-condensed text-sm font-medium uppercase tracking-[0.28em] text-primary">
-          Galeria
-        </p>
-        <h2 className="mt-3 text-4xl uppercase leading-tight sm:text-5xl">
-          A barbearia por dentro
-        </h2>
-        <p className="mt-4 max-w-xl font-body text-muted-foreground">
-          Conheça o espaço e os resultados de quem já passou pela cadeira do Alemão.
-        </p>
-        </Reveal>
-
-        <Reveal className="mt-16" delay={80}>
-          <p className="font-condensed text-xs font-medium uppercase tracking-[0.28em] text-primary">
-            01 — O espaço
-          </p>
-          <h3 className="mt-2 text-2xl uppercase leading-tight sm:text-3xl">
-            O Espaço
-          </h3>
-          <p className="mt-3 max-w-xl font-body text-muted-foreground">
-            Um ambiente organizado, confortável e preparado para receber cada
-            cliente com tranquilidade.
-          </p>
+          <h2 className="text-2xl uppercase leading-tight sm:text-3xl">
+            Ambiente
+          </h2>
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
             <figure className="overflow-hidden border border-border transition-colors duration-300 hover:border-primary/50">
               <img
@@ -670,8 +658,8 @@ function Galeria() {
             </figure>
             <figure className="overflow-hidden border border-border transition-colors duration-300 hover:border-primary/50">
               <img
-                src={ownerWorking.url}
-                alt="O Alemão atendendo um cliente no espaço da barbearia"
+                src={owner.url}
+                alt="O Alemão, barbeiro da Barbearia do Alemão"
                 loading="lazy"
                 className="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out hover:scale-105"
               />
@@ -679,15 +667,12 @@ function Galeria() {
           </div>
         </Reveal>
 
-        <Reveal className="mt-16" delay={80}>
-          <p className="font-condensed text-xs font-medium uppercase tracking-[0.28em] text-primary">
-            02 — Resultados reais
-          </p>
-          <h3 className="mt-2 text-2xl uppercase leading-tight sm:text-3xl">
-            Resultados Reais
-          </h3>
+        <Reveal className="mt-14" delay={80}>
+          <h2 className="text-2xl uppercase leading-tight sm:text-3xl">
+            Resultados
+          </h2>
           <p className="mt-3 max-w-xl font-body text-muted-foreground">
-            Clientes reais. Resultados reais.
+            Antes e depois de clientes atendidos na barbearia.
           </p>
           <div className="mt-6 grid gap-6 md:grid-cols-2">
             {resultados.map((t) => (
@@ -718,10 +703,10 @@ function Galeria() {
 function Servicos() {
   return (
     <section id="servicos" className="border-t border-border">
-      <div className="mx-auto max-w-6xl px-5 py-20 md:py-28">
+      <div className="mx-auto max-w-6xl px-5 py-14 md:py-20">
         <Reveal>
         <p className="font-condensed text-sm font-medium uppercase tracking-[0.28em] text-primary">
-          Serviços
+          O que você pode agendar
         </p>
         <h2 className="mt-3 text-4xl uppercase leading-tight sm:text-5xl">
           Serviços
@@ -730,7 +715,7 @@ function Servicos() {
           Atendimento completo de cabelo e barba, feito com calma e capricho.
         </p>
         </Reveal>
-        <Reveal className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" delay={80}>
+        <Reveal className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" delay={80}>
           {servicos.map((s) => (
             <article
               key={s.nome}
@@ -790,12 +775,9 @@ function Horarios() {
   ];
   return (
     <section id="horarios" className="border-t border-border bg-surface">
-      <div className="mx-auto max-w-3xl px-5 py-20 md:py-28">
+      <div className="mx-auto max-w-3xl px-5 py-14 md:py-20">
         <Reveal>
-        <p className="font-condensed text-sm font-medium uppercase tracking-[0.28em] text-primary">
-          Horários
-        </p>
-        <h2 className="mt-3 text-4xl uppercase leading-tight sm:text-5xl">
+        <h2 className="text-4xl uppercase leading-tight sm:text-5xl">
           Horários de Atendimento
         </h2>
         <p className="mt-4 max-w-xl font-body text-muted-foreground">
@@ -864,7 +846,7 @@ function Localizacao() {
   const mapsQuery = encodeURIComponent(endereco);
   return (
     <section id="localizacao" className="border-t border-border bg-surface">
-      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-20 md:grid-cols-2 md:items-start md:gap-12 md:py-28">
+      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 md:grid-cols-2 md:items-start md:gap-12 md:py-20">
         <Reveal>
           <p className="font-condensed text-sm font-medium uppercase tracking-[0.28em] text-primary">
             Localização
@@ -943,16 +925,16 @@ function CtaFinal() {
     <section id="cta" className="relative overflow-hidden border-t border-border bg-surface">
       <div className="absolute inset-0 grain opacity-60" />
       <div className="pointer-events-none absolute left-1/2 top-1/2 h-[420px] w-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-3xl" />
-      <Reveal className="relative mx-auto flex max-w-3xl flex-col items-center px-5 py-28 text-center md:py-36">
+      <Reveal className="relative mx-auto flex max-w-3xl flex-col items-center px-5 py-16 text-center md:py-20">
         <img
           src={logo.url}
           alt="Logo Barbearia do Alemão"
-          className="h-20 w-20 rounded-full object-cover transition-transform duration-500 hover:scale-105"
+          className="h-16 w-16 rounded-full object-cover transition-transform duration-500 hover:scale-105"
         />
-        <h2 className="mt-8 text-4xl uppercase leading-[0.98] sm:text-5xl md:text-6xl">
+        <h2 className="mt-6 text-4xl uppercase leading-[0.98] sm:text-5xl md:text-6xl">
           Pronto pra dar um grau?
         </h2>
-        <p className="mx-auto mt-6 max-w-md font-body text-base leading-relaxed text-muted-foreground sm:text-lg">
+        <p className="mx-auto mt-5 max-w-md font-body text-base leading-relaxed text-muted-foreground sm:text-lg">
           Chame no WhatsApp e agende seu horário diretamente com a Barbearia do
           Alemão.
         </p>
@@ -960,7 +942,7 @@ function CtaFinal() {
           href={WHATSAPP_URL}
           target="_blank"
           rel="noreferrer"
-          className="mt-10 inline-block font-condensed text-sm font-semibold uppercase tracking-[0.16em] bg-primary px-9 py-4 text-primary-foreground transition-all duration-300 hover:opacity-90 hover:-translate-y-0.5"
+          className="mt-8 inline-block font-condensed text-sm font-semibold uppercase tracking-[0.16em] bg-primary px-9 py-4 text-primary-foreground transition-all duration-300 hover:opacity-90 hover:-translate-y-0.5"
         >
           Agendar no WhatsApp
         </a>
