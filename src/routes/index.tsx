@@ -304,11 +304,11 @@ function Servicos() {
 
 function Horarios() {
   const dias = [
-    { d: "Terça-feira", h: "09:00 às 20:00", fechado: false },
-    { d: "Quarta-feira", h: "09:00 às 20:00", fechado: false },
-    { d: "Quinta-feira", h: "09:00 às 20:00", fechado: false },
-    { d: "Sexta-feira", h: "09:00 às 20:00", fechado: false },
-    { d: "Sábado", h: "09:00 às 18:00", fechado: false },
+    { d: "Terça-feira", h: "09:00 às 21:00", fechado: false },
+    { d: "Quarta-feira", h: "07:30 às 20:00", fechado: false },
+    { d: "Quinta-feira", h: "07:30 às 21:00", fechado: false },
+    { d: "Sexta-feira", h: "07:30 às 21:00", fechado: false },
+    { d: "Sábado", h: "07:30 às 20:00", fechado: false },
     { d: "Domingo", h: "Fechado", fechado: true },
     { d: "Segunda-feira", h: "Fechado", fechado: true },
   ];
