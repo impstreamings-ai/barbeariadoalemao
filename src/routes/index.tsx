@@ -43,6 +43,7 @@ const nav = [
   { href: "#galeria", label: "Galeria" },
   { href: "#servicos", label: "Serviços" },
   { href: "#horarios", label: "Horários" },
+  { href: "#localizacao", label: "Localização" },
 ];
 
 const servicos = [
