@@ -520,8 +520,8 @@ function Galeria() {
             </figure>
             <figure className="overflow-hidden border border-border transition-colors duration-300 hover:border-primary/50">
               <img
-                src={rockWall.url}
-                alt="Detalhe decorado da parede da barbearia"
+                src={ownerWorking.url}
+                alt="O Alemão atendendo um cliente no espaço da barbearia"
                 loading="lazy"
                 className="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out hover:scale-105"
               />
