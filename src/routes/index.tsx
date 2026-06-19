@@ -230,41 +230,41 @@ function Hero() {
     <section id="topo" className="relative overflow-hidden">
       <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 pb-16 pt-28 md:min-h-[88vh] md:grid-cols-2 md:gap-12 md:pb-20">
         <div className="order-2 md:order-1">
-          <p className="font-condensed text-sm font-medium uppercase tracking-[0.3em] text-primary">
+          <p className="font-condensed text-sm font-medium uppercase tracking-[0.3em] text-primary motion-safe:animate-[fade-in_0.6s_ease-out_both]">
             Barbearia do Alemão • Sorocaba/SP
           </p>
-          <h1 className="mt-5 text-5xl uppercase leading-[1.06] sm:text-6xl md:text-7xl">
+          <h1 className="mt-5 text-5xl uppercase leading-[1.06] sm:text-6xl md:text-7xl motion-safe:animate-[fade-in_0.7s_ease-out_0.08s_both]">
             Confiança não se pede.
             <br />
             <span className="text-primary">Se conquista.</span>
           </h1>
-          <p className="mt-8 max-w-md font-body text-base leading-relaxed text-muted-foreground sm:text-lg">
+          <p className="mt-8 max-w-md font-body text-base leading-relaxed text-muted-foreground sm:text-lg motion-safe:animate-[fade-in_0.7s_ease-out_0.16s_both]">
             Na Barbearia do Alemão, cada atendimento é construído com atenção aos
             detalhes, respeito ao cliente e o compromisso de entregar um
             resultado à altura da confiança recebida.
           </p>
-          <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap motion-safe:animate-[fade-in_0.7s_ease-out_0.24s_both]">
             <a
               href={WHATSAPP_URL}
               target="_blank"
               rel="noreferrer"
-              className="text-center font-condensed text-sm font-semibold uppercase tracking-[0.16em] bg-primary px-7 py-3.5 text-primary-foreground transition-opacity hover:opacity-90"
+              className="text-center font-condensed text-sm font-semibold uppercase tracking-[0.16em] bg-primary px-7 py-3.5 text-primary-foreground transition-all duration-300 hover:opacity-90 hover:-translate-y-0.5"
             >
               Agendar no WhatsApp
             </a>
             <a
               href="#galeria"
-              className="text-center font-condensed text-sm font-semibold uppercase tracking-[0.16em] border border-border px-7 py-3.5 text-foreground transition-colors hover:border-foreground"
+              className="text-center font-condensed text-sm font-semibold uppercase tracking-[0.16em] border border-border px-7 py-3.5 text-foreground transition-all duration-300 hover:border-foreground hover:-translate-y-0.5"
             >
               Ver trabalhos
             </a>
           </div>
         </div>
-        <div className="relative order-1 md:order-2">
+        <div className="relative order-1 overflow-hidden rounded-sm md:order-2 motion-safe:animate-[scale-in_0.8s_ease-out_both]">
           <img
             src={ownerWorking.url}
             alt="O Alemão atendendo um cliente na cadeira da Barbearia do Alemão"
-            className="aspect-[4/5] w-full rounded-sm object-cover md:aspect-[3/4]"
+            className="aspect-[4/5] w-full rounded-sm object-cover md:aspect-[3/4] motion-safe:animate-ken-burns"
           />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/30 to-transparent" />
         </div>
