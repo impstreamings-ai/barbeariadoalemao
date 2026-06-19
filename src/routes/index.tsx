@@ -334,36 +334,62 @@ function Galeria() {
         <h2 className="mt-3 text-4xl uppercase leading-tight sm:text-5xl">
           A barbearia por dentro
         </h2>
+        <p className="mt-4 max-w-xl font-body text-muted-foreground">
+          Conheça o espaço e os resultados de quem já passou pela cadeira do Alemão.
+        </p>
         </Reveal>
 
-        <Reveal className="mt-14" delay={80}>
-          <h3 className="font-condensed text-lg font-semibold uppercase tracking-[0.18em]">
-            Ambiente
+        <Reveal className="mt-16" delay={80}>
+          <p className="font-condensed text-xs font-medium uppercase tracking-[0.28em] text-primary">
+            01 — O espaço
+          </p>
+          <h3 className="mt-2 text-2xl uppercase leading-tight sm:text-3xl">
+            O Espaço
           </h3>
-          <div className="mt-5 grid gap-4 sm:grid-cols-2">
-            <div className="overflow-hidden border border-border">
-              <img src={interior.url} alt="Ambiente da Barbearia do Alemão" className="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out hover:scale-105" />
-            </div>
-            <div className="overflow-hidden border border-border">
-              <img src={rockWall.url} alt="Parede decorada da barbearia" className="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out hover:scale-105" />
-            </div>
+          <p className="mt-3 max-w-xl font-body text-muted-foreground">
+            Um ambiente organizado, confortável e preparado para receber cada
+            cliente com tranquilidade.
+          </p>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+            <figure className="overflow-hidden border border-border transition-colors duration-300 hover:border-primary/50">
+              <img
+                src={interior.url}
+                alt="Ambiente interno da Barbearia do Alemão"
+                loading="lazy"
+                className="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out hover:scale-105"
+              />
+            </figure>
+            <figure className="overflow-hidden border border-border transition-colors duration-300 hover:border-primary/50">
+              <img
+                src={rockWall.url}
+                alt="Detalhe decorado da parede da barbearia"
+                loading="lazy"
+                className="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out hover:scale-105"
+              />
+            </figure>
           </div>
         </Reveal>
 
-        <Reveal className="mt-14" delay={80}>
-          <h3 className="font-condensed text-lg font-semibold uppercase tracking-[0.18em]">
-            Resultados
+        <Reveal className="mt-16" delay={80}>
+          <p className="font-condensed text-xs font-medium uppercase tracking-[0.28em] text-primary">
+            02 — Resultados reais
+          </p>
+          <h3 className="mt-2 text-2xl uppercase leading-tight sm:text-3xl">
+            Resultados Reais
           </h3>
-          <div className="mt-5 grid gap-8 md:grid-cols-2">
+          <p className="mt-3 max-w-xl font-body text-muted-foreground">
+            Clientes reais. Resultados reais.
+          </p>
+          <div className="mt-6 grid gap-6 md:grid-cols-2">
             {resultados.map((t) => (
               <figure key={t.titulo} className="border border-border bg-card p-4 transition-colors duration-300 hover:border-primary/50">
                 <div className="grid grid-cols-2 gap-3">
                   <div className="relative overflow-hidden">
-                    <img src={t.antes.url} alt={`${t.titulo} — antes`} className="aspect-[4/5] w-full object-cover transition-transform duration-700 ease-out hover:scale-105" />
+                    <img src={t.antes.url} alt={`${t.titulo} — antes`} loading="lazy" className="aspect-[4/5] w-full object-cover transition-transform duration-700 ease-out hover:scale-105" />
                     <span className="absolute left-2 top-2 bg-background/85 px-2.5 py-1 font-condensed text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground">Antes</span>
                   </div>
                   <div className="relative overflow-hidden">
-                    <img src={t.depois.url} alt={`${t.titulo} — depois`} className="aspect-[4/5] w-full object-cover transition-transform duration-700 ease-out hover:scale-105" />
+                    <img src={t.depois.url} alt={`${t.titulo} — depois`} loading="lazy" className="aspect-[4/5] w-full object-cover transition-transform duration-700 ease-out hover:scale-105" />
                     <span className="absolute left-2 top-2 bg-primary px-2.5 py-1 font-condensed text-[0.65rem] uppercase tracking-[0.16em] text-primary-foreground">Depois</span>
                   </div>
                 </div>
