@@ -11,6 +11,10 @@ import grisalhoAntes from "@/assets/barbearia/a5.png.asset.json";
 import grisalhoDepois from "@/assets/barbearia/a6.png.asset.json";
 import corteAntes from "@/assets/barbearia/a3.png.asset.json";
 import corteDepois from "@/assets/barbearia/a4.png.asset.json";
+import cacheadoAntes from "@/assets/barbearia/a7.png.asset.json";
+import cacheadoDepois from "@/assets/barbearia/a8.png.asset.json";
+import volumeAntes from "@/assets/barbearia/a9.png.asset.json";
+import volumeDepois from "@/assets/barbearia/a10.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -129,6 +133,18 @@ const resultados = [
     depois: grisalhoDepois,
     titulo: "Aparo de barba",
     desc: "Barba modelada e cabelo contornado.",
+  },
+  {
+    antes: cacheadoAntes,
+    depois: cacheadoDepois,
+    titulo: "Pompadour + barba",
+    desc: "Cabelo modelado com fade e barba desenhada nos detalhes.",
+  },
+  {
+    antes: volumeAntes,
+    depois: volumeDepois,
+    titulo: "Fade cacheado",
+    desc: "Redução de volume com fade e barba alinhada.",
   },
 ];
 
