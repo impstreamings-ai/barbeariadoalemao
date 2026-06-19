@@ -429,7 +429,7 @@ function Horarios() {
         </p>
         </Reveal>
 
-        <Reveal asChild={false} className="mt-10 flex flex-col gap-3" delay={80}>
+        <Reveal className="mt-10" delay={80}>
         <ul className="flex flex-col gap-3">
           {dias.map((d) => (
             <li
