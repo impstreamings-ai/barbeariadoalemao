@@ -383,20 +383,22 @@ function Servicos() {
   return (
     <section id="servicos" className="border-t border-border">
       <div className="mx-auto max-w-6xl px-5 py-20 md:py-28">
+        <Reveal>
         <p className="font-condensed text-sm font-medium uppercase tracking-[0.28em] text-primary">
           Serviços
         </p>
         <h2 className="mt-3 text-4xl uppercase leading-tight sm:text-5xl">
           Serviços
         </h2>
-        <div className="mt-12 grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
+        </Reveal>
+        <Reveal className="mt-12 grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2 lg:grid-cols-3" delay={80}>
           {servicos.map((s) => (
-            <div key={s.nome} className="bg-card p-7">
+            <div key={s.nome} className="bg-card p-7 transition-colors duration-300 hover:bg-secondary">
               <h3 className="text-xl uppercase leading-tight">{s.nome}</h3>
               <p className="mt-3 font-body text-sm text-muted-foreground">{s.desc}</p>
             </div>
           ))}
-        </div>
+        </Reveal>
       </div>
     </section>
   );
