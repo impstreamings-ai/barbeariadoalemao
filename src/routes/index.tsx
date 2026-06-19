@@ -14,17 +14,17 @@ import corteDepois from "@/assets/barbearia/a4.png.asset.json";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Barbearia do Alemão — Corte e Barba bem feitos · Desde 2015" },
+      { title: "Barbearia do Alemão — Corte e Barba" },
       {
         name: "description",
         content:
-          "Barbearia do Alemão: corte masculino, barba na navalha e atendimento no capricho desde 2015. Agende seu horário com o Alemão.",
+          "Barbearia do Alemão: corte masculino, barba e acabamento. Agende seu horário pelo WhatsApp.",
       },
       { property: "og:title", content: "Barbearia do Alemão — Corte e Barba" },
       {
         property: "og:description",
         content:
-          "Corte masculino, barba na navalha e atendimento no capricho desde 2015. Agende seu horário.",
+          "Corte masculino, barba e acabamento. Agende seu horário pelo WhatsApp.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "/" },
@@ -39,65 +39,32 @@ export const Route = createFileRoute("/")({
 
 const nav = [
   { href: "#sobre", label: "O Alemão" },
-  { href: "#identidade", label: "Identidade" },
-  { href: "#trabalhos", label: "Trabalhos" },
+  { href: "#galeria", label: "Galeria" },
   { href: "#servicos", label: "Serviços" },
   { href: "#horarios", label: "Horários" },
 ];
 
 const servicos = [
-  {
-    nome: "Corte na Tesoura & Máquina",
-    desc: "Do clássico ao degradê. Feito no capricho, do jeito raiz.",
-    preco: "R$ 35",
-  },
-  {
-    nome: "Barba Completa",
-    desc: "Toalha quente, navalha e contorno. Barba de gentleman.",
-    preco: "R$ 30",
-  },
-  {
-    nome: "Corte + Barba",
-    desc: "O combo da casa. Você senta cliente, levanta lenda.",
-    preco: "R$ 60",
-  },
-  {
-    nome: "Pezinho & Acabamento",
-    desc: "Aquela manutenção rápida pra manter a linha.",
-    preco: "R$ 15",
-  },
-  {
-    nome: "Corte Infantil",
-    desc: "A próxima geração também é raiz. Paciência inclusa.",
-    preco: "R$ 30",
-  },
-  {
-    nome: "Hidratação & Tratamento",
-    desc: "Cabelo e barba na régua, macios e domados.",
-    preco: "R$ 25",
-  },
+  { nome: "Corte Masculino", desc: "Corte na tesoura ou máquina, do clássico ao degradê." },
+  { nome: "Barba", desc: "Toalha quente, navalha e contorno bem feito." },
+  { nome: "Corte + Barba", desc: "Corte e barba no mesmo atendimento." },
+  { nome: "Acabamento", desc: "Manutenção rápida do corte e contorno." },
+  { nome: "Corte Infantil", desc: "Atendimento com paciência para as crianças." },
 ];
 
-const trabalhos = [
+const resultados = [
   {
     antes: corteAntes,
     depois: corteDepois,
     titulo: "Corte + Barba",
-    desc: "Cabelo volumoso na régua com degradê e barba alinhada na navalha.",
+    desc: "Corte com degradê e barba alinhada.",
   },
   {
     antes: grisalhoAntes,
     depois: grisalhoDepois,
-    titulo: "Aparo de Barba Grisalha",
-    desc: "Barba longa modelada e cabelo contornado, mantendo a personalidade.",
+    titulo: "Aparo de barba",
+    desc: "Barba modelada e cabelo contornado.",
   },
-];
-
-const identidade = [
-  { titulo: "Atendimento no capricho", desc: "Sem pressa. Cada corte sai do jeito que você pediu." },
-  { titulo: "Barba na navalha", desc: "Toalha quente, contorno e acabamento de barbeiro raiz." },
-  { titulo: "Ambiente descontraído", desc: "Música boa, papo reto e aquele clima de barbearia de bairro." },
-  { titulo: "Desde 2015", desc: "Clientela fiel que volta toda semana pra manter a linha." },
 ];
 
 function Index() {
@@ -107,10 +74,10 @@ function Index() {
       <main>
         <Hero />
         <Sobre />
-        <Identidade />
-        <Trabalhos />
+        <Galeria />
         <Servicos />
         <Horarios />
+        <Tatuagem />
         <CtaFinal />
       </main>
       <Footer />
@@ -154,21 +121,20 @@ function Hero() {
   return (
     <section id="topo" className="relative overflow-hidden">
       <div className="absolute inset-0">
-        <img src={interior.url} alt="Interior da Barbearia do Alemão com cadeira de barbeiro e mural da caveira" className="h-full w-full object-cover" />
+        <img src={interior.url} alt="Interior da Barbearia do Alemão" className="h-full w-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/30" />
         <div className="absolute inset-0 bg-gradient-to-r from-background/85 to-transparent" />
       </div>
       <div className="relative mx-auto flex min-h-[88vh] max-w-6xl flex-col justify-end px-5 pb-16 pt-28">
         <p className="font-condensed text-sm font-medium uppercase tracking-[0.3em] text-primary">
-          Barba, Cabelo e Amigos · Desde 2015
+          Barbearia do Alemão
         </p>
         <h1 className="mt-4 max-w-3xl text-5xl uppercase leading-[0.92] sm:text-7xl md:text-8xl">
           Corte e barba <span className="text-stroke">bem feitos.</span>
         </h1>
         <p className="mt-6 max-w-xl font-body text-base text-muted-foreground sm:text-lg">
-          Barbearia raiz pra quem quer sair com o corte na régua e a barba
-          alinhada na navalha. Atendimento sem pressa, ambiente descontraído e o
-          Alemão na cadeira desde 2015.
+          Corte masculino, barba e acabamento com atendimento tranquilo e atenção
+          aos detalhes. Agende seu horário pelo WhatsApp.
         </p>
         <div className="mt-9 flex flex-wrap gap-3">
           <a
@@ -180,10 +146,10 @@ function Hero() {
             Agendar no WhatsApp
           </a>
           <a
-            href="#trabalhos"
+            href="#galeria"
             className="font-condensed text-sm font-semibold uppercase tracking-[0.16em] border border-border px-7 py-3.5 text-foreground transition-colors hover:border-foreground"
           >
-            Ver Antes e Depois
+            Ver galeria
           </a>
         </div>
       </div>
@@ -198,8 +164,8 @@ function Sobre() {
         <div className="relative">
           <img
             src={owner.url}
-            alt="O Alemão, barbeiro dono da Barbearia do Alemão, de óculos e barba"
-            className="aspect-[4/5] w-full rounded-sm object-cover grayscale"
+            alt="O Alemão, barbeiro da Barbearia do Alemão"
+            className="aspect-[4/5] w-full rounded-sm object-cover"
           />
           <span className="absolute -bottom-4 left-4 bg-primary px-4 py-2 font-condensed text-xs font-semibold uppercase tracking-[0.18em] text-primary-foreground">
             O Alemão
@@ -207,114 +173,89 @@ function Sobre() {
         </div>
         <div>
           <p className="font-condensed text-sm font-medium uppercase tracking-[0.28em] text-primary">
-            Sobre o Alemão
+            Sobre
           </p>
           <h2 className="mt-3 text-4xl uppercase leading-tight sm:text-5xl">
-            O barbeiro dono da casa
+            O Alemão
           </h2>
           <p className="mt-6 font-body text-muted-foreground">
-            O Alemão é quem está na cadeira desde 2015: óculos, barba e mão firme
-            na navalha. Ele atende cliente por cliente, sem pressa, conferindo
-            cada detalhe do corte e do acabamento antes de você levantar.
+            Alemão é o rosto por trás da barbearia. Conhecido pelo atendimento
+            tranquilo, pela atenção aos detalhes e pela conversa boa durante o
+            corte.
           </p>
           <p className="mt-4 font-body text-muted-foreground">
-            É barbearia de bairro de verdade — papo reto, música boa e aquele
-            atendimento que faz a clientela voltar toda semana.
+            Quem entra pela primeira vez entende rápido por que tantos clientes
+            voltam.
           </p>
-          <div className="mt-8 flex gap-10">
-            <div>
-              <p className="font-display text-4xl text-primary">2015</p>
-              <p className="font-condensed text-xs uppercase tracking-[0.18em] text-muted-foreground">Aberta desde</p>
-            </div>
-            <div>
-              <p className="font-display text-4xl text-primary">Ter–Sáb</p>
-              <p className="font-condensed text-xs uppercase tracking-[0.18em] text-muted-foreground">Sempre na ativa</p>
-            </div>
-          </div>
         </div>
       </div>
     </section>
   );
 }
 
-function Identidade() {
+function Galeria() {
   return (
-    <section id="identidade" className="relative overflow-hidden border-t border-border">
-      <div className="absolute inset-0">
-        <img src={rockWall.url} alt="Parede rock'n roll da barbearia com pôsteres e garrafas" className="h-full w-full object-cover opacity-25" />
-        <div className="absolute inset-0 bg-background/70" />
-      </div>
-      <div className="relative mx-auto max-w-6xl px-5 py-20 md:py-28">
-        <p className="font-condensed text-sm font-medium uppercase tracking-[0.28em] text-primary">
-          A cara da barbearia
-        </p>
-        <h2 className="mt-3 max-w-2xl text-4xl uppercase leading-tight sm:text-5xl">
-          Por que a galera volta
-        </h2>
-        <p className="mt-5 max-w-xl font-body text-muted-foreground">
-          Corte bem feito é o básico. O que segura o cliente é o atendimento, o
-          capricho na barba e o clima de barbearia de bairro de verdade.
-        </p>
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {identidade.map((i) => (
-            <div key={i.titulo} className="border border-border bg-card/80 p-6 backdrop-blur">
-              <h3 className="text-xl uppercase">{i.titulo}</h3>
-              <p className="mt-3 font-body text-sm text-muted-foreground">{i.desc}</p>
-            </div>
-          ))}
-        </div>
-        <div className="mt-12 grid gap-6 md:grid-cols-2">
-          <div className="group relative overflow-hidden border border-border">
-            <img src={ownerWorking.url} alt="O Alemão cortando o cabelo de uma criança em frente ao mural da caveira" className="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-            <span className="absolute bottom-4 left-4 bg-background/80 px-3 py-1.5 font-condensed text-xs uppercase tracking-[0.16em]">O Alemão na ativa</span>
-          </div>
-          <div className="group relative overflow-hidden border border-border">
-            <img src={tattoo.url} alt="Tatuagem da caveira com barba e óculos, símbolo da barbearia" className="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-            <span className="absolute bottom-4 left-4 bg-background/80 px-3 py-1.5 font-condensed text-xs uppercase tracking-[0.16em]">A marca da casa</span>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Trabalhos() {
-  return (
-    <section id="trabalhos" className="border-t border-border bg-surface">
+    <section id="galeria" className="border-t border-border">
       <div className="mx-auto max-w-6xl px-5 py-20 md:py-28">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <p className="font-condensed text-sm font-medium uppercase tracking-[0.28em] text-primary">
-              Antes e depois
-            </p>
-            <h2 className="mt-3 text-4xl uppercase leading-tight sm:text-5xl">
-              Resultado de cadeira
-            </h2>
+        <p className="font-condensed text-sm font-medium uppercase tracking-[0.28em] text-primary">
+          Galeria
+        </p>
+        <h2 className="mt-3 text-4xl uppercase leading-tight sm:text-5xl">
+          A barbearia por dentro
+        </h2>
+
+        <div className="mt-14">
+          <h3 className="font-condensed text-lg font-semibold uppercase tracking-[0.18em]">
+            Ambiente
+          </h3>
+          <div className="mt-5 grid gap-4 sm:grid-cols-2">
+            <div className="overflow-hidden border border-border">
+              <img src={interior.url} alt="Ambiente da Barbearia do Alemão" className="aspect-[4/3] w-full object-cover" />
+            </div>
+            <div className="overflow-hidden border border-border">
+              <img src={rockWall.url} alt="Parede decorada da barbearia" className="aspect-[4/3] w-full object-cover" />
+            </div>
           </div>
-          <p className="max-w-sm font-body text-sm text-muted-foreground">
-            Sem foto de banco de imagem. Tudo aqui é cliente de verdade, saído da
-            cadeira do Alemão.
-          </p>
         </div>
-        <div className="mt-12 grid gap-8 md:grid-cols-2">
-          {trabalhos.map((t) => (
-            <figure key={t.titulo} className="border border-border bg-card p-4">
-              <div className="grid grid-cols-2 gap-3">
-                <div className="relative overflow-hidden">
-                  <img src={t.antes.url} alt={`${t.titulo} — antes`} className="aspect-[4/5] w-full object-cover" />
-                  <span className="absolute left-2 top-2 bg-background/85 px-2.5 py-1 font-condensed text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground">Antes</span>
+
+        <div className="mt-14">
+          <h3 className="font-condensed text-lg font-semibold uppercase tracking-[0.18em]">
+            Trabalho
+          </h3>
+          <div className="mt-5 grid gap-4 sm:grid-cols-2">
+            <div className="overflow-hidden border border-border">
+              <img src={ownerWorking.url} alt="Alemão cortando cabelo" className="aspect-[4/3] w-full object-cover" />
+            </div>
+            <div className="overflow-hidden border border-border">
+              <img src={owner.url} alt="Alemão na barbearia" className="aspect-[4/3] w-full object-cover" />
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-14">
+          <h3 className="font-condensed text-lg font-semibold uppercase tracking-[0.18em]">
+            Resultados
+          </h3>
+          <div className="mt-5 grid gap-8 md:grid-cols-2">
+            {resultados.map((t) => (
+              <figure key={t.titulo} className="border border-border bg-card p-4">
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="relative overflow-hidden">
+                    <img src={t.antes.url} alt={`${t.titulo} — antes`} className="aspect-[4/5] w-full object-cover" />
+                    <span className="absolute left-2 top-2 bg-background/85 px-2.5 py-1 font-condensed text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground">Antes</span>
+                  </div>
+                  <div className="relative overflow-hidden">
+                    <img src={t.depois.url} alt={`${t.titulo} — depois`} className="aspect-[4/5] w-full object-cover" />
+                    <span className="absolute left-2 top-2 bg-primary px-2.5 py-1 font-condensed text-[0.65rem] uppercase tracking-[0.16em] text-primary-foreground">Depois</span>
+                  </div>
                 </div>
-                <div className="relative overflow-hidden">
-                  <img src={t.depois.url} alt={`${t.titulo} — depois`} className="aspect-[4/5] w-full object-cover" />
-                  <span className="absolute left-2 top-2 bg-primary px-2.5 py-1 font-condensed text-[0.65rem] uppercase tracking-[0.16em] text-primary-foreground">Depois</span>
-                </div>
-              </div>
-              <figcaption className="mt-4">
-                <h3 className="text-xl uppercase leading-tight">{t.titulo}</h3>
-                <p className="mt-2 font-body text-sm text-muted-foreground">{t.desc}</p>
-              </figcaption>
-            </figure>
-          ))}
+                <figcaption className="mt-4">
+                  <h4 className="text-xl uppercase leading-tight">{t.titulo}</h4>
+                  <p className="mt-2 font-body text-sm text-muted-foreground">{t.desc}</p>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -329,22 +270,16 @@ function Servicos() {
           Serviços
         </p>
         <h2 className="mt-3 text-4xl uppercase leading-tight sm:text-5xl">
-          O cardápio da casa
+          Serviços
         </h2>
         <div className="mt-12 grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
           {servicos.map((s) => (
             <div key={s.nome} className="bg-card p-7">
-              <div className="flex items-start justify-between gap-3">
-                <h3 className="text-xl uppercase leading-tight">{s.nome}</h3>
-                <span className="shrink-0 font-display text-2xl text-primary">{s.preco}</span>
-              </div>
+              <h3 className="text-xl uppercase leading-tight">{s.nome}</h3>
               <p className="mt-3 font-body text-sm text-muted-foreground">{s.desc}</p>
             </div>
           ))}
         </div>
-        <p className="mt-6 font-body text-xs text-muted-foreground">
-          * Valores de referência. Combos e tratamentos podem variar conforme o serviço.
-        </p>
       </div>
     </section>
   );
@@ -358,32 +293,39 @@ function Horarios() {
   ];
   return (
     <section id="horarios" className="border-t border-border bg-surface">
-      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-20 md:grid-cols-2 md:py-28">
-        <div>
-          <p className="font-condensed text-sm font-medium uppercase tracking-[0.28em] text-primary">
-            Horários
-          </p>
-          <h2 className="mt-3 text-4xl uppercase leading-tight sm:text-5xl">
-            Quando a navalha tá afiada
-          </h2>
-          <p className="mt-6 font-body text-muted-foreground">
-            Chega chegando, mas se quiser garantir o seu horário sem espera, é só
-            agendar. A casa é raiz, mas o atendimento é organizado.
-          </p>
-          <a
-            href="#cta"
-            className="mt-8 inline-block font-condensed text-sm font-semibold uppercase tracking-[0.16em] bg-primary px-7 py-3.5 text-primary-foreground transition-opacity hover:opacity-90"
-          >
-            Agendar agora
-          </a>
+      <div className="mx-auto max-w-3xl px-5 py-20 md:py-28">
+        <p className="font-condensed text-sm font-medium uppercase tracking-[0.28em] text-primary">
+          Horários de Atendimento
+        </p>
+        <div className="mt-8 overflow-hidden border border-border">
+          <div className="grid grid-cols-2 bg-card px-6 py-4">
+            <span className="font-condensed text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Dias</span>
+            <span className="text-right font-condensed text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Horários</span>
+          </div>
+          <div className="divide-y divide-border">
+            {dias.map((d) => (
+              <div key={d.d} className="grid grid-cols-2 items-center px-6 py-5">
+                <span className="font-condensed text-sm uppercase tracking-[0.14em] text-foreground">{d.d}</span>
+                <span className="text-right font-condensed text-sm uppercase tracking-[0.14em] text-muted-foreground">{d.h}</span>
+              </div>
+            ))}
+          </div>
         </div>
-        <div className="divide-y divide-border border border-border">
-          {dias.map((d) => (
-            <div key={d.d} className="flex items-center justify-between px-6 py-5">
-              <span className="font-condensed text-sm uppercase tracking-[0.14em] text-foreground">{d.d}</span>
-              <span className="font-condensed text-sm uppercase tracking-[0.14em] text-muted-foreground">{d.h}</span>
-            </div>
-          ))}
+      </div>
+    </section>
+  );
+}
+
+function Tatuagem() {
+  return (
+    <section className="border-t border-border">
+      <div className="mx-auto flex max-w-4xl items-center gap-6 px-5 py-12">
+        <img src={tattoo.url} alt="Tatuagem do Alemão" className="h-24 w-24 shrink-0 rounded-sm object-cover" />
+        <div>
+          <h3 className="font-condensed text-sm font-semibold uppercase tracking-[0.18em]">Curiosidade</h3>
+          <p className="mt-2 font-body text-sm text-muted-foreground">
+            Uma tatuagem do Alemão — detalhe pessoal, não o logo da barbearia.
+          </p>
         </div>
       </div>
     </section>
@@ -397,11 +339,10 @@ function CtaFinal() {
       <div className="relative mx-auto max-w-4xl px-5 py-24 text-center md:py-32">
         <img src={logo.url} alt="Logo Barbearia do Alemão" className="mx-auto h-20 w-20 rounded-full object-cover" />
         <h2 className="mt-8 text-4xl uppercase leading-[0.95] sm:text-6xl">
-          Bora deixar a cara<br />no jeito?
+          Agende seu horário
         </h2>
         <p className="mx-auto mt-6 max-w-lg font-body text-muted-foreground">
-          Senta na cadeira do Alemão e descobre por que desde 2015 a galera não
-          troca a barbearia por nada.
+          Fale diretamente com a Barbearia do Alemão pelo WhatsApp.
         </p>
         <div className="mt-10 flex flex-wrap justify-center gap-3">
           <a
@@ -410,13 +351,7 @@ function CtaFinal() {
             rel="noreferrer"
             className="font-condensed text-sm font-semibold uppercase tracking-[0.16em] bg-primary px-8 py-4 text-primary-foreground transition-opacity hover:opacity-90"
           >
-            Chamar no WhatsApp
-          </a>
-          <a
-            href="#servicos"
-            className="font-condensed text-sm font-semibold uppercase tracking-[0.16em] border border-border px-8 py-4 text-foreground transition-colors hover:border-foreground"
-          >
-            Ver serviços
+            Agendar no WhatsApp
           </a>
         </div>
       </div>
@@ -432,7 +367,7 @@ function Footer() {
           <img src={logo.url} alt="Logo Barbearia do Alemão" className="h-12 w-12 rounded-full object-cover" />
           <div>
             <p className="font-condensed text-sm font-semibold uppercase tracking-[0.18em]">Barbearia do Alemão</p>
-            <p className="font-body text-xs text-muted-foreground">Barba, Cabelo e Amigos · Desde 2015</p>
+            <p className="font-body text-xs text-muted-foreground">Corte · Barba · Acabamento</p>
           </div>
         </div>
         <nav className="flex flex-wrap justify-center gap-5">
@@ -444,7 +379,7 @@ function Footer() {
         </nav>
       </div>
       <div className="border-t border-border py-5 text-center font-body text-xs text-muted-foreground">
-        © {new Date().getFullYear()} Barbearia do Alemão. Feito com navalha e rock'n roll.
+        © {new Date().getFullYear()} Barbearia do Alemão.
       </div>
     </footer>
   );
