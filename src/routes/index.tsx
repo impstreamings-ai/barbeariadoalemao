@@ -846,7 +846,7 @@ function Localizacao() {
   const mapsQuery = encodeURIComponent(endereco);
   return (
     <section id="localizacao" className="border-t border-border bg-surface">
-      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-20 md:grid-cols-2 md:items-start md:gap-12 md:py-28">
+      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 md:grid-cols-2 md:items-start md:gap-12 md:py-20">
         <Reveal>
           <p className="font-condensed text-sm font-medium uppercase tracking-[0.28em] text-primary">
             Localização
