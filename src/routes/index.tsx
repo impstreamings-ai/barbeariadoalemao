@@ -643,7 +643,7 @@ function Sobre() {
 function Galeria() {
   return (
     <section id="galeria" className="border-t border-border">
-      <div className="mx-auto max-w-6xl px-5 py-14 md:py-20">
+      <div className="mx-auto max-w-6xl px-5 py-10 md:py-16">
         <Reveal>
           <h2 className="text-2xl uppercase leading-tight sm:text-3xl">
             Ambiente
