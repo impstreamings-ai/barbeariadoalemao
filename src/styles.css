@@ -145,13 +145,23 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "kern", "liga", "calt";
+    line-height: 1.6;
   }
 }
 
 @layer base {
   h1, h2, h3, h4 {
     font-family: var(--font-display);
-    letter-spacing: 0.01em;
+    letter-spacing: 0.015em;
+    text-wrap: balance;
+    font-feature-settings: "kern";
+  }
+  p {
+    text-wrap: pretty;
   }
 }
 
