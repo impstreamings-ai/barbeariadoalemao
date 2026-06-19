@@ -376,6 +376,85 @@ function Horarios() {
   );
 }
 
+function Localizacao() {
+  const endereco = "R. Maria Germani, 826 - Júlio de Mesquita Filho, Sorocaba - SP, 18053-030";
+  const mapsQuery = encodeURIComponent(endereco);
+  return (
+    <section id="localizacao" className="border-t border-border bg-surface">
+      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-20 md:grid-cols-2 md:items-start md:gap-12 md:py-28">
+        <div>
+          <p className="font-condensed text-sm font-medium uppercase tracking-[0.28em] text-primary">
+            Localização
+          </p>
+          <h2 className="mt-3 text-4xl uppercase leading-tight sm:text-5xl">
+            Onde Estamos
+          </h2>
+          <p className="mt-6 max-w-md font-body text-muted-foreground">
+            A Barbearia do Alemão está localizada no bairro Júlio de Mesquita
+            Filho, em Sorocaba/SP. Entre em contato pelo WhatsApp ou venha
+            conhecer o espaço pessoalmente.
+          </p>
+
+          <ul className="mt-8 flex flex-col gap-4">
+            <li className="flex items-start gap-3">
+              <MapPin className="mt-0.5 shrink-0 text-primary" />
+              <div className="font-body text-sm text-muted-foreground">
+                <p className="font-condensed text-base uppercase tracking-[0.12em] text-foreground">
+                  R. Maria Germani, 826
+                </p>
+                <p className="mt-1">Júlio de Mesquita Filho</p>
+                <p>Sorocaba - SP</p>
+                <p>CEP 18053-030</p>
+              </div>
+            </li>
+            <li className="flex items-center gap-3">
+              <Phone className="shrink-0 text-primary" />
+              <span className="font-body text-sm text-muted-foreground">
+                (15) 98803-0574 · WhatsApp
+              </span>
+            </li>
+            <li className="flex items-center gap-3">
+              <Clock className="shrink-0 text-primary" />
+              <span className="font-body text-sm text-muted-foreground">
+                Terça a sábado · Domingo e segunda fechado
+              </span>
+            </li>
+          </ul>
+
+          <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <a
+              href={`https://www.google.com/maps/search/?api=1&query=${mapsQuery}`}
+              target="_blank"
+              rel="noreferrer"
+              className="text-center font-condensed text-sm font-semibold uppercase tracking-[0.16em] bg-primary px-7 py-3.5 text-primary-foreground transition-opacity hover:opacity-90"
+            >
+              Como chegar
+            </a>
+            <a
+              href="https://wa.me/5515988030574"
+              target="_blank"
+              rel="noreferrer"
+              className="text-center font-condensed text-sm font-semibold uppercase tracking-[0.16em] border border-border px-7 py-3.5 text-foreground transition-colors hover:border-foreground"
+            >
+              Agendar no WhatsApp
+            </a>
+          </div>
+        </div>
+
+        <div className="overflow-hidden border border-border">
+          <iframe
+            title="Mapa da Barbearia do Alemão"
+            src={`https://www.google.com/maps?q=${mapsQuery}&output=embed`}
+            className="h-[320px] w-full md:h-[460px]"
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function CtaFinal() {
   return (
     <section id="cta" className="relative overflow-hidden border-t border-border">
