@@ -171,31 +171,17 @@ function Hero() {
             Barbearia · Atendimento presencial
           </p>
           <h1 className="mt-5 text-4xl uppercase leading-[0.98] sm:text-5xl md:text-6xl">
-            Atendimento tranquilo.
+            Experiência você não improvisa.
             <br />
-            Corte no capricho.
-            <br />
-            <span className="text-primary">Barba alinhada.</span>
+            <span className="text-primary">Corte você não arrisca.</span>
           </h1>
           <p className="mt-6 max-w-md font-body text-base text-muted-foreground sm:text-lg">
-            Barbearia com atendimento direto, atenção aos detalhes e ambiente
-            autêntico. Fale com o Alemão e agende seu horário pelo WhatsApp.
+            Na Barbearia do Alemão, cada atendimento é feito com atenção aos
+            detalhes e foco no resultado.
           </p>
-          <ul className="mt-7 flex flex-wrap gap-2">
-            {["Corte masculino", "Barba na navalha", "Corte infantil", "Hora marcada"].map(
-              (item) => (
-                <li
-                  key={item}
-                  className="border border-border px-3 py-1.5 font-condensed text-xs uppercase tracking-[0.14em] text-muted-foreground"
-                >
-                  {item}
-                </li>
-              ),
-            )}
-          </ul>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <a
-              href="https://wa.me/5500000000000"
+              href="https://wa.me/5515988030574"
               target="_blank"
               rel="noreferrer"
               className="text-center font-condensed text-sm font-semibold uppercase tracking-[0.16em] bg-primary px-7 py-3.5 text-primary-foreground transition-opacity hover:opacity-90"
