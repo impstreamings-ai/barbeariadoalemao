@@ -6,6 +6,7 @@ import logo from "@/assets/barbearia/a2.png.asset.json";
 import interior from "@/assets/barbearia/a1.png.asset.json";
 import owner from "@/assets/barbearia/a12.png.asset.json";
 import ownerWorking from "@/assets/barbearia/a11.png.asset.json";
+import ambiente2 from "@/assets/barbearia/a14.png.asset.json";
 import grisalhoAntes from "@/assets/barbearia/a5.png.asset.json";
 import grisalhoDepois from "@/assets/barbearia/a6.png.asset.json";
 import corteAntes from "@/assets/barbearia/a3.png.asset.json";
