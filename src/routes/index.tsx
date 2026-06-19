@@ -486,7 +486,7 @@ function Localizacao() {
   return (
     <section id="localizacao" className="border-t border-border bg-surface">
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-20 md:grid-cols-2 md:items-start md:gap-12 md:py-28">
-        <div>
+        <Reveal>
           <p className="font-condensed text-sm font-medium uppercase tracking-[0.28em] text-primary">
             Localização
           </p>
@@ -543,9 +543,9 @@ function Localizacao() {
               Agendar no WhatsApp
             </a>
           </div>
-        </div>
+        </Reveal>
 
-        <div className="overflow-hidden border border-border">
+        <Reveal className="overflow-hidden border border-border" delay={120}>
           <iframe
             title="Mapa da Barbearia do Alemão"
             src={`https://www.google.com/maps?q=${mapsQuery}&output=embed`}
@@ -553,7 +553,7 @@ function Localizacao() {
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
           />
-        </div>
+        </Reveal>
       </div>
     </section>
   );
