@@ -177,3 +177,43 @@
   60% { transform: scale(1.08); opacity: 1; }
   100% { transform: scale(1); opacity: 1; }
 }
+
+/* Ken Burns — zoom muito lento e quase imperceptível na foto da Hero */
+@keyframes ken-burns {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+@layer utilities {
+  .animate-ken-burns {
+    animation: ken-burns 30s ease-in-out infinite;
+    transform-origin: center;
+    will-change: transform;
+  }
+
+  /* Reveal on scroll — entrada suave e discreta */
+  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-ken-burns {
+    animation: none;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
