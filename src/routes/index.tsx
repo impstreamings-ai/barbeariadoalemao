@@ -1,33 +1,38 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import logo from "@/assets/barbearia/a2.png.asset.json";
-import heroSkull from "@/assets/barbearia/a1.png.asset.json";
+import interior from "@/assets/barbearia/a1.png.asset.json";
 import rockWall from "@/assets/barbearia/a14.png.asset.json";
-import alemaoNow from "@/assets/barbearia/a5.png.asset.json";
-import alemaoWorking from "@/assets/barbearia/a11.png.asset.json";
+import owner from "@/assets/barbearia/a12.png.asset.json";
+import ownerWorking from "@/assets/barbearia/a11.png.asset.json";
 import tattoo from "@/assets/barbearia/a13.png.asset.json";
-import beardClient from "@/assets/barbearia/a12.png.asset.json";
-import fadeClient from "@/assets/barbearia/a4.png.asset.json";
-import curlyClient from "@/assets/barbearia/a3.png.asset.json";
-import grayClient from "@/assets/barbearia/a6.png.asset.json";
+import grisalhoAntes from "@/assets/barbearia/a5.png.asset.json";
+import grisalhoDepois from "@/assets/barbearia/a6.png.asset.json";
+import corteAntes from "@/assets/barbearia/a3.png.asset.json";
+import corteDepois from "@/assets/barbearia/a4.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Barbearia do Alemão — Barba, Cabelo e Amigos · Desde 2015" },
+      { title: "Barbearia do Alemão — Corte e Barba bem feitos · Desde 2015" },
       {
         name: "description",
         content:
-          "Barbearia raiz com alma rock'n roll e old school. Corte, barba e atitude desde 2015.",
+          "Barbearia do Alemão: corte masculino, barba na navalha e atendimento no capricho desde 2015. Agende seu horário com o Alemão.",
       },
-      { property: "og:title", content: "Barbearia do Alemão — Desde 2015" },
+      { property: "og:title", content: "Barbearia do Alemão — Corte e Barba" },
       {
         property: "og:description",
-        content: "Barbearia raiz com alma rock'n roll e old school.",
+        content:
+          "Corte masculino, barba na navalha e atendimento no capricho desde 2015. Agende seu horário.",
       },
-      { property: "og:image", content: heroSkull.url },
-      { name: "twitter:image", content: heroSkull.url },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "/" },
+      { property: "og:image", content: ownerWorking.url },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: ownerWorking.url },
     ],
+    links: [{ rel: "canonical", href: "/" }],
   }),
   component: Index,
 });
@@ -74,17 +79,25 @@ const servicos = [
 ];
 
 const trabalhos = [
-  { img: beardClient, label: "Barba modelada na navalha" },
-  { img: fadeClient, label: "Degradê + barba alinhada" },
-  { img: curlyClient, label: "Cacheado com volume controlado" },
-  { img: grayClient, label: "Grisalho com personalidade" },
+  {
+    antes: corteAntes,
+    depois: corteDepois,
+    titulo: "Corte + Barba",
+    desc: "Cabelo volumoso na régua com degradê e barba alinhada na navalha.",
+  },
+  {
+    antes: grisalhoAntes,
+    depois: grisalhoDepois,
+    titulo: "Aparo de Barba Grisalha",
+    desc: "Barba longa modelada e cabelo contornado, mantendo a personalidade.",
+  },
 ];
 
 const identidade = [
-  { titulo: "Caveira Gentleman", desc: "Cartola, monóculo e bigode. Nosso brasão." },
-  { titulo: "Rock'n Roll", desc: "Beatles, Sabbath e vinil rolando o dia todo." },
-  { titulo: "Old School", desc: "Cadeira de barbeiro raiz, navalha e tempo bem gasto." },
-  { titulo: "Ambiente Autêntico", desc: "Paredes vivas, cheias de história e atitude." },
+  { titulo: "Atendimento no capricho", desc: "Sem pressa. Cada corte sai do jeito que você pediu." },
+  { titulo: "Barba na navalha", desc: "Toalha quente, contorno e acabamento de barbeiro raiz." },
+  { titulo: "Ambiente descontraído", desc: "Música boa, papo reto e aquele clima de barbearia de bairro." },
+  { titulo: "Desde 2015", desc: "Clientela fiel que volta toda semana pra manter a linha." },
 ];
 
 function Index() {
