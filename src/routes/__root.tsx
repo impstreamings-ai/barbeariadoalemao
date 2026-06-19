@@ -77,14 +77,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Barbearia do Alemão — Barba, Cabelo e Amigos · Desde 2015" },
+      { title: "Barbearia do Alemão | Sorocaba/SP" },
       {
         name: "description",
         content:
           "Barbearia raiz com alma rock'n roll e old school. Corte, barba e atitude desde 2015. A Caveira Gentleman te espera.",
       },
       { name: "author", content: "Barbearia do Alemão" },
-      { property: "og:title", content: "Barbearia do Alemão — Desde 2015" },
+      { property: "og:title", content: "Barbearia do Alemão | Sorocaba/SP" },
       {
         property: "og:description",
         content:
@@ -92,6 +92,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Barbearia do Alemão | Sorocaba/SP" },
+      { name: "description", content: "Barbearia do Alemão em Sorocaba. Corte masculino, barba e acabamento em um ambiente onde confiança, atenção aos detalhes e atendimento de qualidade vêm primeiro" },
+      { property: "og:description", content: "Barbearia do Alemão em Sorocaba. Corte masculino, barba e acabamento em um ambiente onde confiança, atenção aos detalhes e atendimento de qualidade vêm primeiro" },
+      { name: "twitter:description", content: "Barbearia do Alemão em Sorocaba. Corte masculino, barba e acabamento em um ambiente onde confiança, atenção aos detalhes e atendimento de qualidade vêm primeiro" },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/ySlm7HIeqraWNJ071PW9lVF2ciC2/social-images/social-1781857019885-a2.webp" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/ySlm7HIeqraWNJ071PW9lVF2ciC2/social-images/social-1781857019885-a2.webp" },
     ],
     links: [
       {
