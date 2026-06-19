@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { MapPin, Phone, Clock } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 import logo from "@/assets/barbearia/a2.png.asset.json";
 import interior from "@/assets/barbearia/a1.png.asset.json";
@@ -70,6 +70,54 @@ const resultados = [
   },
 ];
 
+function useReveal<T extends HTMLElement>() {
+  const ref = useRef<T>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (typeof IntersectionObserver === "undefined") {
+      setVisible(true);
+      return;
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return { ref, visible };
+}
+
+function Reveal({
+  children,
+  delay = 0,
+  className = "",
+}: {
+  children: ReactNode;
+  delay?: number;
+  className?: string;
+}) {
+  const { ref, visible } = useReveal<HTMLDivElement>();
+  return (
+    <div
+      ref={ref}
+      className={`reveal ${visible ? "is-visible" : ""} ${className}`}
+      style={delay ? { transitionDelay: `${delay}ms` } : undefined}
+    >
+      {children}
+    </div>
+  );
+}
+
 function Index() {
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -131,11 +179,26 @@ function FloatingWhatsApp() {
 }
 
 function Header() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-surface/90 backdrop-blur">
+    <header
+      className={`sticky top-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "border-b border-border bg-surface/70 backdrop-blur-xl"
+          : "border-b border-transparent bg-surface/30 backdrop-blur-sm"
+      }`}
+    >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
         <a href="#topo" className="flex items-center gap-3">
-          <img src={logo.url} alt="Logo Barbearia do Alemão" className="h-11 w-11 rounded-full object-cover" />
+          <img src={logo.url} alt="Logo Barbearia do Alemão" className="h-11 w-11 rounded-full object-cover transition-transform duration-300 hover:scale-105" />
           <span className="font-condensed text-sm font-semibold uppercase tracking-[0.2em] text-foreground">
             Barbearia do Alemão
           </span>
@@ -153,7 +216,7 @@ function Header() {
         </nav>
         <a
           href="#cta"
-          className="font-condensed text-xs font-semibold uppercase tracking-[0.16em] border border-primary bg-primary px-4 py-2 text-primary-foreground transition-opacity hover:opacity-90"
+          className="font-condensed text-xs font-semibold uppercase tracking-[0.16em] border border-primary bg-primary px-4 py-2 text-primary-foreground transition-all duration-300 hover:opacity-90 hover:-translate-y-0.5"
         >
           Agendar
         </a>
@@ -167,41 +230,41 @@ function Hero() {
     <section id="topo" className="relative overflow-hidden">
       <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 pb-16 pt-28 md:min-h-[88vh] md:grid-cols-2 md:gap-12 md:pb-20">
         <div className="order-2 md:order-1">
-          <p className="font-condensed text-sm font-medium uppercase tracking-[0.3em] text-primary">
+          <p className="font-condensed text-sm font-medium uppercase tracking-[0.3em] text-primary motion-safe:animate-[fade-in_0.6s_ease-out_both]">
             Barbearia do Alemão • Sorocaba/SP
           </p>
-          <h1 className="mt-5 text-5xl uppercase leading-[1.06] sm:text-6xl md:text-7xl">
+          <h1 className="mt-5 text-5xl uppercase leading-[1.06] sm:text-6xl md:text-7xl motion-safe:animate-[fade-in_0.7s_ease-out_0.08s_both]">
             Confiança não se pede.
             <br />
             <span className="text-primary">Se conquista.</span>
           </h1>
-          <p className="mt-8 max-w-md font-body text-base leading-relaxed text-muted-foreground sm:text-lg">
+          <p className="mt-8 max-w-md font-body text-base leading-relaxed text-muted-foreground sm:text-lg motion-safe:animate-[fade-in_0.7s_ease-out_0.16s_both]">
             Na Barbearia do Alemão, cada atendimento é construído com atenção aos
             detalhes, respeito ao cliente e o compromisso de entregar um
             resultado à altura da confiança recebida.
           </p>
-          <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap motion-safe:animate-[fade-in_0.7s_ease-out_0.24s_both]">
             <a
               href={WHATSAPP_URL}
               target="_blank"
               rel="noreferrer"
-              className="text-center font-condensed text-sm font-semibold uppercase tracking-[0.16em] bg-primary px-7 py-3.5 text-primary-foreground transition-opacity hover:opacity-90"
+              className="text-center font-condensed text-sm font-semibold uppercase tracking-[0.16em] bg-primary px-7 py-3.5 text-primary-foreground transition-all duration-300 hover:opacity-90 hover:-translate-y-0.5"
             >
               Agendar no WhatsApp
             </a>
             <a
               href="#galeria"
-              className="text-center font-condensed text-sm font-semibold uppercase tracking-[0.16em] border border-border px-7 py-3.5 text-foreground transition-colors hover:border-foreground"
+              className="text-center font-condensed text-sm font-semibold uppercase tracking-[0.16em] border border-border px-7 py-3.5 text-foreground transition-all duration-300 hover:border-foreground hover:-translate-y-0.5"
             >
               Ver trabalhos
             </a>
           </div>
         </div>
-        <div className="relative order-1 md:order-2">
+        <div className="relative order-1 overflow-hidden rounded-sm md:order-2 motion-safe:animate-[scale-in_0.8s_ease-out_both]">
           <img
             src={ownerWorking.url}
             alt="O Alemão atendendo um cliente na cadeira da Barbearia do Alemão"
-            className="aspect-[4/5] w-full rounded-sm object-cover md:aspect-[3/4]"
+            className="aspect-[4/5] w-full rounded-sm object-cover md:aspect-[3/4] motion-safe:animate-ken-burns"
           />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/30 to-transparent" />
         </div>
@@ -214,17 +277,19 @@ function Sobre() {
   return (
     <section id="sobre" className="border-t border-border bg-surface">
       <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 py-20 md:grid-cols-2 md:py-28">
-        <div className="relative">
-          <img
-            src={owner.url}
-            alt="O Alemão, barbeiro da Barbearia do Alemão"
-            className="aspect-[4/5] w-full rounded-sm object-cover"
-          />
+        <Reveal className="relative">
+          <div className="overflow-hidden rounded-sm">
+            <img
+              src={owner.url}
+              alt="O Alemão, barbeiro da Barbearia do Alemão"
+              className="aspect-[4/5] w-full rounded-sm object-cover transition-transform duration-700 ease-out hover:scale-105"
+            />
+          </div>
           <span className="absolute -bottom-4 left-4 bg-primary px-4 py-2 font-condensed text-xs font-semibold uppercase tracking-[0.18em] text-primary-foreground">
             O Alemão
           </span>
-        </div>
-        <div>
+        </Reveal>
+        <Reveal delay={120}>
           <p className="font-condensed text-sm font-medium uppercase tracking-[0.28em] text-primary">
             Sobre
           </p>
@@ -251,7 +316,7 @@ function Sobre() {
               outras nos pequenos detalhes de quem faz parte dela todos os dias.
             </p>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -261,41 +326,43 @@ function Galeria() {
   return (
     <section id="galeria" className="border-t border-border">
       <div className="mx-auto max-w-6xl px-5 py-20 md:py-28">
+        <Reveal>
         <p className="font-condensed text-sm font-medium uppercase tracking-[0.28em] text-primary">
           Galeria
         </p>
         <h2 className="mt-3 text-4xl uppercase leading-tight sm:text-5xl">
           A barbearia por dentro
         </h2>
+        </Reveal>
 
-        <div className="mt-14">
+        <Reveal className="mt-14" delay={80}>
           <h3 className="font-condensed text-lg font-semibold uppercase tracking-[0.18em]">
             Ambiente
           </h3>
           <div className="mt-5 grid gap-4 sm:grid-cols-2">
             <div className="overflow-hidden border border-border">
-              <img src={interior.url} alt="Ambiente da Barbearia do Alemão" className="aspect-[4/3] w-full object-cover" />
+              <img src={interior.url} alt="Ambiente da Barbearia do Alemão" className="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out hover:scale-105" />
             </div>
             <div className="overflow-hidden border border-border">
-              <img src={rockWall.url} alt="Parede decorada da barbearia" className="aspect-[4/3] w-full object-cover" />
+              <img src={rockWall.url} alt="Parede decorada da barbearia" className="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out hover:scale-105" />
             </div>
           </div>
-        </div>
+        </Reveal>
 
-        <div className="mt-14">
+        <Reveal className="mt-14" delay={80}>
           <h3 className="font-condensed text-lg font-semibold uppercase tracking-[0.18em]">
             Resultados
           </h3>
           <div className="mt-5 grid gap-8 md:grid-cols-2">
             {resultados.map((t) => (
-              <figure key={t.titulo} className="border border-border bg-card p-4">
+              <figure key={t.titulo} className="border border-border bg-card p-4 transition-colors duration-300 hover:border-primary/50">
                 <div className="grid grid-cols-2 gap-3">
                   <div className="relative overflow-hidden">
-                    <img src={t.antes.url} alt={`${t.titulo} — antes`} className="aspect-[4/5] w-full object-cover" />
+                    <img src={t.antes.url} alt={`${t.titulo} — antes`} className="aspect-[4/5] w-full object-cover transition-transform duration-700 ease-out hover:scale-105" />
                     <span className="absolute left-2 top-2 bg-background/85 px-2.5 py-1 font-condensed text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground">Antes</span>
                   </div>
                   <div className="relative overflow-hidden">
-                    <img src={t.depois.url} alt={`${t.titulo} — depois`} className="aspect-[4/5] w-full object-cover" />
+                    <img src={t.depois.url} alt={`${t.titulo} — depois`} className="aspect-[4/5] w-full object-cover transition-transform duration-700 ease-out hover:scale-105" />
                     <span className="absolute left-2 top-2 bg-primary px-2.5 py-1 font-condensed text-[0.65rem] uppercase tracking-[0.16em] text-primary-foreground">Depois</span>
                   </div>
                 </div>
@@ -306,7 +373,7 @@ function Galeria() {
               </figure>
             ))}
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -316,20 +383,22 @@ function Servicos() {
   return (
     <section id="servicos" className="border-t border-border">
       <div className="mx-auto max-w-6xl px-5 py-20 md:py-28">
+        <Reveal>
         <p className="font-condensed text-sm font-medium uppercase tracking-[0.28em] text-primary">
           Serviços
         </p>
         <h2 className="mt-3 text-4xl uppercase leading-tight sm:text-5xl">
           Serviços
         </h2>
-        <div className="mt-12 grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
+        </Reveal>
+        <Reveal className="mt-12 grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2 lg:grid-cols-3" delay={80}>
           {servicos.map((s) => (
-            <div key={s.nome} className="bg-card p-7">
+            <div key={s.nome} className="bg-card p-7 transition-colors duration-300 hover:bg-secondary">
               <h3 className="text-xl uppercase leading-tight">{s.nome}</h3>
               <p className="mt-3 font-body text-sm text-muted-foreground">{s.desc}</p>
             </div>
           ))}
-        </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -348,6 +417,7 @@ function Horarios() {
   return (
     <section id="horarios" className="border-t border-border bg-surface">
       <div className="mx-auto max-w-3xl px-5 py-20 md:py-28">
+        <Reveal>
         <p className="font-condensed text-sm font-medium uppercase tracking-[0.28em] text-primary">
           Horários
         </p>
@@ -357,15 +427,17 @@ function Horarios() {
         <p className="mt-4 max-w-xl font-body text-muted-foreground">
           Confira os dias e horários de funcionamento da Barbearia do Alemão.
         </p>
+        </Reveal>
 
-        <ul className="mt-10 flex flex-col gap-3">
+        <Reveal className="mt-10" delay={80}>
+        <ul className="flex flex-col gap-3">
           {dias.map((d) => (
             <li
               key={d.d}
-              className={`flex items-center justify-between gap-4 border px-5 py-4 sm:px-6 ${
+              className={`flex items-center justify-between gap-4 border px-5 py-4 transition-colors duration-300 sm:px-6 ${
                 d.fechado
                   ? "border-border/60 bg-background/40"
-                  : "border-border bg-card"
+                  : "border-border bg-card hover:border-primary/50"
               }`}
             >
               <span
@@ -387,6 +459,7 @@ function Horarios() {
             </li>
           ))}
         </ul>
+        </Reveal>
 
         <div className="mt-10 border-t border-border pt-8 text-center sm:text-left">
           <p className="font-body text-sm text-muted-foreground">
@@ -413,7 +486,7 @@ function Localizacao() {
   return (
     <section id="localizacao" className="border-t border-border bg-surface">
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-20 md:grid-cols-2 md:items-start md:gap-12 md:py-28">
-        <div>
+        <Reveal>
           <p className="font-condensed text-sm font-medium uppercase tracking-[0.28em] text-primary">
             Localização
           </p>
@@ -470,9 +543,9 @@ function Localizacao() {
               Agendar no WhatsApp
             </a>
           </div>
-        </div>
+        </Reveal>
 
-        <div className="overflow-hidden border border-border">
+        <Reveal className="overflow-hidden border border-border" delay={120}>
           <iframe
             title="Mapa da Barbearia do Alemão"
             src={`https://www.google.com/maps?q=${mapsQuery}&output=embed`}
@@ -480,7 +553,7 @@ function Localizacao() {
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
           />
-        </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -490,8 +563,8 @@ function CtaFinal() {
   return (
     <section id="cta" className="relative overflow-hidden border-t border-border">
       <div className="absolute inset-0 grain opacity-60" />
-      <div className="relative mx-auto max-w-4xl px-5 py-24 text-center md:py-32">
-        <img src={logo.url} alt="Logo Barbearia do Alemão" className="mx-auto h-20 w-20 rounded-full object-cover" />
+      <Reveal className="relative mx-auto max-w-4xl px-5 py-24 text-center md:py-32">
+        <img src={logo.url} alt="Logo Barbearia do Alemão" className="mx-auto h-20 w-20 rounded-full object-cover transition-transform duration-500 hover:scale-105" />
         <h2 className="mt-8 text-4xl uppercase leading-[0.95] sm:text-6xl">
           Agende seu horário
         </h2>
@@ -503,12 +576,12 @@ function CtaFinal() {
             href="https://wa.me/5500000000000"
             target="_blank"
             rel="noreferrer"
-            className="font-condensed text-sm font-semibold uppercase tracking-[0.16em] bg-primary px-8 py-4 text-primary-foreground transition-opacity hover:opacity-90"
+            className="font-condensed text-sm font-semibold uppercase tracking-[0.16em] bg-primary px-8 py-4 text-primary-foreground transition-all duration-300 hover:opacity-90 hover:-translate-y-0.5"
           >
             Agendar no WhatsApp
           </a>
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }
