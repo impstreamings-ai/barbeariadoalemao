@@ -681,26 +681,30 @@ function Localizacao() {
 
 function CtaFinal() {
   return (
-    <section id="cta" className="relative overflow-hidden border-t border-border">
+    <section id="cta" className="relative overflow-hidden border-t border-border bg-surface">
       <div className="absolute inset-0 grain opacity-60" />
-      <Reveal className="relative mx-auto max-w-4xl px-5 py-24 text-center md:py-32">
-        <img src={logo.url} alt="Logo Barbearia do Alemão" className="mx-auto h-20 w-20 rounded-full object-cover transition-transform duration-500 hover:scale-105" />
-        <h2 className="mt-8 text-4xl uppercase leading-[0.95] sm:text-6xl">
-          Agende seu horário
+      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[420px] w-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-3xl" />
+      <Reveal className="relative mx-auto flex max-w-3xl flex-col items-center px-5 py-28 text-center md:py-36">
+        <img
+          src={logo.url}
+          alt="Logo Barbearia do Alemão"
+          className="h-20 w-20 rounded-full object-cover transition-transform duration-500 hover:scale-105"
+        />
+        <h2 className="mt-8 text-4xl uppercase leading-[0.98] sm:text-5xl md:text-6xl">
+          Pronto pra dar um grau?
         </h2>
-        <p className="mx-auto mt-6 max-w-lg font-body text-muted-foreground">
-          Fale diretamente com a Barbearia do Alemão pelo WhatsApp.
+        <p className="mx-auto mt-6 max-w-md font-body text-base leading-relaxed text-muted-foreground sm:text-lg">
+          Chame no WhatsApp e agende seu horário diretamente com a Barbearia do
+          Alemão.
         </p>
-        <div className="mt-10 flex flex-wrap justify-center gap-3">
-          <a
-            href="https://wa.me/5500000000000"
-            target="_blank"
-            rel="noreferrer"
-            className="font-condensed text-sm font-semibold uppercase tracking-[0.16em] bg-primary px-8 py-4 text-primary-foreground transition-all duration-300 hover:opacity-90 hover:-translate-y-0.5"
-          >
-            Agendar no WhatsApp
-          </a>
-        </div>
+        <a
+          href={WHATSAPP_URL}
+          target="_blank"
+          rel="noreferrer"
+          className="mt-10 inline-block font-condensed text-sm font-semibold uppercase tracking-[0.16em] bg-primary px-9 py-4 text-primary-foreground transition-all duration-300 hover:opacity-90 hover:-translate-y-0.5"
+        >
+          Agendar no WhatsApp
+        </a>
       </Reveal>
     </section>
   );
