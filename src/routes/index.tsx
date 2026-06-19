@@ -389,23 +389,23 @@ function MobileMenu({
 function Hero() {
   return (
     <section id="topo" className="relative overflow-hidden">
-      <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 pb-16 pt-28 md:min-h-[88vh] md:grid-cols-2 md:gap-12 md:pb-20">
-        <div className="order-2 md:order-1">
-          <p className="font-condensed text-sm font-medium uppercase tracking-[0.3em] text-primary motion-safe:animate-[fade-in_0.6s_ease-out_both]">
+      <div className="mx-auto grid max-w-6xl items-center gap-6 px-5 pb-12 pt-24 md:min-h-[88vh] md:grid-cols-2 md:gap-12 md:pb-20 md:pt-28">
+        <div className="md:order-1">
+          <p className="font-condensed text-xs font-medium uppercase tracking-[0.28em] text-primary sm:text-sm sm:tracking-[0.3em] motion-safe:animate-[fade-in_0.6s_ease-out_both]">
             Barbearia do Alemão • Júlio de Mesquita Filho, Sorocaba/SP
           </p>
-          <h1 className="mt-6 text-4xl uppercase leading-[1.08] sm:text-5xl md:text-6xl motion-safe:animate-[fade-in_0.7s_ease-out_0.08s_both]">
+          <h1 className="mt-4 text-[2rem] uppercase leading-[1.05] sm:mt-6 sm:text-5xl md:text-6xl motion-safe:animate-[fade-in_0.7s_ease-out_0.08s_both]">
             Corte no capricho.
             <br />
             Barba alinhada.
             <br />
             <span className="text-primary">Atendimento sem pressa.</span>
           </h1>
-          <p className="mt-7 max-w-md font-body text-base leading-relaxed text-muted-foreground sm:text-lg motion-safe:animate-[fade-in_0.7s_ease-out_0.16s_both]">
+          <p className="mt-4 max-w-md font-body text-base leading-relaxed text-muted-foreground sm:mt-7 sm:text-lg motion-safe:animate-[fade-in_0.7s_ease-out_0.16s_both]">
             Barbearia no Júlio de Mesquita Filho para quem valoriza atendimento
             tranquilo, atenção aos detalhes e resultado bem feito.
           </p>
-          <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap motion-safe:animate-[fade-in_0.7s_ease-out_0.24s_both]">
+          <div className="mt-6 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:flex-wrap motion-safe:animate-[fade-in_0.7s_ease-out_0.24s_both]">
             <a
               href={WHATSAPP_URL}
               target="_blank"
@@ -422,11 +422,11 @@ function Hero() {
             </a>
           </div>
         </div>
-        <div className="relative order-1 overflow-hidden rounded-sm md:order-2 motion-safe:animate-[scale-in_0.8s_ease-out_both]">
+        <div className="relative overflow-hidden rounded-sm md:order-2 motion-safe:animate-[scale-in_0.8s_ease-out_both]">
           <img
             src={ownerWorking.url}
             alt="O Alemão atendendo um cliente na cadeira da Barbearia do Alemão"
-            className="aspect-[4/5] w-full rounded-sm object-cover md:aspect-[3/4] motion-safe:animate-ken-burns"
+            className="aspect-[16/10] w-full rounded-sm object-cover object-[50%_25%] sm:aspect-[4/5] md:aspect-[3/4] motion-safe:animate-ken-burns"
           />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/30 to-transparent" />
         </div>
