@@ -635,30 +635,11 @@ function Sobre() {
 function Galeria() {
   return (
     <section id="galeria" className="border-t border-border">
-      <div className="mx-auto max-w-6xl px-5 py-20 md:py-28">
+      <div className="mx-auto max-w-6xl px-5 py-14 md:py-20">
         <Reveal>
-        <p className="font-condensed text-sm font-medium uppercase tracking-[0.28em] text-primary">
-          Galeria
-        </p>
-        <h2 className="mt-3 text-4xl uppercase leading-tight sm:text-5xl">
-          A barbearia por dentro
-        </h2>
-        <p className="mt-4 max-w-xl font-body text-muted-foreground">
-          Conheça o espaço e os resultados de quem já passou pela cadeira do Alemão.
-        </p>
-        </Reveal>
-
-        <Reveal className="mt-16" delay={80}>
-          <p className="font-condensed text-xs font-medium uppercase tracking-[0.28em] text-primary">
-            01 — O espaço
-          </p>
-          <h3 className="mt-2 text-2xl uppercase leading-tight sm:text-3xl">
-            O Espaço
-          </h3>
-          <p className="mt-3 max-w-xl font-body text-muted-foreground">
-            Um ambiente organizado, confortável e preparado para receber cada
-            cliente com tranquilidade.
-          </p>
+          <h2 className="text-2xl uppercase leading-tight sm:text-3xl">
+            Ambiente
+          </h2>
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
             <figure className="overflow-hidden border border-border transition-colors duration-300 hover:border-primary/50">
               <img
@@ -670,8 +651,8 @@ function Galeria() {
             </figure>
             <figure className="overflow-hidden border border-border transition-colors duration-300 hover:border-primary/50">
               <img
-                src={ownerWorking.url}
-                alt="O Alemão atendendo um cliente no espaço da barbearia"
+                src={owner.url}
+                alt="O Alemão, barbeiro da Barbearia do Alemão"
                 loading="lazy"
                 className="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out hover:scale-105"
               />
@@ -679,15 +660,12 @@ function Galeria() {
           </div>
         </Reveal>
 
-        <Reveal className="mt-16" delay={80}>
-          <p className="font-condensed text-xs font-medium uppercase tracking-[0.28em] text-primary">
-            02 — Resultados reais
-          </p>
-          <h3 className="mt-2 text-2xl uppercase leading-tight sm:text-3xl">
-            Resultados Reais
-          </h3>
+        <Reveal className="mt-14" delay={80}>
+          <h2 className="text-2xl uppercase leading-tight sm:text-3xl">
+            Resultados
+          </h2>
           <p className="mt-3 max-w-xl font-body text-muted-foreground">
-            Clientes reais. Resultados reais.
+            Antes e depois de clientes atendidos na barbearia.
           </p>
           <div className="mt-6 grid gap-6 md:grid-cols-2">
             {resultados.map((t) => (
