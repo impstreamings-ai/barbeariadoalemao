@@ -134,6 +134,18 @@ const resultados = [
     titulo: "Aparo de barba",
     desc: "Barba modelada e cabelo contornado.",
   },
+  {
+    antes: cacheadoAntes,
+    depois: cacheadoDepois,
+    titulo: "Pompadour + barba",
+    desc: "Cabelo modelado com fade e barba desenhada nos detalhes.",
+  },
+  {
+    antes: volumeAntes,
+    depois: volumeDepois,
+    titulo: "Fade cacheado",
+    desc: "Redução de volume com fade e barba alinhada.",
+  },
 ];
 
 function useReveal<T extends HTMLElement>() {
