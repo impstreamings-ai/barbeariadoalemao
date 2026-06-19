@@ -250,7 +250,7 @@ function Prova() {
           </p>
         </Reveal>
 
-        <Reveal className="mt-12 grid gap-4 sm:grid-cols-3" delay={80}>
+        <Reveal className="mt-10 grid gap-4 sm:grid-cols-3" delay={80}>
           {destaques.map((d) => (
             <div
               key={d.label}
