@@ -208,6 +208,17 @@ function Sobre() {
             Quem entra pela primeira vez entende rápido por que tantos clientes
             voltam.
           </p>
+          <div className="mt-8 flex items-center gap-4 border border-border bg-card p-4">
+            <img
+              src={tattoo.url}
+              alt="Tatuagem do Alemão"
+              className="h-16 w-16 shrink-0 rounded-sm object-cover"
+            />
+            <p className="min-w-0 font-body text-sm text-muted-foreground">
+              Uma das tatuagens do Alemão — um detalhe da história pessoal dele,
+              não o logo da barbearia.
+            </p>
+          </div>
         </div>
       </div>
     </section>
