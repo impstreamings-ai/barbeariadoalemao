@@ -442,13 +442,51 @@ function Servicos() {
         <h2 className="mt-3 text-4xl uppercase leading-tight sm:text-5xl">
           Serviços
         </h2>
+        <p className="mt-4 max-w-xl font-body text-muted-foreground">
+          Atendimento completo de cabelo e barba, feito com calma e capricho.
+        </p>
         </Reveal>
-        <Reveal className="mt-12 grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2 lg:grid-cols-3" delay={80}>
+        <Reveal className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" delay={80}>
           {servicos.map((s) => (
-            <div key={s.nome} className="bg-card p-7 transition-colors duration-300 hover:bg-secondary">
-              <h3 className="text-xl uppercase leading-tight">{s.nome}</h3>
-              <p className="mt-3 font-body text-sm text-muted-foreground">{s.desc}</p>
-            </div>
+            <article
+              key={s.nome}
+              className={`group relative flex flex-col gap-4 border p-7 transition-all duration-300 hover:-translate-y-1 ${
+                s.destaque
+                  ? "border-primary bg-primary/10 lg:row-span-2 lg:justify-between"
+                  : "border-border bg-card hover:border-primary/50"
+              }`}
+            >
+              {s.destaque && (
+                <span className="absolute right-4 top-4 bg-primary px-2.5 py-1 font-condensed text-[0.6rem] font-semibold uppercase tracking-[0.18em] text-primary-foreground">
+                  Mais pedido
+                </span>
+              )}
+              <span
+                className={`grid h-12 w-12 place-items-center rounded-sm ${
+                  s.destaque
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-secondary text-primary"
+                }`}
+              >
+                <s.Icon size={22} strokeWidth={1.75} aria-hidden="true" />
+              </span>
+              <div>
+                <h3 className="text-xl uppercase leading-tight">{s.nome}</h3>
+                <p className="mt-3 font-body text-sm leading-relaxed text-muted-foreground">
+                  {s.desc}
+                </p>
+              </div>
+              {s.destaque && (
+                <a
+                  href={WHATSAPP_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-2 inline-block self-start font-condensed text-xs font-semibold uppercase tracking-[0.16em] bg-primary px-5 py-2.5 text-primary-foreground transition-opacity hover:opacity-90"
+                >
+                  Agendar
+                </a>
+              )}
+            </article>
           ))}
         </Reveal>
       </div>
