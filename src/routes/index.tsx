@@ -78,6 +78,7 @@ function Index() {
         <Galeria />
         <Servicos />
         <Horarios />
+        <Localizacao />
         <CtaFinal />
       </main>
       <Footer />
