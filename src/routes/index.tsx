@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { MapPin, Phone, Clock, Scissors, User, Sparkles, Baby, Star, Check, X } from "lucide-react";
+import { MapPin, Phone, Clock, Scissors, User, Sparkles, Baby, Star, Check, X, Menu } from "lucide-react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
 import logo from "@/assets/barbearia/a2.png.asset.json";
@@ -206,6 +206,7 @@ function FloatingWhatsApp() {
 function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState<string>("");
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -213,6 +214,21 @@ function Header() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // Lock background scroll + close on Escape while the mobile menu is open
+  useEffect(() => {
+    if (!menuOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [menuOpen]);
 
   useEffect(() => {
     const ids = nav.map((n) => n.href.replace("#", ""));
@@ -270,8 +286,101 @@ function Header() {
         >
           Agendar
         </a>
+        <button
+          type="button"
+          onClick={() => setMenuOpen(true)}
+          aria-label="Abrir menu"
+          aria-expanded={menuOpen}
+          aria-controls="mobile-menu"
+          className="ml-2 inline-flex h-11 w-11 items-center justify-center rounded-sm border border-border text-foreground transition-colors hover:border-primary/60 md:hidden"
+        >
+          <Menu size={22} strokeWidth={1.75} aria-hidden="true" />
+        </button>
       </div>
+      <MobileMenu
+        open={menuOpen}
+        active={active}
+        onClose={() => setMenuOpen(false)}
+      />
     </header>
+  );
+}
+
+function MobileMenu({
+  open,
+  active,
+  onClose,
+}: {
+  open: boolean;
+  active: string;
+  onClose: () => void;
+}) {
+  const items = [...nav, { href: "#cta", label: "Agendar" }];
+  return (
+    <div
+      id="mobile-menu"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Menu de navegação"
+      aria-hidden={!open}
+      className={`fixed inset-0 z-[60] md:hidden ${open ? "" : "pointer-events-none"}`}
+    >
+      <div
+        onClick={onClose}
+        className={`absolute inset-0 bg-background/80 backdrop-blur-md transition-opacity duration-300 ${
+          open ? "opacity-100" : "opacity-0"
+        }`}
+      />
+      <nav
+        className={`absolute inset-y-0 right-0 flex w-[82%] max-w-sm flex-col border-l border-border bg-surface shadow-2xl transition-transform duration-300 ease-out ${
+          open ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <div className="flex items-center justify-between border-b border-border px-5 py-4">
+          <span className="font-condensed text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+            Navegação
+          </span>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Fechar menu"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-sm border border-border text-foreground transition-colors hover:border-primary/60"
+          >
+            <X size={20} strokeWidth={2} aria-hidden="true" />
+          </button>
+        </div>
+        <ul className="flex flex-1 flex-col gap-1 px-3 py-6">
+          {items.map((n, i) => {
+            const isActive = active === n.href;
+            const isCta = n.href === "#cta";
+            return (
+              <li key={n.href}>
+                <a
+                  href={n.href}
+                  onClick={onClose}
+                  aria-current={isActive ? "true" : undefined}
+                  style={{ transitionDelay: open ? `${80 + i * 45}ms` : "0ms" }}
+                  className={`flex items-center justify-between rounded-sm px-4 py-3.5 font-condensed text-sm font-medium uppercase tracking-[0.16em] transition-all duration-300 ${
+                    open ? "translate-x-0 opacity-100" : "translate-x-4 opacity-0"
+                  } ${
+                    isCta
+                      ? "mt-3 justify-center border border-primary bg-primary text-primary-foreground"
+                      : isActive
+                        ? "bg-primary/10 text-foreground"
+                        : "text-muted-foreground hover:bg-card hover:text-foreground"
+                  }`}
+                >
+                  {n.label}
+                  {!isCta && isActive && (
+                    <span className="h-1.5 w-1.5 rounded-full bg-primary" aria-hidden="true" />
+                  )}
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
+    </div>
   );
 }
 
