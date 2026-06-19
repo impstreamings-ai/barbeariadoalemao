@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { MapPin, Phone, Clock, Scissors, User, Sparkles, Baby, Star } from "lucide-react";
+import { MapPin, Phone, Clock, Scissors, User, Sparkles, Baby, Star, Check, X } from "lucide-react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
 import logo from "@/assets/barbearia/a2.png.asset.json";
@@ -520,30 +520,35 @@ function Horarios() {
         </Reveal>
 
         <Reveal className="mt-10" delay={80}>
-        <ul className="flex flex-col gap-3">
+        <ul className="divide-y divide-border overflow-hidden border border-border bg-card">
           {dias.map((d) => (
             <li
               key={d.d}
-              className={`flex items-center justify-between gap-4 border px-5 py-4 transition-colors duration-300 sm:px-6 ${
-                d.fechado
-                  ? "border-border/60 bg-background/40"
-                  : "border-border bg-card hover:border-primary/50"
+              className={`grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-5 py-4 transition-colors duration-300 sm:px-6 ${
+                d.fechado ? "bg-background/30" : "hover:bg-secondary/60"
               }`}
             >
               <span
-                className={`font-condensed text-base uppercase tracking-[0.14em] ${
+                className={`min-w-0 truncate font-condensed text-base uppercase tracking-[0.14em] ${
                   d.fechado ? "text-muted-foreground" : "text-foreground"
                 }`}
               >
                 {d.d}
               </span>
               {d.fechado ? (
-                <span className="font-condensed text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground border border-border/60 px-3 py-1">
+                <span className="inline-flex shrink-0 items-center gap-1.5 border border-destructive/40 bg-destructive/10 px-3 py-1 font-condensed text-xs font-semibold uppercase tracking-[0.16em] text-destructive">
+                  <X size={13} strokeWidth={2.5} aria-hidden="true" />
                   Fechado
                 </span>
               ) : (
-                <span className="font-body text-base text-muted-foreground tabular-nums">
-                  {d.h}
+                <span className="flex shrink-0 items-center gap-3">
+                  <span className="font-body text-sm text-foreground tabular-nums sm:text-base">
+                    {d.h}
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 border border-primary/40 bg-primary/10 px-3 py-1 font-condensed text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-primary">
+                    <Check size={13} strokeWidth={2.5} aria-hidden="true" />
+                    Aberto
+                  </span>
                 </span>
               )}
             </li>
@@ -557,7 +562,7 @@ function Horarios() {
             da visita.
           </p>
           <a
-            href="https://wa.me/5500000000000"
+            href={WHATSAPP_URL}
             target="_blank"
             rel="noreferrer"
             className="mt-6 inline-block font-condensed text-sm font-semibold uppercase tracking-[0.16em] bg-primary px-7 py-3.5 text-primary-foreground transition-opacity hover:opacity-90"
