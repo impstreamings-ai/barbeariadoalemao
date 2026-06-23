@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { MapPin, Phone, Clock, Scissors, User, Sparkles, Baby, Star, Check, X, Menu, MessageSquare, Instagram } from "lucide-react";
+import { MapPin, Phone, Clock, Scissors, User, Sparkles, Baby, Star, Check, X, Menu, MessageSquare, Instagram, DollarSign } from "lucide-react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
+import { useReveal } from "@/hooks/use-reveal";
 
 import logo from "@/assets/barbearia/a2.png.asset.json";
 import interior from "@/assets/barbearia/a1.png.asset.json";
@@ -80,10 +82,19 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
+/* Typography tracking scale — standardized */
+const TRACK = {
+  label: "tracking-[0.2em]",
+  body: "tracking-[0.16em]",
+  nav: "tracking-[0.18em]",
+  section: "tracking-[0.28em]",
+} as const;
+
 const nav = [
   { href: "#sobre", label: "O Alemão" },
   { href: "#galeria", label: "Galeria" },
   { href: "#servicos", label: "Serviços" },
+  { href: "#precoss", label: "Preços" },
   { href: "#horarios", label: "Horários" },
   { href: "#localizacao", label: "Localização" },
 ];
@@ -92,30 +103,35 @@ const servicos = [
   {
     nome: "Corte Masculino",
     desc: "Do clássico ao degradê, executado com atenção aos detalhes.",
+    preco: "R$ 35",
     Icon: Scissors,
     destaque: false,
   },
   {
     nome: "Barba",
     desc: "Alinhamento, contorno e acabamento para manter o visual sempre em ordem.",
+    preco: "R$ 25",
     Icon: User,
     destaque: false,
   },
   {
     nome: "Corte + Barba",
     desc: "Atendimento completo para cabelo e barba na mesma sessão.",
+    preco: "R$ 50",
     Icon: Star,
     destaque: true,
   },
   {
     nome: "Acabamento",
     desc: "Manutenção rápida para manter o corte alinhado.",
+    preco: "R$ 20",
     Icon: Sparkles,
     destaque: false,
   },
   {
     nome: "Corte Infantil",
     desc: "Atendimento pensado para crianças, com paciência e atenção.",
+    preco: "R$ 30",
     Icon: Baby,
     destaque: false,
   },
@@ -148,33 +164,6 @@ const resultados = [
   },
 ];
 
-function useReveal<T extends HTMLElement>() {
-  const ref = useRef<T>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    if (typeof IntersectionObserver === "undefined") {
-      setVisible(true);
-      return;
-    }
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  return { ref, visible };
-}
-
 function Reveal({
   children,
   delay = 0,
@@ -199,13 +188,15 @@ function Reveal({
 function Index() {
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <SkipLink />
       <Header />
-      <main>
+      <main id="main-content">
         <Hero />
         <Sobre />
         <Galeria />
         <Prova />
         <Servicos />
+        <Precos />
         <Horarios />
         <Localizacao />
         <CtaFinal />
@@ -213,6 +204,17 @@ function Index() {
       <Footer />
       <FloatingWhatsApp />
     </div>
+  );
+}
+
+function SkipLink() {
+  return (
+    <a
+      href="#main-content"
+      className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground focus:font-condensed focus:text-sm focus:uppercase focus:tracking-[0.16em]"
+    >
+      Pular para o conteúdo
+    </a>
   );
 }
 
@@ -253,36 +255,36 @@ const avaliacoes = [
 function Prova() {
   return (
     <section id="prova" className="border-t border-border bg-surface">
-      <div className="mx-auto max-w-6xl px-5 py-14 md:py-20">
+      <div className="mx-auto max-w-6xl px-5 py-12 md:py-16">
         <Reveal>
-          <p className="font-condensed text-sm font-medium uppercase tracking-[0.28em] text-primary">
+          <p className={`font-condensed text-sm font-medium uppercase ${TRACK.section} text-primary`}>
             Prova social
           </p>
-          <h2 className="mt-3 text-4xl uppercase leading-tight sm:text-5xl">
+          <h2 className="mt-2 text-3xl uppercase leading-tight sm:text-4xl lg:text-5xl">
             Confiança construída ao longo dos anos
           </h2>
-          <p className="mt-4 max-w-xl font-body text-muted-foreground">
+          <p className="mt-3 max-w-xl font-body text-muted-foreground">
             Desde 2015 atendendo clientes em Sorocaba com avaliação máxima no Google.
           </p>
         </Reveal>
 
-        <Reveal className="mt-10 grid gap-4 sm:grid-cols-3" delay={80}>
+        <Reveal className="mt-8 grid gap-3 sm:grid-cols-3" delay={80}>
           {destaques.map((d) => (
             <div
               key={d.label}
-              className="flex items-center gap-4 border border-border bg-card p-6 transition-colors duration-300 hover:border-primary/50"
+              className="flex items-center gap-3 border border-border bg-card p-5 transition-colors duration-300 hover:border-primary/50"
             >
-              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-sm bg-secondary text-primary">
-                <d.Icon size={22} strokeWidth={1.75} aria-hidden="true" />
+              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-sm bg-secondary text-primary">
+                <d.Icon size={20} strokeWidth={1.75} aria-hidden="true" />
               </span>
               <div className="min-w-0">
-                <p className="font-condensed text-2xl font-semibold leading-none text-foreground">
+                <p className="font-condensed text-xl font-semibold leading-none text-foreground">
                   {d.valor}
-                  <span className="ml-1 text-sm font-medium uppercase tracking-[0.16em] text-muted-foreground">
+                  <span className={`ml-1.5 text-xs font-medium uppercase ${TRACK.body} text-muted-foreground`}>
                     {d.label}
                   </span>
                 </p>
-                <p className="mt-1.5 font-body text-xs leading-relaxed text-muted-foreground">
+                <p className="mt-1 font-body text-xs leading-relaxed text-muted-foreground">
                   {d.desc}
                 </p>
               </div>
@@ -290,27 +292,27 @@ function Prova() {
           ))}
         </Reveal>
 
-        <Reveal className="mt-6 grid gap-4 md:grid-cols-3" delay={120}>
+        <Reveal className="mt-5 grid gap-3 md:grid-cols-3" delay={120}>
           {avaliacoes.map((a) => (
             <figure
               key={a.nome}
-              className="flex flex-col border border-border bg-card/80 p-6 transition-colors duration-300 hover:border-primary/50"
+              className="flex flex-col border border-border bg-card/80 p-5 transition-colors duration-300 hover:border-primary/50"
             >
               <div className="flex items-center justify-between">
                 <div className="flex gap-0.5 text-amber-400" aria-label="5 de 5 estrelas">
                   {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} size={16} className="fill-current" aria-hidden="true" />
+                    <Star key={i} size={14} className="fill-current" aria-hidden="true" />
                   ))}
                 </div>
-                <span className="font-condensed text-[0.6rem] font-medium uppercase tracking-[0.16em] text-muted-foreground">
+                <span className={`font-condensed text-[0.55rem] font-medium uppercase ${TRACK.body} text-muted-foreground`}>
                   Avaliações no Google
                 </span>
               </div>
-              <blockquote className="mt-4 flex-1 font-body text-sm leading-relaxed text-foreground/90">
+              <blockquote className="mt-3 flex-1 font-body text-sm leading-relaxed text-foreground/90">
                 {a.texto}
               </blockquote>
-              <figcaption className="mt-5 border-t border-border pt-4">
-                <span className="font-condensed text-base font-semibold uppercase tracking-[0.12em] text-foreground">
+              <figcaption className="mt-4 border-t border-border pt-3">
+                <span className={`font-condensed text-sm font-semibold uppercase ${TRACK.nav} text-foreground`}>
                   {a.nome}
                 </span>
               </figcaption>
@@ -318,14 +320,14 @@ function Prova() {
           ))}
         </Reveal>
 
-        <Reveal className="mt-10" delay={160}>
+        <Reveal className="mt-8" delay={160}>
           <a
             href={GOOGLE_MAPS_URL}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-2 border border-border px-7 py-3.5 font-condensed text-sm font-semibold uppercase tracking-[0.16em] text-foreground transition-all duration-300 hover:border-foreground hover:-translate-y-0.5"
+            className={`inline-flex items-center gap-2 border border-border px-6 py-3 font-condensed text-sm font-semibold uppercase ${TRACK.body} text-foreground transition-all duration-300 hover:border-foreground hover:-translate-y-0.5`}
           >
-            <Star size={16} className="fill-current text-primary" aria-hidden="true" />
+            <Star size={14} className="fill-current text-primary" aria-hidden="true" />
             Ver mais avaliações no Google
           </a>
         </Reveal>
@@ -381,21 +383,6 @@ function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Lock background scroll + close on Escape while the mobile menu is open
-  useEffect(() => {
-    if (!menuOpen) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setMenuOpen(false);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => {
-      document.body.style.overflow = prev;
-      window.removeEventListener("keydown", onKey);
-    };
-  }, [menuOpen]);
-
   useEffect(() => {
     const ids = nav.map((n) => n.href.replace("#", ""));
     const sections = ids
@@ -420,24 +407,24 @@ function Header() {
     <header
       className={`sticky top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "border-b border-border bg-surface/70 backdrop-blur-xl"
+          ? "border-b border-border bg-surface/95 backdrop-blur-xl"
           : "border-b border-transparent bg-surface/30 backdrop-blur-sm"
       }`}
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
-        <a href="#topo" className="flex items-center gap-3">
-          <img src={logo.url} alt="Logo Barbearia do Alemão" className="h-11 w-11 rounded-full object-cover transition-transform duration-300 hover:scale-105" />
-          <span className="font-condensed text-sm font-semibold uppercase tracking-[0.2em] text-foreground">
+        <a href="#topo" className="flex items-center gap-2.5">
+          <img src={logo.url} alt="" className="h-10 w-10 rounded-full object-cover transition-transform duration-300 hover:scale-105" />
+          <span className={`font-condensed text-sm font-semibold uppercase ${TRACK.label} text-foreground`}>
             Barbearia do Alemão
           </span>
         </a>
-        <nav className="hidden items-center gap-7 md:flex">
+        <nav className="hidden items-center gap-6 lg:gap-8 lg:flex">
           {nav.map((n) => (
             <a
               key={n.href}
               href={n.href}
               aria-current={active === n.href ? "true" : undefined}
-              className={`relative font-condensed text-xs font-medium uppercase tracking-[0.18em] transition-colors after:absolute after:-bottom-1.5 after:left-0 after:h-px after:bg-primary after:transition-all after:duration-300 hover:text-foreground ${
+              className={`relative font-condensed text-[0.7rem] font-medium uppercase ${TRACK.nav} transition-colors after:absolute after:-bottom-1 after:left-0 after:h-px after:bg-primary after:transition-all after:duration-300 hover:text-foreground ${
                 active === n.href
                   ? "text-foreground after:w-full"
                   : "text-muted-foreground after:w-0"
@@ -447,150 +434,108 @@ function Header() {
             </a>
           ))}
         </nav>
-        <a
-          href="#cta"
-          className="font-condensed text-xs font-semibold uppercase tracking-[0.16em] border border-primary bg-primary px-4 py-2 text-primary-foreground transition-all duration-300 hover:opacity-90 hover:-translate-y-0.5"
-        >
-          Agendar
-        </a>
-        <button
-          type="button"
-          onClick={() => setMenuOpen(true)}
-          aria-label="Abrir menu"
-          aria-expanded={menuOpen}
-          aria-controls="mobile-menu"
-          className="ml-2 inline-flex h-11 w-11 items-center justify-center rounded-sm border border-border text-foreground transition-colors hover:border-primary/60 md:hidden"
-        >
-          <Menu size={22} strokeWidth={1.75} aria-hidden="true" />
-        </button>
-      </div>
-    </header>
-    <MobileMenu
-      open={menuOpen}
-      active={active}
-      onClose={() => setMenuOpen(false)}
-    />
-    </>
-  );
-}
-
-function MobileMenu({
-  open,
-  active,
-  onClose,
-}: {
-  open: boolean;
-  active: string;
-  onClose: () => void;
-}) {
-  const items = [...nav, { href: "#cta", label: "Agendar" }];
-  return (
-    <div
-      id="mobile-menu"
-      role="dialog"
-      aria-modal="true"
-      aria-label="Menu de navegação"
-      aria-hidden={!open}
-      className={`fixed inset-0 z-[60] md:hidden ${open ? "" : "pointer-events-none"}`}
-    >
-      <div
-        onClick={onClose}
-        className={`absolute inset-0 bg-background/80 backdrop-blur-md transition-opacity duration-300 ${
-          open ? "opacity-100" : "opacity-0"
-        }`}
-      />
-      <nav
-        className={`absolute inset-y-0 right-0 flex w-[82%] max-w-sm flex-col border-l border-border bg-surface shadow-2xl transition-transform duration-300 ease-out ${
-          open ? "translate-x-0" : "translate-x-full"
-        }`}
-      >
-        <div className="flex items-center justify-between border-b border-border px-5 py-4">
-          <span className="font-condensed text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-            Navegação
-          </span>
+        <div className="flex items-center gap-2">
+          <a
+            href={WHATSAPP_URL}
+            className={`hidden font-condensed text-xs font-semibold uppercase ${TRACK.body} bg-primary px-5 py-2.5 text-primary-foreground transition-all duration-300 hover:opacity-90 hover:-translate-y-0.5 sm:inline-block`}
+          >
+            Agendar
+          </a>
           <button
             type="button"
-            onClick={onClose}
-            aria-label="Fechar menu"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-sm border border-border text-foreground transition-colors hover:border-primary/60"
+            onClick={() => setMenuOpen(true)}
+            aria-label="Abrir menu"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-sm border border-border text-foreground transition-colors hover:border-primary/60 lg:hidden"
           >
-            <X size={20} strokeWidth={2} aria-hidden="true" />
+            <Menu size={20} strokeWidth={1.75} aria-hidden="true" />
           </button>
         </div>
-        <ul className="flex flex-1 flex-col gap-1 px-3 py-6">
-          {items.map((n, i) => {
-            const isActive = active === n.href;
-            const isCta = n.href === "#cta";
-            return (
-              <li key={n.href}>
-                <a
-                  href={n.href}
-                  onClick={onClose}
-                  aria-current={isActive ? "true" : undefined}
-                  style={{ transitionDelay: open ? `${80 + i * 45}ms` : "0ms" }}
-                  className={`flex items-center justify-between rounded-sm px-4 py-3.5 font-condensed text-sm font-medium uppercase tracking-[0.16em] transition-all duration-300 ${
-                    open ? "translate-x-0 opacity-100" : "translate-x-4 opacity-0"
-                  } ${
-                    isCta
-                      ? "mt-3 justify-center border border-primary bg-primary text-primary-foreground"
-                      : isActive
-                        ? "bg-primary/10 text-foreground"
-                        : "text-muted-foreground hover:bg-card hover:text-foreground"
-                  }`}
-                >
-                  {n.label}
-                  {!isCta && isActive && (
-                    <span className="h-1.5 w-1.5 rounded-full bg-primary" aria-hidden="true" />
-                  )}
-                </a>
-              </li>
-            );
-          })}
-        </ul>
-      </nav>
-    </div>
+      </div>
+    </header>
+
+    {/* Mobile Menu with proper focus trap using Radix Sheet */}
+    <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
+      <SheetContent side="right" className="w-[85%] max-w-sm bg-surface border-l border-border p-0">
+        <SheetHeader className="border-b border-border px-5 py-4">
+          <SheetTitle className={`font-condensed text-xs font-semibold uppercase ${TRACK.label} text-muted-foreground text-left`}>
+            Navegação
+          </SheetTitle>
+          <SheetDescription className="sr-only">Menu de navegação do site</SheetDescription>
+        </SheetHeader>
+        <nav className="flex flex-1 flex-col px-3 py-4">
+          <ul className="flex flex-col gap-0.5">
+            {[...nav, { href: "#cta", label: "Agendar" }].map((n, i) => {
+              const isActive = active === n.href;
+              const isCta = n.href === "#cta";
+              return (
+                <li key={n.href}>
+                  <a
+                    href={n.href}
+                    onClick={() => setMenuOpen(false)}
+                    aria-current={isActive ? "true" : undefined}
+                    className={`flex items-center justify-between rounded-sm px-4 py-3 font-condensed text-sm font-medium uppercase ${TRACK.body} transition-colors ${
+                      isCta
+                        ? "mt-2 justify-center border border-primary bg-primary text-primary-foreground"
+                        : isActive
+                          ? "bg-primary/10 text-foreground"
+                          : "text-muted-foreground hover:bg-card hover:text-foreground"
+                    }`}
+                  >
+                    {n.label}
+                    {!isCta && isActive && (
+                      <span className="h-1.5 w-1.5 rounded-full bg-primary" aria-hidden="true" />
+                    )}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+      </SheetContent>
+    </Sheet>
+    </>
   );
 }
 
 function Hero() {
   return (
     <section id="topo" className="relative overflow-hidden">
-      <div className="mx-auto grid max-w-6xl items-center gap-6 px-5 pb-12 pt-24 md:min-h-[88vh] md:grid-cols-2 md:gap-12 md:pb-20 md:pt-28">
+      <div className="mx-auto grid max-w-6xl items-center gap-6 px-5 pb-10 pt-16 md:min-h-[80vh] md:grid-cols-2 md:gap-10 md:pb-16 md:pt-20">
         <div className="md:order-1">
-          <p className="font-condensed text-xs font-medium uppercase tracking-[0.28em] text-primary sm:text-sm sm:tracking-[0.3em] motion-safe:animate-[fade-in_0.6s_ease-out_both]">
+          <p className={`font-condensed text-[0.65rem] font-medium uppercase ${TRACK.section} text-primary sm:text-xs motion-safe:animate-[fade-in_0.6s_ease-out_both]`}>
             Barbearia do Alemão • Júlio de Mesquita Filho, Sorocaba/SP
           </p>
-          <h1 className="mt-4 text-[2rem] uppercase leading-[1.05] sm:mt-6 sm:text-5xl md:text-6xl motion-safe:animate-[fade-in_0.7s_ease-out_0.08s_both]">
+          <h1 className="mt-3 text-3xl uppercase leading-[1.05] sm:text-4xl md:text-5xl lg:text-6xl motion-safe:animate-[fade-in_0.7s_ease-out_0.08s_both]">
             Corte no capricho.
             <br />
             Barba alinhada.
             <br />
             <span className="text-primary">Atendimento sem pressa.</span>
           </h1>
-          <p className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1 font-condensed text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground sm:text-sm motion-safe:animate-[fade-in_0.7s_ease-out_0.12s_both]">
-            <Star size={15} className="fill-current text-primary" aria-hidden="true" />
+          <p className={`mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 font-condensed text-xs font-medium uppercase ${TRACK.body} text-muted-foreground sm:text-sm motion-safe:animate-[fade-in_0.7s_ease-out_0.12s_both]`}>
+            <Star size={14} className="fill-current text-primary" aria-hidden="true" />
             <span className="text-foreground">5,0 no Google</span>
             <span aria-hidden="true" className="text-border">•</span>
             <span>134 avaliações</span>
             <span aria-hidden="true" className="text-border">•</span>
             <span>Desde 2015</span>
           </p>
-          <p className="mt-4 max-w-md font-body text-base leading-relaxed text-muted-foreground sm:mt-7 sm:text-lg motion-safe:animate-[fade-in_0.7s_ease-out_0.16s_both]">
+          <p className="mt-3 max-w-md font-body text-sm leading-relaxed text-muted-foreground sm:text-base motion-safe:animate-[fade-in_0.7s_ease-out_0.16s_both]">
             Barbearia no Júlio de Mesquita Filho para quem valoriza atendimento
             tranquilo, atenção aos detalhes e resultado bem feito.
           </p>
-          <div className="mt-6 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:flex-wrap motion-safe:animate-[fade-in_0.7s_ease-out_0.24s_both]">
+          <div className="mt-5 flex flex-col gap-2.5 sm:mt-6 sm:flex-row sm:flex-wrap motion-safe:animate-[fade-in_0.7s_ease-out_0.24s_both]">
             <a
               href={WHATSAPP_URL}
               target="_blank"
               rel="noreferrer"
-              className="text-center font-condensed text-sm font-semibold uppercase tracking-[0.16em] bg-primary px-7 py-3.5 text-primary-foreground transition-all duration-300 hover:opacity-90 hover:-translate-y-0.5"
+              className={`text-center font-condensed text-sm font-semibold uppercase ${TRACK.body} bg-primary px-6 py-3 text-primary-foreground shadow-lg shadow-primary/20 transition-all duration-300 hover:opacity-90 hover:-translate-y-0.5`}
             >
               Agendar no WhatsApp
             </a>
             <a
               href="#galeria"
-              className="text-center font-condensed text-sm font-semibold uppercase tracking-[0.16em] border border-border px-7 py-3.5 text-foreground transition-all duration-300 hover:border-foreground hover:-translate-y-0.5"
+              className={`text-center font-condensed text-sm font-semibold uppercase ${TRACK.body} border border-border px-6 py-3 text-foreground transition-all duration-300 hover:border-foreground hover:-translate-y-0.5`}
             >
               Ver trabalhos
             </a>
@@ -600,6 +545,7 @@ function Hero() {
           <img
             src={ownerWorking.url}
             alt="O Alemão atendendo um cliente na cadeira da Barbearia do Alemão"
+            fetchPriority="high"
             className="aspect-[16/10] w-full rounded-sm object-cover object-[50%_25%] sm:aspect-[4/5] md:aspect-[3/4] motion-safe:animate-ken-burns"
           />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/30 to-transparent" />
@@ -612,38 +558,39 @@ function Hero() {
 function Sobre() {
   return (
     <section id="sobre" className="border-t border-border bg-surface">
-      <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 py-14 md:grid-cols-2 md:py-20">
+      <div className="mx-auto grid max-w-6xl items-center gap-8 px-5 py-12 md:grid-cols-2 md:py-16">
         <Reveal className="relative">
           <div className="overflow-hidden rounded-sm">
             <img
               src={owner.url}
               alt="O Alemão, barbeiro da Barbearia do Alemão"
+              loading="lazy"
               className="aspect-[4/5] w-full rounded-sm object-cover transition-transform duration-700 ease-out hover:scale-105"
             />
           </div>
-          <span className="absolute -bottom-4 left-4 bg-primary px-4 py-2 font-condensed text-xs font-semibold uppercase tracking-[0.18em] text-primary-foreground">
+          <span className={`absolute -bottom-3 left-4 bg-primary px-3 py-1.5 font-condensed text-xs font-semibold uppercase ${TRACK.nav} text-primary-foreground`}>
             O Alemão
           </span>
         </Reveal>
         <Reveal delay={120}>
-          <p className="font-condensed text-sm font-medium uppercase tracking-[0.28em] text-primary">
+          <p className={`font-condensed text-sm font-medium uppercase ${TRACK.section} text-primary`}>
             Sobre
           </p>
-          <h2 className="mt-3 text-4xl uppercase leading-tight sm:text-5xl">
+          <h2 className="mt-2 text-3xl uppercase leading-tight sm:text-4xl lg:text-5xl">
             O Alemão
           </h2>
-          <p className="mt-6 font-body text-muted-foreground">
+          <p className="mt-4 font-body text-sm text-muted-foreground sm:text-base">
             Desde 2015, o Alemão atende clientes em Sorocaba com atenção aos
             detalhes, respeito ao horário e foco em um atendimento tranquilo e de
             qualidade.
           </p>
-          <p className="mt-4 font-body text-muted-foreground">
+          <p className="mt-3 font-body text-sm text-muted-foreground sm:text-base">
             Ao longo dos anos, esse cuidado ajudou a construir uma avaliação 5,0
             estrelas no Google e a confiança de centenas de clientes.
           </p>
-          <div className="mt-8 flex items-center gap-4 border-t border-border pt-6">
-            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-sm border border-border text-primary">
-              <Scissors size={20} strokeWidth={1.75} aria-hidden="true" />
+          <div className="mt-6 flex items-center gap-3 border-t border-border pt-5">
+            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-sm border border-border text-primary">
+              <Scissors size={18} strokeWidth={1.75} aria-hidden="true" />
             </span>
             <p className="min-w-0 font-body text-xs leading-relaxed text-muted-foreground">
               Atendimento sem pressa, capricho em cada corte e um ambiente onde o
@@ -659,12 +606,12 @@ function Sobre() {
 function Galeria() {
   return (
     <section id="galeria" className="border-t border-border">
-      <div className="mx-auto max-w-6xl px-5 py-10 md:py-16">
+      <div className="mx-auto max-w-6xl px-5 py-10 md:py-14">
         <Reveal>
           <h2 className="text-2xl uppercase leading-tight sm:text-3xl">
             Ambiente
           </h2>
-          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+          <div className="mt-5 grid gap-3 sm:grid-cols-2">
             <figure className="overflow-hidden border border-border transition-colors duration-300 hover:border-primary/50">
               <img
                 src={interior.url}
@@ -684,29 +631,29 @@ function Galeria() {
           </div>
         </Reveal>
 
-        <Reveal className="mt-14" delay={80}>
+        <Reveal className="mt-10" delay={80}>
           <h2 className="text-2xl uppercase leading-tight sm:text-3xl">
             Resultados
           </h2>
-          <p className="mt-3 max-w-xl font-body text-muted-foreground">
+          <p className="mt-2 max-w-xl font-body text-sm text-muted-foreground">
             Antes e depois de clientes atendidos na barbearia.
           </p>
-          <div className="mt-6 grid gap-6 md:grid-cols-2">
+          <div className="mt-5 grid gap-4 md:grid-cols-2">
             {resultados.map((t) => (
-              <figure key={t.titulo} className="border border-border bg-card p-4 transition-colors duration-300 hover:border-primary/50">
-                <div className="grid grid-cols-2 gap-3">
+              <figure key={t.titulo} className="border border-border bg-card p-3 transition-colors duration-300 hover:border-primary/50">
+                <div className="grid grid-cols-2 gap-2">
                   <div className="relative overflow-hidden">
                     <img src={t.antes.url} alt={`${t.titulo} — antes`} loading="lazy" className="aspect-[4/5] w-full object-cover transition-transform duration-700 ease-out hover:scale-105" />
-                    <span className="absolute left-2 top-2 bg-background/85 px-2.5 py-1 font-condensed text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground">Antes</span>
+                    <span className={`absolute left-2 top-2 bg-background/85 px-2 py-0.5 font-condensed text-[0.6rem] uppercase ${TRACK.body} text-muted-foreground`}>Antes</span>
                   </div>
                   <div className="relative overflow-hidden">
                     <img src={t.depois.url} alt={`${t.titulo} — depois`} loading="lazy" className="aspect-[4/5] w-full object-cover transition-transform duration-700 ease-out hover:scale-105" />
-                    <span className="absolute left-2 top-2 bg-primary px-2.5 py-1 font-condensed text-[0.65rem] uppercase tracking-[0.16em] text-primary-foreground">Depois</span>
+                    <span className={`absolute left-2 top-2 bg-primary px-2 py-0.5 font-condensed text-[0.6rem] uppercase ${TRACK.body} text-primary-foreground`}>Depois</span>
                   </div>
                 </div>
-                <figcaption className="mt-4">
-                  <h4 className="text-xl uppercase leading-tight">{t.titulo}</h4>
-                  <p className="mt-2 font-body text-sm text-muted-foreground">{t.desc}</p>
+                <figcaption className="mt-3">
+                  <h4 className="text-lg uppercase leading-tight">{t.titulo}</h4>
+                  <p className="mt-1 font-body text-sm text-muted-foreground">{t.desc}</p>
                 </figcaption>
               </figure>
             ))}
@@ -719,59 +666,64 @@ function Galeria() {
 
 function Servicos() {
   return (
-    <section id="servicos" className="border-t border-border">
-      <div className="mx-auto max-w-6xl px-5 py-14 md:py-20">
+    <section id="servicos" className="border-t border-border bg-surface">
+      <div className="mx-auto max-w-6xl px-5 py-12 md:py-16">
         <Reveal>
-        <p className="font-condensed text-sm font-medium uppercase tracking-[0.28em] text-primary">
+        <p className={`font-condensed text-sm font-medium uppercase ${TRACK.section} text-primary`}>
           O que você pode agendar
         </p>
-        <h2 className="mt-3 text-4xl uppercase leading-tight sm:text-5xl">
+        <h2 className="mt-2 text-3xl uppercase leading-tight sm:text-4xl lg:text-5xl">
           Serviços
         </h2>
-        <p className="mt-4 max-w-xl font-body text-muted-foreground">
+        <p className="mt-3 max-w-xl font-body text-sm text-muted-foreground">
           Atendimento completo de cabelo e barba, feito com calma e capricho.
         </p>
         </Reveal>
-        <Reveal className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" delay={80}>
+        <Reveal className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3" delay={80}>
           {servicos.map((s) => (
             <article
               key={s.nome}
-              className={`group relative flex flex-col gap-4 border p-7 transition-all duration-300 hover:-translate-y-1 ${
+              className={`group relative flex flex-col gap-3 border p-5 transition-all duration-300 hover:-translate-y-0.5 ${
                 s.destaque
-                  ? "border-primary bg-primary/10 shadow-lg shadow-primary/10"
+                  ? "border-primary bg-primary/10 shadow-lg shadow-primary/15"
                   : "border-border bg-card hover:border-primary/50"
               }`}
             >
               {s.destaque && (
-                <span className="absolute right-4 top-4 bg-primary px-2.5 py-1 font-condensed text-[0.6rem] font-semibold uppercase tracking-[0.18em] text-primary-foreground">
+                <span className={`absolute right-3 top-3 bg-primary px-2 py-0.5 font-condensed text-[0.55rem] font-semibold uppercase ${TRACK.nav} text-primary-foreground`}>
                   Mais pedido
                 </span>
               )}
               <span
-                className={`grid h-12 w-12 place-items-center rounded-sm ${
+                className={`grid h-10 w-10 place-items-center rounded-sm ${
                   s.destaque
                     ? "bg-primary text-primary-foreground"
                     : "bg-secondary text-primary"
                 }`}
               >
-                <s.Icon size={22} strokeWidth={1.75} aria-hidden="true" />
+                <s.Icon size={20} strokeWidth={1.75} aria-hidden="true" />
               </span>
-              <div>
-                <h3 className="text-xl uppercase leading-tight">{s.nome}</h3>
-                <p className="mt-3 font-body text-sm leading-relaxed text-muted-foreground">
+              <div className="flex-1">
+                <h3 className="text-lg uppercase leading-tight">{s.nome}</h3>
+                <p className="mt-2 font-body text-sm leading-relaxed text-muted-foreground">
                   {s.desc}
                 </p>
               </div>
-              {s.destaque && (
-                <a
-                  href={WHATSAPP_URL}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-2 inline-block self-start font-condensed text-xs font-semibold uppercase tracking-[0.16em] bg-primary px-5 py-2.5 text-primary-foreground transition-all duration-300 hover:opacity-90 hover:-translate-y-0.5"
-                >
-                  Agendar
-                </a>
-              )}
+              <div className="flex items-center justify-between border-t border-border pt-3 mt-2">
+                <span className={`font-condensed text-base font-semibold ${TRACK.body} text-foreground`}>
+                  {s.preco}
+                </span>
+                {s.destaque && (
+                  <a
+                    href={WHATSAPP_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={`font-condensed text-xs font-semibold uppercase ${TRACK.body} bg-primary px-4 py-2 text-primary-foreground transition-all duration-300 hover:opacity-90 hover:-translate-y-0.5`}
+                  >
+                    Agendar
+                  </a>
+                )}
+              </div>
             </article>
           ))}
         </Reveal>
@@ -780,75 +732,119 @@ function Servicos() {
   );
 }
 
+function Precos() {
+  return (
+    <section id="precoss" className="border-t border-border">
+      <div className="mx-auto max-w-3xl px-5 py-12 md:py-16">
+        <Reveal>
+          <p className={`font-condensed text-sm font-medium uppercase ${TRACK.section} text-primary`}>
+            Valores
+          </p>
+          <h2 className="mt-2 text-3xl uppercase leading-tight sm:text-4xl lg:text-5xl">
+            Preços
+          </h2>
+          <p className="mt-3 max-w-xl font-body text-sm text-muted-foreground">
+            Valores acessíveis para um atendimento de qualidade.
+          </p>
+        </Reveal>
+
+        <Reveal className="mt-8" delay={80}>
+          <ul className="divide-y divide-border overflow-hidden border border-border bg-card">
+            {servicos.map((s) => (
+              <li
+                key={s.nome}
+                className="flex items-center justify-between gap-4 px-5 py-4 transition-colors duration-300 hover:bg-secondary/40"
+              >
+                <div className="min-w-0 flex-1">
+                  <span className={`font-condensed text-base font-medium uppercase ${TRACK.nav} text-foreground`}>
+                    {s.nome}
+                  </span>
+                  {s.destaque && (
+                    <span className="ml-2 inline-flex items-center gap-1 bg-primary/20 px-2 py-0.5 font-condensed text-[0.6rem] font-semibold uppercase text-primary">
+                      Mais pedido
+                    </span>
+                  )}
+                </div>
+                <span className={`font-condensed text-lg font-semibold ${TRACK.body} text-foreground tabular-nums`}>
+                  {s.preco}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </Reveal>
+
+        <div className="mt-8 text-center">
+          <a
+            href={WHATSAPP_URL}
+            target="_blank"
+            rel="noreferrer"
+            className={`inline-block font-condensed text-sm font-semibold uppercase ${TRACK.body} bg-primary px-6 py-3 text-primary-foreground shadow-lg shadow-primary/20 transition-all duration-300 hover:opacity-90 hover:-translate-y-0.5`}
+          >
+            Agendar no WhatsApp
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Horarios() {
   const dias = [
-    { d: "Terça-feira", h: "09:00 às 21:00", fechado: false },
-    { d: "Quarta-feira", h: "07:30 às 20:00", fechado: false },
-    { d: "Quinta-feira", h: "07:30 às 21:00", fechado: false },
-    { d: "Sexta-feira", h: "07:30 às 21:00", fechado: false },
-    { d: "Sábado", h: "07:30 às 20:00", fechado: false },
-    { d: "Domingo", h: "Fechado", fechado: true },
-    { d: "Segunda-feira", h: "Fechado", fechado: true },
+    { d: "Terça-feira", h: "09:00 às 21:00" },
+    { d: "Quarta-feira", h: "07:30 às 20:00" },
+    { d: "Quinta-feira", h: "07:30 às 21:00" },
+    { d: "Sexta-feira", h: "07:30 às 21:00" },
+    { d: "Sábado", h: "07:30 às 20:00" },
   ];
   return (
     <section id="horarios" className="border-t border-border bg-surface">
-      <div className="mx-auto max-w-3xl px-5 py-14 md:py-20">
+      <div className="mx-auto max-w-3xl px-5 py-12 md:py-16">
         <Reveal>
-        <h2 className="text-4xl uppercase leading-tight sm:text-5xl">
+        <h2 className="text-3xl uppercase leading-tight sm:text-4xl lg:text-5xl">
           Horários de Atendimento
         </h2>
-        <p className="mt-4 max-w-xl font-body text-muted-foreground">
-          Confira os dias e horários de funcionamento da Barbearia do Alemão.
+        <p className="mt-3 max-w-xl font-body text-sm text-muted-foreground">
+          Confira os dias e horários de funcionamento.
         </p>
         </Reveal>
 
-        <Reveal className="mt-10" delay={80}>
+        <Reveal className="mt-8" delay={80}>
         <ul className="divide-y divide-border overflow-hidden border border-border bg-card">
           {dias.map((d) => (
             <li
               key={d.d}
-              className={`grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-5 py-4 transition-colors duration-300 sm:px-6 ${
-                d.fechado ? "bg-background/30" : "hover:bg-secondary/60"
-              }`}
+              className="flex items-center justify-between gap-4 px-5 py-3.5 transition-colors duration-300 hover:bg-secondary/40"
             >
-              <span
-                className={`min-w-0 truncate font-condensed text-base uppercase tracking-[0.14em] ${
-                  d.fechado ? "text-muted-foreground" : "text-foreground"
-                }`}
-              >
+              <span className={`font-condensed text-sm font-medium uppercase ${TRACK.nav} text-foreground`}>
                 {d.d}
               </span>
-              {d.fechado ? (
-                <span className="inline-flex shrink-0 items-center gap-1.5 border border-destructive/40 bg-destructive/10 px-3 py-1 font-condensed text-xs font-semibold uppercase tracking-[0.16em] text-destructive">
-                  <X size={13} strokeWidth={2.5} aria-hidden="true" />
-                  Fechado
+              <span className="flex shrink-0 items-center gap-2">
+                <span className="font-body text-sm text-foreground tabular-nums">
+                  {d.h}
                 </span>
-              ) : (
-                <span className="flex shrink-0 items-center gap-3">
-                  <span className="font-body text-sm text-foreground tabular-nums sm:text-base">
-                    {d.h}
-                  </span>
-                  <span className="inline-flex items-center gap-1.5 border border-primary/40 bg-primary/10 px-3 py-1 font-condensed text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-primary">
-                    <Check size={13} strokeWidth={2.5} aria-hidden="true" />
-                    Aberto
-                  </span>
+                <span className={`inline-flex items-center gap-1 border border-primary/40 bg-primary/10 px-2 py-0.5 font-condensed text-[0.65rem] font-semibold uppercase ${TRACK.body} text-primary`}>
+                  <Check size={12} strokeWidth={2.5} aria-hidden="true" />
+                  Aberto
                 </span>
-              )}
+              </span>
             </li>
           ))}
         </ul>
         </Reveal>
 
-        <div className="mt-10 border-t border-border pt-8 text-center sm:text-left">
+        <div className="mt-5 border-t border-border pt-5 text-center">
           <p className="font-body text-sm text-muted-foreground">
-            Para garantir disponibilidade, entre em contato pelo WhatsApp antes
-            da visita.
+            <span className="inline-flex items-center gap-1.5 border border-destructive/40 bg-destructive/10 px-2 py-0.5 mr-2 font-condensed text-xs font-semibold uppercase text-destructive">
+              <X size={12} strokeWidth={2.5} aria-hidden="true" />
+              Fechado
+            </span>
+            Domingo e segunda-feira
           </p>
           <a
             href={WHATSAPP_URL}
             target="_blank"
             rel="noreferrer"
-            className="mt-6 inline-block font-condensed text-sm font-semibold uppercase tracking-[0.16em] bg-primary px-7 py-3.5 text-primary-foreground transition-all duration-300 hover:opacity-90 hover:-translate-y-0.5"
+            className={`mt-5 inline-block font-condensed text-sm font-semibold uppercase ${TRACK.body} bg-primary px-6 py-3 text-primary-foreground shadow-lg shadow-primary/20 transition-all duration-300 hover:opacity-90 hover:-translate-y-0.5`}
           >
             Agendar no WhatsApp
           </a>
@@ -863,52 +859,52 @@ function Localizacao() {
   const mapsQuery = encodeURIComponent(endereco);
   return (
     <section id="localizacao" className="border-t border-border bg-surface">
-      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 md:grid-cols-2 md:items-start md:gap-12 md:py-20">
+      <div className="mx-auto grid max-w-6xl gap-8 px-5 py-12 md:grid-cols-2 md:items-start md:gap-10 md:py-16">
         <Reveal>
-          <p className="font-condensed text-sm font-medium uppercase tracking-[0.28em] text-primary">
+          <p className={`font-condensed text-sm font-medium uppercase ${TRACK.section} text-primary`}>
             Localização
           </p>
-          <h2 className="mt-3 text-4xl uppercase leading-tight sm:text-5xl">
+          <h2 className="mt-2 text-3xl uppercase leading-tight sm:text-4xl lg:text-5xl">
             Onde Estamos
           </h2>
-          <p className="mt-6 max-w-md font-body text-muted-foreground">
+          <p className="mt-4 max-w-md font-body text-sm text-muted-foreground">
             A Barbearia do Alemão está localizada no bairro Júlio de Mesquita
             Filho, em Sorocaba/SP. Entre em contato pelo WhatsApp ou venha
             conhecer o espaço pessoalmente.
           </p>
 
-          <ul className="mt-8 flex flex-col gap-4">
-            <li className="flex items-start gap-3">
-              <MapPin size={20} strokeWidth={1.75} aria-hidden="true" className="mt-0.5 shrink-0 text-primary" />
+          <ul className="mt-6 flex flex-col gap-3">
+            <li className="flex items-start gap-2.5">
+              <MapPin size={18} strokeWidth={1.75} aria-hidden="true" className="mt-0.5 shrink-0 text-primary" />
               <div className="font-body text-sm text-muted-foreground">
-                <p className="font-condensed text-base uppercase tracking-[0.12em] text-foreground">
+                <p className={`font-condensed text-sm font-medium uppercase ${TRACK.nav} text-foreground`}>
                   R. Maria Germani, 826
                 </p>
-                <p className="mt-1">Júlio de Mesquita Filho</p>
+                <p className="mt-0.5">Júlio de Mesquita Filho</p>
                 <p>Sorocaba - SP</p>
                 <p>CEP 18053-030</p>
               </div>
             </li>
-            <li className="flex items-center gap-3">
-              <Phone size={20} strokeWidth={1.75} aria-hidden="true" className="shrink-0 text-primary" />
+            <li className="flex items-center gap-2.5">
+              <Phone size={18} strokeWidth={1.75} aria-hidden="true" className="shrink-0 text-primary" />
               <span className="font-body text-sm text-muted-foreground">
                 (15) 98803-0574 · WhatsApp
               </span>
             </li>
-            <li className="flex items-center gap-3">
-              <Clock size={20} strokeWidth={1.75} aria-hidden="true" className="shrink-0 text-primary" />
+            <li className="flex items-center gap-2.5">
+              <Clock size={18} strokeWidth={1.75} aria-hidden="true" className="shrink-0 text-primary" />
               <span className="font-body text-sm text-muted-foreground">
                 Terça a sábado · Domingo e segunda fechado
               </span>
             </li>
           </ul>
 
-          <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          <div className="mt-7 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap">
             <a
               href={`https://www.google.com/maps/search/?api=1&query=${mapsQuery}`}
               target="_blank"
               rel="noreferrer"
-              className="text-center font-condensed text-sm font-semibold uppercase tracking-[0.16em] bg-primary px-7 py-3.5 text-primary-foreground transition-all duration-300 hover:opacity-90 hover:-translate-y-0.5"
+              className={`text-center font-condensed text-sm font-semibold uppercase ${TRACK.body} bg-primary px-5 py-3 text-primary-foreground shadow-lg shadow-primary/20 transition-all duration-300 hover:opacity-90 hover:-translate-y-0.5`}
             >
               Como chegar
             </a>
@@ -916,7 +912,7 @@ function Localizacao() {
               href="https://wa.me/5515988030574"
               target="_blank"
               rel="noreferrer"
-              className="text-center font-condensed text-sm font-semibold uppercase tracking-[0.16em] border border-border px-7 py-3.5 text-foreground transition-all duration-300 hover:border-foreground hover:-translate-y-0.5"
+              className={`text-center font-condensed text-sm font-semibold uppercase ${TRACK.body} border border-border px-5 py-3 text-foreground transition-all duration-300 hover:border-foreground hover:-translate-y-0.5`}
             >
               Agendar no WhatsApp
             </a>
@@ -927,7 +923,7 @@ function Localizacao() {
           <iframe
             title="Mapa da Barbearia do Alemão"
             src={`https://www.google.com/maps?q=${mapsQuery}&output=embed`}
-            className="h-[320px] w-full md:h-[460px]"
+            className="h-[280px] w-full md:h-[380px]"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
           />
@@ -941,17 +937,17 @@ function CtaFinal() {
   return (
     <section id="cta" className="relative overflow-hidden border-t border-border bg-surface">
       <div className="absolute inset-0 grain opacity-60" />
-      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[420px] w-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-3xl" />
-      <Reveal className="relative mx-auto flex max-w-3xl flex-col items-center px-5 py-16 text-center md:py-20">
+      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[380px] w-[380px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-3xl" />
+      <Reveal className="relative mx-auto flex max-w-3xl flex-col items-center px-5 py-14 text-center md:py-16">
         <img
           src={logo.url}
-          alt="Logo Barbearia do Alemão"
-          className="h-16 w-16 rounded-full object-cover transition-transform duration-500 hover:scale-105"
+          alt=""
+          className="h-14 w-14 rounded-full object-cover transition-transform duration-500 hover:scale-105"
         />
-        <h2 className="mt-6 text-4xl uppercase leading-[0.98] sm:text-5xl md:text-6xl">
+        <h2 className="mt-5 text-3xl uppercase leading-[0.98] sm:text-4xl md:text-5xl">
           Pronto pra dar um grau?
         </h2>
-        <p className="mx-auto mt-5 max-w-md font-body text-base leading-relaxed text-muted-foreground sm:text-lg">
+        <p className="mx-auto mt-4 max-w-md font-body text-sm leading-relaxed text-muted-foreground sm:text-base">
           Chame no WhatsApp e agende seu horário diretamente com a Barbearia do
           Alemão.
         </p>
@@ -959,7 +955,7 @@ function CtaFinal() {
           href={WHATSAPP_URL}
           target="_blank"
           rel="noreferrer"
-          className="mt-8 inline-block font-condensed text-sm font-semibold uppercase tracking-[0.16em] bg-primary px-9 py-4 text-primary-foreground transition-all duration-300 hover:opacity-90 hover:-translate-y-0.5"
+          className={`mt-6 inline-block font-condensed text-sm font-semibold uppercase ${TRACK.body} bg-primary px-7 py-3.5 text-primary-foreground shadow-lg shadow-primary/30 transition-all duration-300 hover:opacity-90 hover:-translate-y-0.5`}
         >
           Agendar no WhatsApp
         </a>
@@ -971,17 +967,17 @@ function CtaFinal() {
 function Footer() {
   return (
     <footer className="border-t border-border bg-surface">
-      <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-5 py-12 text-center md:flex-row md:justify-between md:text-left">
-        <div className="flex items-center gap-3">
-          <img src={logo.url} alt="Logo Barbearia do Alemão" className="h-12 w-12 rounded-full object-cover" />
+      <div className="mx-auto flex max-w-6xl flex-col items-center gap-5 px-5 py-10 text-center md:flex-row md:justify-between md:text-left">
+        <div className="flex items-center gap-2.5">
+          <img src={logo.url} alt="" className="h-10 w-10 rounded-full object-cover" />
           <div>
-            <p className="font-condensed text-sm font-semibold uppercase tracking-[0.18em]">Barbearia do Alemão</p>
+            <p className={`font-condensed text-sm font-semibold uppercase ${TRACK.nav}`}>Barbearia do Alemão</p>
             <p className="font-body text-xs text-muted-foreground">Corte · Barba · Acabamento</p>
           </div>
         </div>
-        <nav className="flex flex-wrap items-center justify-center gap-5">
+        <nav className="flex flex-wrap items-center justify-center gap-4">
           {nav.map((n) => (
-            <a key={n.href} href={n.href} className="font-condensed text-xs uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-foreground">
+            <a key={n.href} href={n.href} className={`font-condensed text-xs uppercase ${TRACK.body} text-muted-foreground transition-colors hover:text-foreground`}>
               {n.label}
             </a>
           ))}
@@ -990,14 +986,14 @@ function Footer() {
             target="_blank"
             rel="noreferrer"
             aria-label="Instagram da Barbearia do Alemão"
-            className="inline-flex items-center gap-2 font-condensed text-xs uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-foreground"
+            className={`inline-flex items-center gap-1.5 font-condensed text-xs uppercase ${TRACK.body} text-muted-foreground transition-colors hover:text-foreground`}
           >
-            <Instagram size={16} strokeWidth={1.75} aria-hidden="true" />
+            <Instagram size={14} strokeWidth={1.75} aria-hidden="true" />
             Instagram
           </a>
         </nav>
       </div>
-      <div className="border-t border-border py-5 text-center font-body text-xs text-muted-foreground">
+      <div className="border-t border-border py-4 text-center font-body text-xs text-muted-foreground">
         © {new Date().getFullYear()} Barbearia do Alemão.
       </div>
     </footer>

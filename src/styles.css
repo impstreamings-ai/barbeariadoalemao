@@ -99,6 +99,18 @@
   --font-display: "Anton", system-ui, sans-serif;
   --font-condensed: "Oswald", system-ui, sans-serif;
   --font-body: "Inter", system-ui, sans-serif;
+
+  /* Spacing scale */
+  --space-section: 3rem;
+  --space-section-lg: 4rem;
+  --space-gap: 0.75rem;
+  --space-gap-lg: 1rem;
+
+  /* Typography tracking — standardized */
+  --tracking-label: 0.2em;
+  --tracking-body: 0.16em;
+  --tracking-nav: 0.18em;
+  --tracking-section: 0.28em;
 }
 
 .dark {
