@@ -1,0 +1,27 @@
+// Gerado por scripts/optimize-photos.py — não editar à mão.
+import heroUrl from "./hero.webp";
+export const hero = { src: heroUrl, width: 943, height: 1400 };
+import alemaoUrl from "./alemao.webp";
+export const alemao = { src: alemaoUrl, width: 940, height: 1200 };
+import interiorUrl from "./interior.webp";
+export const interior = { src: interiorUrl, width: 925, height: 1200 };
+import ambienteUrl from "./ambiente.webp";
+export const ambiente = { src: ambienteUrl, width: 912, height: 1200 };
+import corteAntesUrl from "./corte-antes.webp";
+export const corteAntes = { src: corteAntesUrl, width: 900, height: 881 };
+import corteDepoisUrl from "./corte-depois.webp";
+export const corteDepois = { src: corteDepoisUrl, width: 900, height: 809 };
+import barbaAntesUrl from "./barba-antes.webp";
+export const barbaAntes = { src: barbaAntesUrl, width: 790, height: 900 };
+import barbaDepoisUrl from "./barba-depois.webp";
+export const barbaDepois = { src: barbaDepoisUrl, width: 900, height: 842 };
+import pompadourAntesUrl from "./pompadour-antes.webp";
+export const pompadourAntes = { src: pompadourAntesUrl, width: 787, height: 900 };
+import pompadourDepoisUrl from "./pompadour-depois.webp";
+export const pompadourDepois = { src: pompadourDepoisUrl, width: 833, height: 900 };
+import cacheadoAntesUrl from "./cacheado-antes.webp";
+export const cacheadoAntes = { src: cacheadoAntesUrl, width: 800, height: 900 };
+import cacheadoDepoisUrl from "./cacheado-depois.webp";
+export const cacheadoDepois = { src: cacheadoDepoisUrl, width: 824, height: 900 };
+import logoUrl from "./logo.webp";
+export const logo = { src: logoUrl, width: 320, height: 320 };
