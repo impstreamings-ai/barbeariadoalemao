@@ -5,33 +5,35 @@ import { Reveal, SectionHead } from "./ui";
 export function About() {
   return (
     <section id="sobre" className="border-t border-border bg-surface">
-      <div className="mx-auto grid max-w-6xl gap-12 px-5 py-20 md:grid-cols-[0.8fr_1fr] md:items-center md:gap-20 md:py-28">
+      <div className="mx-auto grid max-w-6xl gap-12 px-5 py-20 md:grid-cols-[1fr_1fr] md:items-center md:gap-10 md:py-28 lg:grid-cols-[0.8fr_1fr] lg:gap-20">
         <Reveal>
-          <img
-            src={alemao.src}
-            width={alemao.width}
-            height={alemao.height}
-            alt="O Alemão, barbeiro e dono da Barbearia do Alemão"
-            loading="lazy"
-            decoding="async"
-            className="photo aspect-[4/5] w-full object-cover object-[50%_20%]"
-          />
+          {/* Reenquadramento por CSS (zoom 1,35): o arquivo original não é alterado */}
+          <div className="aspect-[4/5] w-full overflow-hidden">
+            <img
+              src={alemao.src}
+              width={alemao.width}
+              height={alemao.height}
+              alt="O Alemão na Barbearia do Alemão, olhando para a câmera e fazendo o gesto de rock com a mão"
+              loading="lazy"
+              decoding="async"
+              className="photo h-full w-full origin-[34%_24%] scale-[1.35] object-cover object-[50%_20%]"
+            />
+          </div>
         </Reveal>
         <Reveal delay={100}>
-          <SectionHead n="01" eyebrow="Sobre" title="O Alemão" />
-          <div className="mt-8 max-w-lg space-y-5 text-base text-muted-foreground">
+          <SectionHead eyebrow="Sobre" title="O Alemão" />
+          <div className="mt-8 max-w-lg space-y-5 text-muted-foreground">
             <p>
               Desde 2015, o Alemão atende clientes em Sorocaba com atenção aos detalhes, respeito ao
               horário e foco em um atendimento tranquilo e de qualidade.
             </p>
             <p>
               Ao longo dos anos, esse cuidado ajudou a construir uma avaliação 5,0 estrelas no
-              Google e a confiança de centenas de clientes.
+              Google.
             </p>
           </div>
-          <p className="font-display mt-10 max-w-md border-l border-brand/60 pl-5 text-2xl italic leading-snug text-foreground">
-            Atendimento sem pressa, capricho em cada corte e um ambiente onde o cliente se sente à
-            vontade pra voltar sempre.
+          <p className="mt-8 max-w-md border-t border-border pt-5 text-[0.9375rem] leading-relaxed text-foreground/80">
+            Um ambiente onde o cliente se sente à vontade para voltar sempre.
           </p>
         </Reveal>
       </div>

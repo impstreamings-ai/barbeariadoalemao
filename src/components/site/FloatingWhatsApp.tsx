@@ -22,7 +22,7 @@ export function FloatingWhatsApp() {
       rel="noreferrer"
       aria-label="Agendar pelo WhatsApp"
       tabIndex={show ? 0 : -1}
-      className={`fixed z-50 flex h-14 items-center justify-center gap-2.5 rounded-full bg-[#1fa855] px-4 text-white shadow-lg shadow-black/50 transition-all duration-300 hover:bg-[#1b9a4d] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:px-6 ${
+      className={`fixed z-50 flex h-14 items-center justify-center gap-2.5 rounded-full bg-[#137f3e] px-4 text-white shadow-lg shadow-black/50 transition-all duration-300 hover:bg-[#0f6a34] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:px-6 ${
         show ? "translate-y-0 opacity-100" : "pointer-events-none invisible translate-y-3 opacity-0"
       }`}
       style={{

@@ -9,7 +9,7 @@ export function Location() {
     <section id="localizacao" className="border-t border-border">
       <div className="mx-auto grid max-w-6xl gap-12 px-5 py-20 md:grid-cols-2 md:items-start md:gap-16 md:py-28">
         <Reveal>
-          <SectionHead n="06" eyebrow="Localização" title="Onde estamos">
+          <SectionHead eyebrow="Localização" title="Onde estamos">
             No bairro {ADDRESS.district}, em {ADDRESS.city}/{ADDRESS.region}. Chame no WhatsApp ou
             venha conhecer o espaço.
           </SectionHead>
@@ -37,7 +37,10 @@ export function Location() {
                 aria-hidden="true"
                 className="shrink-0 text-brand"
               />
-              <a href={`tel:+${PHONE_E164}`} className="text-lg underline-offset-4 hover:underline">
+              <a
+                href={`tel:+${PHONE_E164}`}
+                className="inline-flex min-h-11 items-center text-lg underline-offset-4 hover:underline"
+              >
                 {PHONE_DISPLAY}
               </a>
               <span className="label text-muted-foreground">WhatsApp</span>

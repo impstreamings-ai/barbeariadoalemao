@@ -48,7 +48,7 @@ export const nav = [
 export const servicos = [
   {
     nome: "Corte masculino",
-    desc: "Do clássico ao degradê, com atenção aos detalhes.",
+    desc: "Com atenção aos detalhes.",
     preco: "R$ 35",
   },
   { nome: "Barba", desc: "Alinhamento, contorno e acabamento.", preco: "R$ 25" },

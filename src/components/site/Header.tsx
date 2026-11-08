@@ -1,5 +1,5 @@
 import { Menu } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import {
   Sheet,
@@ -15,6 +15,7 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -50,7 +51,11 @@ export function Header() {
         }`}
       >
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5">
-          <a href="#topo" className="flex items-center gap-3" aria-label={`${NAME} — início`}>
+          <a
+            href="#topo"
+            className="flex min-h-11 items-center gap-3"
+            aria-label={`${NAME} — início`}
+          >
             <img
               src={logo.src}
               width={36}
@@ -61,13 +66,13 @@ export function Header() {
             <span className="label text-foreground">{NAME}</span>
           </a>
 
-          <nav aria-label="Principal" className="hidden items-center gap-7 lg:flex">
+          <nav aria-label="Principal" className="hidden items-center gap-5 lg:flex xl:gap-8">
             {nav.map((n) => (
               <a
                 key={n.href}
                 href={n.href}
                 aria-current={active === n.href ? "true" : undefined}
-                className={`label relative py-2 transition-colors hover:text-foreground after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-brand after:transition-transform after:duration-300 ${
+                className={`label relative inline-flex min-h-11 items-center transition-colors hover:text-foreground after:absolute after:inset-x-0 after:bottom-2 after:h-px after:bg-brand after:transition-transform after:duration-300 ${
                   active === n.href
                     ? "text-foreground after:scale-x-100"
                     : "text-muted-foreground after:scale-x-0"
@@ -88,6 +93,7 @@ export function Header() {
               Agendar
             </a>
             <button
+              ref={menuButtonRef}
               type="button"
               onClick={() => setMenuOpen(true)}
               aria-label="Abrir menu"
@@ -103,6 +109,11 @@ export function Header() {
         <SheetContent
           side="right"
           className="w-[88%] max-w-sm border-l border-border bg-surface p-0"
+          onCloseAutoFocus={(e) => {
+            // Devolve o foco ao botão que abriu o menu (sem rolar a página)
+            e.preventDefault();
+            menuButtonRef.current?.focus({ preventScroll: true });
+          }}
         >
           <SheetHeader className="border-b border-border px-6 py-5 text-left">
             <SheetTitle className="label text-muted-foreground">Navegação</SheetTitle>
@@ -116,7 +127,7 @@ export function Header() {
                     href={n.href}
                     onClick={() => setMenuOpen(false)}
                     aria-current={active === n.href ? "true" : undefined}
-                    className={`font-display flex min-h-14 items-center text-3xl transition-colors ${
+                    className={`t-service flex min-h-14 items-center text-3xl transition-colors ${
                       active === n.href
                         ? "text-foreground"
                         : "text-foreground/75 hover:text-foreground"

@@ -21,14 +21,14 @@ export function Hours() {
   const ordem = [2, 3, 4, 5, 6, 0, 1]; // terça → segunda
   return (
     <section id="horarios" className="border-t border-border bg-surface">
-      <div className="mx-auto max-w-3xl px-5 py-20 md:py-28">
+      <div className="mx-auto max-w-6xl px-5 py-20 md:py-28">
         <Reveal>
-          <SectionHead n="05" eyebrow="Horários" title="Quando atendemos">
-            Terça a sábado. Domingo e segunda a barbearia fica fechada.
+          <SectionHead eyebrow="Horários" title="Quando atendemos">
+            Terça a sábado.
           </SectionHead>
         </Reveal>
 
-        <Reveal className="mt-12" delay={80}>
+        <Reveal className="mt-12 max-w-3xl" delay={80}>
           <ul className="border-t border-border">
             {ordem.map((i) => {
               const d = horarios[i];

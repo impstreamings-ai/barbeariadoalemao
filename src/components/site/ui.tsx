@@ -25,25 +25,19 @@ export function Reveal({
 }
 
 export function SectionHead({
-  n,
   eyebrow,
   title,
   children,
 }: {
-  n: string;
   eyebrow: string;
   title: ReactNode;
   children?: ReactNode;
 }) {
   return (
     <header className="max-w-2xl">
-      <p className="label flex items-center gap-3 text-brand">
-        <span className="tabular-nums">{n}</span>
-        <span aria-hidden="true" className="h-px w-8 bg-brand/50" />
-        {eyebrow}
-      </p>
-      <h2 className="mt-5 text-4xl sm:text-5xl lg:text-6xl">{title}</h2>
-      {children && <p className="mt-5 text-base text-muted-foreground">{children}</p>}
+      <p className="label text-muted-foreground">{eyebrow}</p>
+      <h2 className="t-title mt-4">{title}</h2>
+      {children && <p className="mt-5 text-muted-foreground">{children}</p>}
     </header>
   );
 }

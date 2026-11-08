@@ -9,11 +9,11 @@ export function Reviews() {
       <div className="mx-auto max-w-6xl px-5 py-20 md:py-28">
         <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
           <Reveal>
-            <SectionHead n="04" eyebrow="Avaliações" title="O que dizem os clientes" />
+            <SectionHead eyebrow="Avaliações" title="O que dizem os clientes" />
           </Reveal>
           <Reveal delay={80}>
             <p className="flex items-baseline gap-3">
-              <span className="font-display text-6xl leading-none">{RATING.valor}</span>
+              <span className="t-price text-6xl leading-none">{RATING.valor}</span>
               <span className="label leading-relaxed text-muted-foreground">
                 <span className="block text-foreground" aria-label="5 de 5 estrelas">
                   ★★★★★
@@ -26,8 +26,9 @@ export function Reviews() {
 
         <Reveal className="mt-14" delay={60}>
           <figure className="max-w-4xl">
-            <blockquote className="font-display text-2xl italic leading-snug sm:text-4xl">
-              “{destaque.texto}”
+            <blockquote className="t-quote text-xl sm:text-4xl">
+              <span className="text-brand">“</span>
+              {destaque.texto}”
             </blockquote>
             <figcaption className="label mt-6 text-muted-foreground">
               {destaque.nome} · Google
@@ -41,9 +42,7 @@ export function Reviews() {
         >
           {demais.map((a) => (
             <figure key={a.nome}>
-              <blockquote className="text-base leading-relaxed text-foreground/90">
-                “{a.texto}”
-              </blockquote>
+              <blockquote className="leading-relaxed text-foreground/90">“{a.texto}”</blockquote>
               <figcaption className="label mt-4 text-muted-foreground">
                 {a.nome} · Google
               </figcaption>
@@ -52,7 +51,11 @@ export function Reviews() {
         </Reveal>
 
         <div className="mt-12">
-          <CtaLink href={MAPS_SHORT_URL} external>
+          <CtaLink
+            href={MAPS_SHORT_URL}
+            external
+            className="max-[400px]:px-4 max-[400px]:text-[0.75rem]! max-[400px]:tracking-[0.06em]! max-[400px]:whitespace-nowrap"
+          >
             Ver mais avaliações no Google
           </CtaLink>
         </div>
