@@ -4,11 +4,19 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Hero: layout dividido (texto + foto lado a lado) em telas largas OU em telas deitadas a partir de 700px.
+   Em pé e estreito mantém a foto cheia com o texto embaixo. */
+@custom-variant split {
+  @media (min-width: 1024px), (min-width: 700px) and (orientation: landscape) {
+    @slot;
+  }
+}
+
 @theme inline {
   --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);
   --font-display: var(--font-display);
-  --font-condensed: var(--font-condensed);
+  --color-brand: var(--brand);
   --font-body: var(--font-body);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -52,65 +60,107 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/* Archivo — fonte variável (peso 300–800, largura 62–125%), hospedada localmente.
+   Licença: SIL OFL 1.1 (ver src/assets/fonts/README.md). */
+@font-face {
+  font-family: "Archivo";
+  font-style: normal;
+  font-weight: 300 800;
+  font-stretch: 62% 125%;
+  font-display: swap;
+  src: url("./assets/fonts/archivo-latin.woff2") format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* Fallbacks com métricas ajustadas (medidas contra o Archivo) para evitar salto de layout no swap */
+@font-face {
+  font-family: "Archivo Fallback";
+  src: local("Arial"), local("Liberation Sans"), local("Helvetica"), local("Arimo");
+  size-adjust: 98.8%;
+  ascent-override: 89%;
+  descent-override: 21%;
+  line-gap-override: 0%;
+}
+/* Android não tem Arial/Helvetica: o fallback do sistema é a Roboto (métricas medidas contra o Archivo) */
+@font-face {
+  font-family: "Archivo Fallback Roboto";
+  src: local("Roboto");
+  size-adjust: 98.8%;
+  ascent-override: 89%;
+  descent-override: 21%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Archivo Fallback Display Roboto";
+  src: local("Roboto Bold"), local("Roboto-Bold");
+  font-weight: 700;
+  size-adjust: 91.6%;
+  ascent-override: 96%;
+  descent-override: 23%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Archivo Fallback Display";
+  src:
+    local("Arial Bold"), local("Liberation Sans Bold"), local("Helvetica Bold"), local("Arimo Bold");
+  font-weight: 700;
+  size-adjust: 86%;
+  ascent-override: 102%;
+  descent-override: 24%;
+  line-gap-override: 0%;
+}
+
+/* Quiet Premium — carvão quente, osso e o azul do logo apenas como detalhe */
 :root {
-  --radius: 0.25rem;
+  --radius: 0.125rem;
 
-  /* Barbearia do Alemão — preto profundo, branco, grafite, azul de marca */
-  --background: oklch(0.16 0.006 270);
-  --foreground: oklch(0.96 0.003 250);
+  --background: oklch(0.15 0.005 70);
+  --foreground: oklch(0.93 0.012 85);
+  --surface: oklch(0.125 0.005 70);
+  --surface-2: oklch(0.19 0.006 70);
 
-  --surface: oklch(0.12 0.006 270);
-  --surface-2: oklch(0.21 0.008 265);
+  --card: oklch(0.18 0.006 70);
+  --card-foreground: oklch(0.93 0.012 85);
+  --popover: oklch(0.13 0.005 70);
+  --popover-foreground: oklch(0.93 0.012 85);
 
-  --card: oklch(0.2 0.008 265);
-  --card-foreground: oklch(0.96 0.003 250);
-  --popover: oklch(0.13 0.006 270);
-  --popover-foreground: oklch(0.96 0.003 250);
+  /* Ação principal: osso sobre carvão (contraste ≈ 14:1) */
+  --primary: oklch(0.93 0.012 85);
+  --primary-foreground: oklch(0.15 0.005 70);
+  /* Azul do logo, clareado para texto pequeno (≥ 7:1 sobre o fundo) */
+  --brand: oklch(0.76 0.085 250);
 
-  /* Azul de marca — destaque */
-  --primary: oklch(0.52 0.13 256);
-  --primary-foreground: oklch(0.98 0.003 250);
-
-  --secondary: oklch(0.25 0.008 265);
-  --secondary-foreground: oklch(0.96 0.003 250);
-  --muted: oklch(0.24 0.006 265);
-  --muted-foreground: oklch(0.68 0.01 260);
-  --accent: oklch(0.52 0.13 256);
-  --accent-foreground: oklch(0.98 0.003 250);
-  --destructive: oklch(0.55 0.2 27);
+  --secondary: oklch(0.22 0.006 70);
+  --secondary-foreground: oklch(0.93 0.012 85);
+  --muted: oklch(0.22 0.006 70);
+  --muted-foreground: oklch(0.74 0.012 80);
+  --accent: oklch(0.22 0.006 70);
+  --accent-foreground: oklch(0.93 0.012 85);
+  --destructive: oklch(0.65 0.17 27);
   --destructive-foreground: oklch(0.98 0.003 250);
-  --border: oklch(0.3 0.008 265);
-  --input: oklch(0.3 0.008 265);
-  --ring: oklch(0.52 0.13 256);
-  --chart-1: oklch(0.52 0.13 256);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.13 0.006 270);
-  --sidebar-foreground: oklch(0.96 0.003 250);
-  --sidebar-primary: oklch(0.52 0.13 256);
-  --sidebar-primary-foreground: oklch(0.98 0.003 250);
-  --sidebar-accent: oklch(0.25 0.008 265);
-  --sidebar-accent-foreground: oklch(0.96 0.003 250);
-  --sidebar-border: oklch(0.3 0.008 265);
-  --sidebar-ring: oklch(0.52 0.13 256);
+  --border: oklch(0.3 0.006 70);
+  --input: oklch(0.3 0.006 70);
+  --ring: oklch(0.76 0.085 250);
+  --chart-1: oklch(0.76 0.085 250);
+  --chart-2: oklch(0.6 0.118 184.7);
+  --chart-3: oklch(0.4 0.07 227);
+  --chart-4: oklch(0.83 0.189 84);
+  --chart-5: oklch(0.77 0.188 70);
+  --sidebar: oklch(0.13 0.005 70);
+  --sidebar-foreground: oklch(0.93 0.012 85);
+  --sidebar-primary: oklch(0.93 0.012 85);
+  --sidebar-primary-foreground: oklch(0.15 0.005 70);
+  --sidebar-accent: oklch(0.22 0.006 70);
+  --sidebar-accent-foreground: oklch(0.93 0.012 85);
+  --sidebar-border: oklch(0.3 0.006 70);
+  --sidebar-ring: oklch(0.76 0.085 250);
 
-  --font-display: "Anton", system-ui, sans-serif;
-  --font-condensed: "Oswald", system-ui, sans-serif;
-  --font-body: "Inter", system-ui, sans-serif;
-
-  /* Spacing scale */
-  --space-section: 3rem;
-  --space-section-lg: 4rem;
-  --space-gap: 0.75rem;
-  --space-gap-lg: 1rem;
-
-  /* Typography tracking — standardized */
-  --tracking-label: 0.2em;
-  --tracking-body: 0.16em;
-  --tracking-nav: 0.18em;
-  --tracking-section: 0.28em;
+  --font-display:
+    "Archivo", "Archivo Fallback Display", "Archivo Fallback Display Roboto", "Arial Narrow", Arial,
+    sans-serif;
+  --font-body:
+    "Archivo", "Archivo Fallback", "Archivo Fallback Roboto", Arial, system-ui, sans-serif;
 }
 
 .dark {
@@ -149,28 +199,42 @@
 }
 
 @layer base {
+  html {
+    scroll-padding-top: 5rem;
+    /* Reserva a faixa do botão flutuante de WhatsApp (20px + 56px de altura + folga) quando o navegador
+       rola um elemento para a vista (foco por teclado). Não altera o layout. */
+    scroll-padding-bottom: 6rem;
+    -webkit-text-size-adjust: 100%;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
   * {
     border-color: var(--color-border);
   }
-
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-body);
+    font-size: 1.0625rem;
+    font-stretch: 100%;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    font-feature-settings: "kern", "liga", "calt";
-    line-height: 1.6;
+    line-height: 1.65;
   }
-}
-
-@layer base {
-  h1, h2, h3, h4 {
+  /* Títulos: Archivo condensado, sentença normal (caixa-alta só em rótulos) */
+  h1,
+  h2,
+  h3 {
     font-family: var(--font-display);
-    letter-spacing: 0.015em;
+    font-weight: 650;
+    font-stretch: 82%;
+    letter-spacing: -0.015em;
+    line-height: 1.05;
     text-wrap: balance;
-    font-feature-settings: "kern";
   }
   p {
     text-wrap: pretty;
@@ -179,7 +243,9 @@
   button:focus-visible {
     outline: 2px solid var(--color-ring);
     outline-offset: 3px;
-    border-radius: 2px;
+  }
+  ::selection {
+    background: oklch(0.76 0.085 250 / 35%);
   }
 }
 
@@ -187,61 +253,99 @@
   .font-display {
     font-family: var(--font-display);
   }
-  .font-condensed {
-    font-family: var(--font-condensed);
-  }
-  .text-stroke {
-    -webkit-text-stroke: 1.5px var(--color-foreground);
-    color: transparent;
-  }
-  .grain {
-    background-image: radial-gradient(oklch(1 0 0 / 4%) 1px, transparent 1px);
-    background-size: 4px 4px;
-  }
-}
-
-@keyframes wpp-in {
-  0% { transform: scale(0.6); opacity: 0; }
-  60% { transform: scale(1.08); opacity: 1; }
-  100% { transform: scale(1); opacity: 1; }
-}
-
-/* Ken Burns — zoom muito lento e quase imperceptível na foto da Hero */
-@keyframes ken-burns {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.03); }
-  100% { transform: scale(1); }
-}
-
-@layer utilities {
-  .animate-ken-burns {
-    animation: ken-burns 30s ease-in-out infinite;
-    transform-origin: center;
-    will-change: transform;
+  /* Rótulo/navegação/botão: única caixa-alta do sistema, 12–13px, tracking 0,1em */
+  .label {
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
   }
 
-  /* Reveal on scroll — entrada suave e discreta */
-  .reveal {
+  /* Manchete: duas linhas fortes + linha leve e larga. Dimensiona pela largura da coluna (cqw),
+     então 7,4em (a linha mais larga) cabe em qualquer largura sem quebrar. */
+  .copy-box {
+    container-type: inline-size;
+  }
+  .t-display {
+    font-size: clamp(2.25rem, 13cqw, 4.5rem);
+    font-weight: 700;
+    font-stretch: 84%;
+    letter-spacing: -0.01em;
+    line-height: 1;
+  }
+  .t-display-sub {
+    display: block;
+    margin-top: 0.55em;
+    font-size: 0.5em;
+    font-weight: 350;
+    font-stretch: 120%;
+    letter-spacing: 0;
+    line-height: 1.25;
+    color: oklch(0.85 0.012 85);
+  }
+  @media (min-width: 640px) {
+    .t-display-sub {
+      font-weight: 300;
+    }
+  }
+  /* Tablet em pé: manchete mais contida (≈60px) para equilibrar com o parágrafo */
+  @media (min-width: 640px) and (max-width: 1023px) {
+    .t-display {
+      font-size: clamp(2.25rem, 13cqw, 3.75rem);
+    }
+  }
+
+  .t-title {
+    font-size: clamp(2.125rem, 1.4rem + 3vw, 3.5rem);
+  }
+  .t-service {
+    font-weight: 600;
+    font-stretch: 88%;
+    letter-spacing: -0.005em;
+    line-height: 1.15;
+  }
+  .t-price {
+    font-weight: 700;
+    font-stretch: 75%;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .t-quote {
+    font-weight: 300;
+    font-stretch: 100%;
+    line-height: 1.35;
+    letter-spacing: -0.005em;
+  }
+  .photo {
+    filter: saturate(0.92) contrast(1.03);
+  }
+
+  /* Reveal sutil — só ativo com JS (classe .js no <html>) */
+  .js .reveal {
     opacity: 0;
-    transform: translateY(16px);
+    transform: translateY(12px);
     transition:
-      opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-    will-change: opacity, transform;
+      opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
   }
-  .reveal.is-visible {
+  .js .reveal.is-visible {
     opacity: 1;
     transform: none;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-ken-burns {
-    animation: none;
-  }
-  .reveal {
+  .js .reveal {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
   }
 }
