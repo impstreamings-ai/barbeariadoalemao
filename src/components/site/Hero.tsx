@@ -30,11 +30,17 @@ export function Hero() {
                 <span aria-hidden="true" className="h-px w-7 bg-brand" />
                 Sorocaba · Desde 2015
               </p>
-              <h1 className="t-display mt-5 max-[380px]:mt-4">
-                Corte no capricho.
+              <h1
+                className="t-display mt-5 max-[380px]:mt-4"
+                style={{
+                  fontSize: "clamp(1.75rem, 11.2cqw, 4.5rem)",
+                  fontStretch: "78%",
+                  letterSpacing: "-0.01em",
+                }}
+              >
+                Técnica no corte.
                 <br />
-                Barba alinhada.
-                <span className="t-display-sub">Atendimento sem pressa.</span>
+                Respeito ao seu estilo.
               </h1>
               <p className="mt-6 max-w-md text-foreground/85 max-[380px]:mt-5 sm:text-lg split:text-[1.0625rem]">
                 Barbearia no Júlio de Mesquita Filho para quem valoriza atendimento tranquilo,
