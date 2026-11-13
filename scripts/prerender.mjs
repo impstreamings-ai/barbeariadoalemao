@@ -6,6 +6,8 @@ import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
+import { assertValidHome } from "./validate-home.mjs";
+
 const out = resolve(process.argv[2] ?? ".output");
 const { default: worker } = await import(pathToFileURL(resolve(out, "server/index.mjs")).href);
 const ctx = { waitUntil() {}, passThroughOnException() {} };
@@ -37,6 +39,7 @@ for (const t of targets) {
   expect(res.type.includes(t.type), `${t.path} com content-type inesperado: ${res.type}`);
   expect(res.body.includes(t.marker), `${t.path} sem o marcador ${t.marker}`);
   expect(res.robots === null, `${t.path} não deve trazer X-Robots-Tag em host neutro`);
+  if (t.path === "/") assertValidHome(res.body.toString("utf8"));
   await writeFile(resolve(out, "public", t.file), res.body);
   console.log(`prerender: ${t.file} (${res.body.length} bytes)`);
 }
