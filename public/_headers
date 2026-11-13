@@ -1,0 +1,5 @@
+# Impede a indexacao do endereco tecnico *.workers.dev (arquivos estaticos nao passam pelo Worker).
+# O parser aceita um unico "*" por regra; por isso o host usa dois placeholders (worker.conta).
+# Dominio proprio e lovable.app nao casam com esta regra.
+https://:worker.:account.workers.dev/*
+  X-Robots-Tag: noindex, nofollow
