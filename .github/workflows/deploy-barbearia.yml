@@ -1,0 +1,255 @@
+# Publicação MANUAL do site Barbearia do Alemão no Cloudflare Workers.
+#
+# - Só roda por "Run workflow" (workflow_dispatch): nunca em push, pull_request ou agendado.
+# - O código publicado é SEMPRE o commit fixo abaixo (EXPECTED_SHA), não o ref de quem dispara.
+# - O Worker de destino é fixo ("barbeariadoalemao"); não há campo para informar outro nome.
+# - Job "build": sem credenciais Cloudflare (npm ci, build, testes, checagens).
+# - Job "deploy": só roda na branch main e só com a confirmação exata no formulário.
+#   Usa o GitHub Environment "barbeariadoalemao-deploy" e é o único com acesso aos secrets
+#   CLOUDFLARE_API_TOKEN e CLOUDFLARE_ACCOUNT_ID, que devem ser cadastrados NESSE ambiente
+#   (e não como secrets gerais do repositório). O ambiente deve permitir somente a branch main.
+# - É um deploy de PRIMEIRA publicação: exige que o Worker "barbeariadoalemao" ainda NÃO exista e
+#   que os Workers "barbeariadoalemao-preview" e "operacao-os-preview-ux-loop" estejam presentes.
+#   Para atualizar o Worker depois, relaxe essa trava por PR revisado.
+# Para publicar outro commit, altere EXPECTED_SHA por PR revisado.
+name: Deploy Barbearia do Alemão (manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmacao:
+        description: "Para PUBLICAR digite exatamente PUBLICAR_BARBEARIA_DO_ALEMAO. Vazio ou diferente = apenas build e testes, sem publicar."
+        required: false
+        default: ""
+        type: string
+
+permissions:
+  contents: read
+
+env:
+  EXPECTED_SHA: c3310b604007ae4392be4aebcea934341597acaa
+  WORKER_NAME: barbeariadoalemao
+  NODE_VERSION: 24.18.0
+  WRANGLER_VERSION: 4.159.0
+  WRANGLER_SEND_METRICS: "false"
+
+concurrency:
+  group: deploy-barbearia
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build, testes e verificações (sem credenciais)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout do commit autorizado
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          ref: ${{ env.EXPECTED_SHA }}
+          persist-credentials: false
+
+      - name: Confirmar o commit
+        run: |
+          actual="$(git rev-parse HEAD)"
+          echo "HEAD=$actual"
+          test "$actual" = "$EXPECTED_SHA" || { echo "::error::Commit diferente do autorizado"; exit 1; }
+
+      - name: Node ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Confirmar versão do Node
+        run: test "$(node -v)" = "v${NODE_VERSION}"
+
+      - name: npm ci
+        run: npm ci
+
+      - name: Build (inclui o pré-render)
+        run: npm run build
+
+      - name: Testes (32)
+        run: |
+          set -o pipefail
+          node --test src/lib/search-block.test.ts scripts/validate-home.test.mjs | tee /tmp/tests.log
+          grep -q "^ℹ tests 32$" /tmp/tests.log
+          grep -q "^ℹ pass 32$" /tmp/tests.log
+          grep -q "^ℹ fail 0$" /tmp/tests.log
+
+      - name: Arquivos estáticos pré-renderizados
+        run: |
+          for f in index.html 404.html sitemap.xml robots.txt _headers; do
+            test -s ".output/public/$f" || { echo "::error::Falta .output/public/$f"; exit 1; }
+          done
+          grep -q 'https://:worker.:account.workers.dev/\*' .output/public/_headers
+          grep -q 'X-Robots-Tag: noindex, nofollow' .output/public/_headers
+
+      - name: Conferir a configuração efetiva do Wrangler
+        run: |
+          node --input-type=module -e '
+          import { readFileSync } from "node:fs";
+          const j = JSON.parse(readFileSync(".output/server/wrangler.json", "utf8"));
+          const redirect = JSON.parse(readFileSync(".wrangler/deploy/config.json", "utf8"));
+          const fail = (m) => { console.error("::error::" + m); process.exit(1); };
+          if (j.name !== process.env.WORKER_NAME) fail("name inesperado: " + j.name);
+          if (j.name.includes("preview")) fail("name aponta para uma prévia");
+          if (j.assets?.binding !== "ASSETS") fail("binding ASSETS ausente");
+          if (redirect.configPath !== "../../.output/server/wrangler.json") fail("redirect inesperado: " + redirect.configPath);
+          const allowed = new Set(["compatibility_date", "name", "main", "assets", "compatibility_flags", "no_bundle", "rules"]);
+          const extra = Object.keys(j).filter((k) => !allowed.has(k));
+          if (extra.length) fail("campos inesperados na configuração (rotas, domínios, bindings, variáveis?): " + extra.join(", "));
+          console.log("Configuração efetiva ok:", JSON.stringify({ name: j.name, main: j.main, assets: j.assets }));
+          '
+
+      - name: check:site (contra o build, em workerd local)
+        run: |
+          cd .output/server
+          npx --yes wrangler@${WRANGLER_VERSION} dev -c wrangler.json --port 8787 --ip 127.0.0.1 > /tmp/wrangler-dev.log 2>&1 &
+          WRANGLER_PID=$!
+          cd ../..
+          for i in $(seq 1 40); do curl -fs -o /dev/null http://127.0.0.1:8787/ && break; sleep 2; done
+          npm run check:site -- http://127.0.0.1:8787
+          kill "$WRANGLER_PID" || true
+
+      - name: Empacotar o resultado do build
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        with:
+          name: barbearia-build
+          path: |
+            .output
+            .wrangler/deploy/config.json
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 3
+
+  deploy:
+    name: Publicar o Worker barbeariadoalemao (exige confirmação)
+    needs: build
+    # Só publica: por execução manual, na branch main e com a confirmação exata.
+    if: >-
+      github.event_name == 'workflow_dispatch' &&
+      github.ref == 'refs/heads/main' &&
+      inputs.confirmacao == 'PUBLICAR_BARBEARIA_DO_ALEMAO'
+    # Ambiente exclusivo. Crie-o antes (Settings > Environments), restrinja "Deployment branches" a main
+    # e cadastre os dois secrets nele. Se o ambiente não existir, o GitHub o cria SEM proteções e SEM
+    # secrets: nesse caso o primeiro passo abaixo falha antes de qualquer chamada à Cloudflare.
+    environment: barbeariadoalemao-deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      CF_API: https://api.cloudflare.com/client/v4
+      PREVIEW_URL: https://barbeariadoalemao-preview.impstreamings.workers.dev
+      NEW_URL: https://barbeariadoalemao.impstreamings.workers.dev
+    steps:
+      - name: Baixar o resultado do build
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
+        with:
+          name: barbearia-build
+
+      - name: Node ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Rechecar o destino antes de publicar
+        run: |
+          node --input-type=module -e '
+          import { readFileSync } from "node:fs";
+          const j = JSON.parse(readFileSync(".output/server/wrangler.json", "utf8"));
+          if (j.name !== process.env.WORKER_NAME || j.assets?.binding !== "ASSETS") { console.error("::error::Configuração diferente da autorizada"); process.exit(1); }
+          const extra = Object.keys(j).filter((k) => !["compatibility_date","name","main","assets","compatibility_flags","no_bundle","rules"].includes(k));
+          if (extra.length) { console.error("::error::Campos inesperados: " + extra.join(", ")); process.exit(1); }
+          '
+
+      - name: Exigir os secrets do ambiente
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "::error::Secrets ausentes. Cadastre CLOUDFLARE_API_TOKEN e CLOUDFLARE_ACCOUNT_ID no ambiente barbeariadoalemao-deploy."
+            exit 1
+          fi
+
+      - name: Proteger o destino (o Worker novo NÃO pode existir; os atuais DEVEM existir)
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          curl -fsS -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
+            "${CF_API}/accounts/${CLOUDFLARE_ACCOUNT_ID}/workers/scripts" \
+            | jq -r '.result[] | "\(.id) \(.modified_on)"' | sort > /tmp/scripts-before.txt
+          echo "Workers existentes (id, última modificação):"; cat /tmp/scripts-before.txt
+          if grep -q "^${WORKER_NAME} " /tmp/scripts-before.txt; then
+            echo "::error::O Worker ${WORKER_NAME} já existe. Esta automação só faz a primeira publicação; interrompendo sem publicar."
+            exit 1
+          fi
+          for w in barbeariadoalemao-preview operacao-os-preview-ux-loop; do
+            grep -q "^${w} " /tmp/scripts-before.txt || { echo "::error::Worker esperado ausente: ${w}. Interrompendo sem publicar."; exit 1; }
+          done
+          echo "Destino livre e Workers esperados presentes."
+
+      - name: Publicar (Wrangler ${{ env.WRANGLER_VERSION }}) somente barbeariadoalemao
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx --yes wrangler@${WRANGLER_VERSION} deploy --name "${WORKER_NAME}"
+
+      - name: Conferir que nenhum Worker preexistente mudou
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          curl -fsS -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
+            "${CF_API}/accounts/${CLOUDFLARE_ACCOUNT_ID}/workers/scripts" \
+            | jq -r '.result[] | "\(.id) \(.modified_on)"' | sort > /tmp/scripts-after.txt
+          echo "--- depois"; cat /tmp/scripts-after.txt
+          grep -q "^${WORKER_NAME} " /tmp/scripts-after.txt || { echo "::error::O Worker ${WORKER_NAME} não aparece na conta após o deploy"; exit 1; }
+          while read -r id modified; do
+            grep -qx "${id} ${modified}" /tmp/scripts-after.txt || { echo "::error::Worker preexistente alterado: ${id}"; exit 1; }
+          done < /tmp/scripts-before.txt
+          echo "Nenhum Worker preexistente foi alterado."
+
+      - name: Verificar a URL publicada e a prévia (sem credenciais)
+        run: |
+          set -uo pipefail
+          fails=()
+          asset="$(cd .output/public && find assets -type f -name '*.css' | sort | head -1)"
+          test -n "$asset" || { echo "::error::Nenhum arquivo em assets/ no artefato"; exit 1; }
+          hdr() { curl -s -o /dev/null -D - "$1" | tr -d '\r'; }
+          # Aguarda a propagação do Worker novo.
+          for i in $(seq 1 12); do [ "$(curl -s -o /dev/null -w '%{http_code}' "$NEW_URL/")" = 200 ] && break; sleep 5; done
+          check() { # caminho, status esperado, content-type esperado (regex; vazio = qualquer)
+            local h status ctype robots
+            h="$(hdr "$NEW_URL$1")"
+            status="$(printf '%s\n' "$h" | head -1 | awk '{print $2}')"
+            ctype="$(printf '%s\n' "$h" | grep -i '^content-type:' | head -1 | cut -d' ' -f2-)"
+            robots="$(printf '%s\n' "$h" | grep -ic '^x-robots-tag: noindex, nofollow$')"
+            local ok=1
+            [ "$status" = "$2" ] || { fails+=("$1: status $status (esperado $2)"); ok=0; }
+            if [ -n "$3" ]; then printf '%s' "$ctype" | grep -Eiq "$3" || { fails+=("$1: Content-Type '$ctype' (esperado $3)"); ok=0; }; fi
+            [ "$robots" = 1 ] || { fails+=("$1: X-Robots-Tag noindex, nofollow ausente ou duplicado ($robots)"); ok=0; }
+            echo "$([ $ok = 1 ] && echo OK || echo FALHOU)  $1  status=$status  content-type=$ctype  x-robots-tag=$robots"
+          }
+          check /               200 '^text/html'
+          check /robots.txt     200 '^text/plain'
+          check /sitemap.xml    200 'xml'
+          check /og.jpg         200 '^image/jpeg'
+          check /favicon.ico    200 '^image/(vnd\.microsoft\.icon|x-icon)'
+          check "/$asset"       200 '^text/css'
+          check /nao-existe     404 '^text/html'
+          # A prévia antiga deve continuar respondendo 200 e sem o cabeçalho.
+          ph="$(hdr "$PREVIEW_URL/")"
+          pstatus="$(printf '%s\n' "$ph" | head -1 | awk '{print $2}')"
+          [ "$pstatus" = 200 ] || fails+=("prévia: status $pstatus (esperado 200)")
+          if printf '%s\n' "$ph" | grep -iq '^x-robots-tag:'; then fails+=("prévia: X-Robots-Tag presente (não deveria)"); fi
+          echo "prévia: status=$pstatus"
+          if [ "${#fails[@]}" -gt 0 ]; then
+            echo "::error::Verificação pós-deploy FALHOU (${#fails[@]}):"
+            printf '::error::%s\n' "${fails[@]}"
+            exit 1
+          fi
+          echo "Publicação verificada em $NEW_URL (estáticos, 404 real, noindex) e prévia intacta."
