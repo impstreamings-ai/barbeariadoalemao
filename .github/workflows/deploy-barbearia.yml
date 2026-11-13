@@ -5,7 +5,12 @@
 # - O Worker de destino é fixo ("barbeariadoalemao"); não há campo para informar outro nome.
 # - Job "build": sem credenciais Cloudflare (npm ci, build, testes, checagens).
 # - Job "deploy": só roda na branch main e só com a confirmação exata no formulário.
-#   É o único com acesso aos secrets CLOUDFLARE_API_TOKEN e CLOUDFLARE_ACCOUNT_ID.
+#   Usa o GitHub Environment "barbeariadoalemao-deploy" e é o único com acesso aos secrets
+#   CLOUDFLARE_API_TOKEN e CLOUDFLARE_ACCOUNT_ID, que devem ser cadastrados NESSE ambiente
+#   (e não como secrets gerais do repositório). O ambiente deve permitir somente a branch main.
+# - É um deploy de PRIMEIRA publicação: exige que o Worker "barbeariadoalemao" ainda NÃO exista e
+#   que os Workers "barbeariadoalemao-preview" e "operacao-os-preview-ux-loop" estejam presentes.
+#   Para atualizar o Worker depois, relaxe essa trava por PR revisado.
 # Para publicar outro commit, altere EXPECTED_SHA por PR revisado.
 name: Deploy Barbearia do Alemão (manual)
 
@@ -126,8 +131,16 @@ jobs:
       github.event_name == 'workflow_dispatch' &&
       github.ref == 'refs/heads/main' &&
       inputs.confirmacao == 'PUBLICAR_BARBEARIA_DO_ALEMAO'
+    # Ambiente exclusivo. Crie-o antes (Settings > Environments), restrinja "Deployment branches" a main
+    # e cadastre os dois secrets nele. Se o ambiente não existir, o GitHub o cria SEM proteções e SEM
+    # secrets: nesse caso o primeiro passo abaixo falha antes de qualquer chamada à Cloudflare.
+    environment: barbeariadoalemao-deploy
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    env:
+      CF_API: https://api.cloudflare.com/client/v4
+      PREVIEW_URL: https://barbeariadoalemao-preview.impstreamings.workers.dev
+      NEW_URL: https://barbeariadoalemao.impstreamings.workers.dev
     steps:
       - name: Baixar o resultado do build
         uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
@@ -149,14 +162,34 @@ jobs:
           if (extra.length) { console.error("::error::Campos inesperados: " + extra.join(", ")); process.exit(1); }
           '
 
-      - name: Estado da prévia antes (somente leitura)
+      - name: Exigir os secrets do ambiente
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "::error::Secrets ausentes. Cadastre CLOUDFLARE_API_TOKEN e CLOUDFLARE_ACCOUNT_ID no ambiente barbeariadoalemao-deploy."
+            exit 1
+          fi
+
+      - name: Proteger o destino (o Worker novo NÃO pode existir; os atuais DEVEM existir)
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
           curl -fsS -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
-            "https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/workers/scripts" \
-            | jq -r '.result[] | "\(.id) \(.modified_on)"' | tee /tmp/scripts-before.txt
+            "${CF_API}/accounts/${CLOUDFLARE_ACCOUNT_ID}/workers/scripts" \
+            | jq -r '.result[] | "\(.id) \(.modified_on)"' | sort > /tmp/scripts-before.txt
+          echo "Workers existentes (id, última modificação):"; cat /tmp/scripts-before.txt
+          if grep -q "^${WORKER_NAME} " /tmp/scripts-before.txt; then
+            echo "::error::O Worker ${WORKER_NAME} já existe. Esta automação só faz a primeira publicação; interrompendo sem publicar."
+            exit 1
+          fi
+          for w in barbeariadoalemao-preview operacao-os-preview-ux-loop; do
+            grep -q "^${w} " /tmp/scripts-before.txt || { echo "::error::Worker esperado ausente: ${w}. Interrompendo sem publicar."; exit 1; }
+          done
+          echo "Destino livre e Workers esperados presentes."
 
       - name: Publicar (Wrangler ${{ env.WRANGLER_VERSION }}) somente barbeariadoalemao
         env:
@@ -164,31 +197,59 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: npx --yes wrangler@${WRANGLER_VERSION} deploy --name "${WORKER_NAME}"
 
-      - name: Conferir que nenhum outro Worker mudou
+      - name: Conferir que nenhum Worker preexistente mudou
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
+          set -euo pipefail
           curl -fsS -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
-            "https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/workers/scripts" \
-            | jq -r '.result[] | "\(.id) \(.modified_on)"' > /tmp/scripts-after.txt
+            "${CF_API}/accounts/${CLOUDFLARE_ACCOUNT_ID}/workers/scripts" \
+            | jq -r '.result[] | "\(.id) \(.modified_on)"' | sort > /tmp/scripts-after.txt
           echo "--- depois"; cat /tmp/scripts-after.txt
-          # Todo Worker que já existia antes (exceto o publicado) deve ter a mesma data de modificação.
-          grep -v "^${WORKER_NAME} " /tmp/scripts-before.txt | while read -r id modified; do
-            grep -qx "${id} ${modified}" /tmp/scripts-after.txt || { echo "::error::O Worker ${id} foi alterado"; exit 1; }
-          done
-          echo "Nenhum outro Worker foi alterado."
+          grep -q "^${WORKER_NAME} " /tmp/scripts-after.txt || { echo "::error::O Worker ${WORKER_NAME} não aparece na conta após o deploy"; exit 1; }
+          while read -r id modified; do
+            grep -qx "${id} ${modified}" /tmp/scripts-after.txt || { echo "::error::Worker preexistente alterado: ${id}"; exit 1; }
+          done < /tmp/scripts-before.txt
+          echo "Nenhum Worker preexistente foi alterado."
 
-      - name: Verificação rápida da URL publicada (sem credenciais)
+      - name: Verificar a URL publicada e a prévia (sem credenciais)
         run: |
-          U="https://${WORKER_NAME}.impstreamings.workers.dev"
-          code() { curl -s -o /dev/null -w '%{http_code}' "$1"; }
-          for i in $(seq 1 12); do [ "$(code "$U/")" = 200 ] && break; sleep 5; done
-          test "$(code "$U/")" = 200
-          test "$(code "$U/robots.txt")" = 200
-          test "$(code "$U/sitemap.xml")" = 200
-          test "$(code "$U/nao-existe")" = 404
-          for p in / /robots.txt /nao-existe; do
-            curl -sI "$U$p" | tr -d '\r' | grep -i '^x-robots-tag: noindex, nofollow$' || { echo "::error::X-Robots-Tag ausente em $p"; exit 1; }
-          done
-          echo "Publicação verificada em $U (200, 404 real e noindex)."
+          set -uo pipefail
+          fails=()
+          asset="$(cd .output/public && find assets -type f -name '*.css' | sort | head -1)"
+          test -n "$asset" || { echo "::error::Nenhum arquivo em assets/ no artefato"; exit 1; }
+          hdr() { curl -s -o /dev/null -D - "$1" | tr -d '\r'; }
+          # Aguarda a propagação do Worker novo.
+          for i in $(seq 1 12); do [ "$(curl -s -o /dev/null -w '%{http_code}' "$NEW_URL/")" = 200 ] && break; sleep 5; done
+          check() { # caminho, status esperado, content-type esperado (regex; vazio = qualquer)
+            local h status ctype robots
+            h="$(hdr "$NEW_URL$1")"
+            status="$(printf '%s\n' "$h" | head -1 | awk '{print $2}')"
+            ctype="$(printf '%s\n' "$h" | grep -i '^content-type:' | head -1 | cut -d' ' -f2-)"
+            robots="$(printf '%s\n' "$h" | grep -ic '^x-robots-tag: noindex, nofollow$')"
+            local ok=1
+            [ "$status" = "$2" ] || { fails+=("$1: status $status (esperado $2)"); ok=0; }
+            if [ -n "$3" ]; then printf '%s' "$ctype" | grep -Eiq "$3" || { fails+=("$1: Content-Type '$ctype' (esperado $3)"); ok=0; }; fi
+            [ "$robots" = 1 ] || { fails+=("$1: X-Robots-Tag noindex, nofollow ausente ou duplicado ($robots)"); ok=0; }
+            echo "$([ $ok = 1 ] && echo OK || echo FALHOU)  $1  status=$status  content-type=$ctype  x-robots-tag=$robots"
+          }
+          check /               200 '^text/html'
+          check /robots.txt     200 '^text/plain'
+          check /sitemap.xml    200 'xml'
+          check /og.jpg         200 '^image/jpeg'
+          check /favicon.ico    200 '^image/(vnd\.microsoft\.icon|x-icon)'
+          check "/$asset"       200 '^text/css'
+          check /nao-existe     404 '^text/html'
+          # A prévia antiga deve continuar respondendo 200 e sem o cabeçalho.
+          ph="$(hdr "$PREVIEW_URL/")"
+          pstatus="$(printf '%s\n' "$ph" | head -1 | awk '{print $2}')"
+          [ "$pstatus" = 200 ] || fails+=("prévia: status $pstatus (esperado 200)")
+          if printf '%s\n' "$ph" | grep -iq '^x-robots-tag:'; then fails+=("prévia: X-Robots-Tag presente (não deveria)"); fi
+          echo "prévia: status=$pstatus"
+          if [ "${#fails[@]}" -gt 0 ]; then
+            echo "::error::Verificação pós-deploy FALHOU (${#fails[@]}):"
+            printf '::error::%s\n' "${fails[@]}"
+            exit 1
+          fi
+          echo "Publicação verificada em $NEW_URL (estáticos, 404 real, noindex) e prévia intacta."
