@@ -1,6 +1,7 @@
 // Pré-renderização: gera o HTML estático a partir do próprio servidor compilado, sem servidor HTTP
 // e sem rede. Roda depois do "vite build" (veja o script "build" do package.json).
-// O layout é detectado pelos arquivos que o Nitro gerou (e não por variáveis de ambiente):
+// O layout é detectado pelos arquivos que o Nitro gerou. Quando NETLIFY=true (ambiente do Netlify) e a
+// função do Netlify existe, o layout Netlify tem prioridade, mesmo que reste um .output antigo:
 //  - Cloudflare (preset cloudflare-module): .output/server/index.mjs, estáticos em .output/public.
 //    Os arquivos são servidos pelo ASSETS sem invocar o Worker; outras rotas caem no Worker (SSR).
 //  - Netlify (preset netlify): .netlify/functions-internal/server/main.mjs, estáticos no diretório
@@ -21,7 +22,8 @@ const ctx = { waitUntil() {}, passThroughOnException() {} };
 let platform;
 let publicDir;
 let fetchHandler;
-if (existsSync(cloudflareEntry)) {
+const preferNetlify = process.env.NETLIFY === "true" && existsSync(netlifyEntry);
+if (!preferNetlify && existsSync(cloudflareEntry)) {
   platform = "cloudflare";
   publicDir = resolve(out, "public");
   const { default: worker } = await import(pathToFileURL(cloudflareEntry).href);
@@ -71,6 +73,12 @@ for (const t of targets) {
   console.log(`prerender: ${t.file} (${res.body.length} bytes)`);
 }
 
+// O HTML pré-renderizado precisa estar no diretório que a plataforma publica.
+expect(
+  existsSync(resolve(publicDir, "index.html")),
+  `index.html não foi gerado em ${publicDir} (diretório público da plataforma ${platform})`,
+);
+
 // A regra de noindex por host (*.workers.dev) é específica da Cloudflare e vem de public/_headers
 // (mesclado pelo Nitro). O parser do ASSETS aceita só um "*" por regra, então
 // "https://*.workers.dev/*" seria ignorada: o host usa placeholders.
@@ -83,4 +91,20 @@ if (platform === "cloudflare") {
     "regra de X-Robots-Tag para *.workers.dev ausente em .output/public/_headers",
   );
   console.log("prerender: regra noindex para *.workers.dev presente em _headers");
+} else {
+  // No Netlify a regra de host da Cloudflare não se aplica: remove só esse bloco de dist/_headers.
+  const headersPath = resolve(publicDir, "_headers");
+  if (existsSync(headersPath)) {
+    const blocks = (await readFile(headersPath, "utf8")).split(/\n[ \t]*\n/);
+    const kept = blocks.filter(
+      (b) => !/^https:\/\/:worker\.:account\.workers\.dev\/\*[ \t]*$/m.test(b),
+    );
+    await writeFile(headersPath, kept.join("\n\n").replace(/\s*$/, "\n"));
+    const after = await readFile(headersPath, "utf8");
+    expect(
+      !after.includes("workers.dev"),
+      "regra *.workers.dev ainda presente em _headers (Netlify)",
+    );
+    console.log("prerender: regra *.workers.dev removida de _headers (Netlify)");
+  }
 }
