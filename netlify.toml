@@ -1,0 +1,6 @@
+# Netlify: o preset "netlify" do Nitro gera os estáticos em dist/ e a função de servidor em
+# .netlify/functions-internal (detectado automaticamente pelo ambiente do Netlify).
+# A Cloudflare ignora este arquivo (usa .output/ e wrangler.json).
+[build]
+  command = "npm run build"
+  publish = "dist"
