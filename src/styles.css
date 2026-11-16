@@ -361,12 +361,12 @@
 
   /* Mantém a luz ambiente visível atrás das seções sem fundo próprio. */
   .min-h-screen.bg-background {
-    background-color: transparent;
+    background-color: transparent !important;
   }
 
   /* Mais espaço entre os momentos da página, sem alterar o Hero. */
   main > section:not(#topo) > div.mx-auto {
-    padding-block: clamp(5.75rem, 9vw, 8.5rem);
+    padding-block: clamp(5.75rem, 9vw, 8.5rem) !important;
   }
 
   .site-header {
