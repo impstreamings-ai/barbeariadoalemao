@@ -349,3 +349,105 @@
     animation-duration: 0.01ms !important;
   }
 }
+
+/* Acabamento visual — luz ambiente, respiro e microinterações discretas. */
+@layer base {
+  body {
+    background-image:
+      radial-gradient(ellipse 72% 42% at 8% 12%, oklch(0.42 0.045 250 / 16%), transparent 68%),
+      radial-gradient(ellipse 58% 38% at 92% 38%, oklch(0.48 0.025 65 / 9%), transparent 70%);
+    background-attachment: fixed;
+  }
+
+  /* Mantém a luz ambiente visível atrás das seções sem fundo próprio. */
+  .min-h-screen.bg-background {
+    background-color: transparent !important;
+  }
+
+  /* Mais espaço entre os momentos da página, sem alterar o Hero. */
+  main > section:not(#topo) > div.mx-auto {
+    padding-block: clamp(5.75rem, 9vw, 8.5rem) !important;
+  }
+
+  .site-header {
+    box-shadow: 0 1px 0 oklch(1 0 0 / 3%);
+    transition:
+      background-color 300ms ease,
+      border-color 300ms ease,
+      box-shadow 300ms ease;
+  }
+
+  .site-header.is-scrolled {
+    box-shadow:
+      0 12px 34px oklch(0 0 0 / 22%),
+      0 1px 0 oklch(1 0 0 / 5%);
+  }
+
+  .site-cta {
+    box-shadow: 0 7px 22px oklch(0 0 0 / 16%);
+    transition:
+      transform 220ms ease,
+      box-shadow 220ms ease,
+      background-color 220ms ease,
+      border-color 220ms ease;
+  }
+
+  .site-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 11px 28px oklch(0 0 0 / 24%);
+  }
+
+  .site-cta:active {
+    transform: translateY(0) scale(0.985);
+  }
+
+  .site-whatsapp {
+    box-shadow:
+      0 9px 28px oklch(0 0 0 / 34%),
+      0 0 0 1px oklch(1 0 0 / 8%);
+    transition:
+      transform 240ms ease,
+      box-shadow 240ms ease,
+      background-color 240ms ease,
+      opacity 300ms ease;
+  }
+
+  .site-whatsapp:hover {
+    transform: translateY(-3px);
+    box-shadow:
+      0 14px 34px oklch(0 0 0 / 42%),
+      0 0 0 1px oklch(1 0 0 / 12%);
+  }
+
+  .result-photo {
+    background: oklch(0.19 0.006 70);
+  }
+
+  .result-photo .photo {
+    transition: transform 800ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .result-photo:hover .photo {
+    transform: scale(1.035);
+  }
+
+  #servicos li {
+    transition:
+      background-color 220ms ease,
+      padding-inline 220ms ease;
+  }
+
+  #servicos li:hover {
+    padding-inline: 0.65rem;
+    background-color: oklch(1 0 0 / 2.5%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-cta:hover,
+  .site-cta:active,
+  .site-whatsapp:hover,
+  .result-photo:hover .photo {
+    transform: none !important;
+  }
+}

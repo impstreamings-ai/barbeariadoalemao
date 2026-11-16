@@ -56,7 +56,7 @@ function Photo({ img, crop, alt }: { img: Img; crop: Crop; alt: string }) {
   const x0 = Math.min(Math.max(cx - bw / 2, 0), 1 - bw);
   const y0 = Math.min(Math.max(cy - bh / 2, 0), 1 - bh);
   return (
-    <div className="relative aspect-[4/5] w-full overflow-hidden">
+    <div className="result-photo relative aspect-[4/5] w-full overflow-hidden">
       <img
         src={img.src}
         width={img.width}

@@ -43,7 +43,7 @@ export function SectionHead({
 }
 
 const base =
-  "label inline-flex min-h-12 items-center justify-center gap-2 px-7 py-3.5 text-center transition-colors duration-200";
+  "site-cta label inline-flex min-h-12 items-center justify-center gap-2 px-7 py-3.5 text-center transition-colors duration-200";
 
 export function CtaWhatsApp({
   children = "Agendar pelo WhatsApp",
