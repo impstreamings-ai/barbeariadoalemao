@@ -1,0 +1,2 @@
+Temporary harmless marker for verifying Cloudflare automatic builds from main.
+This file is not part of the website content and must be removed after the test.
