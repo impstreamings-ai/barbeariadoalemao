@@ -28,7 +28,7 @@ permissions:
   contents: read
 
 env:
-  EXPECTED_SHA: d843031fb9916d74c27b494e372665b58ba09230
+  EXPECTED_SHA: 97dbd075d61d572a7c8f7b2d0217c671a56f68fe
   WORKER_NAME: barbeariadoalemao
   NODE_VERSION: 24.18.0
   WRANGLER_VERSION: 4.159.0
