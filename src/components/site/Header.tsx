@@ -44,9 +44,9 @@ export function Header() {
   return (
     <>
       <header
-        className={`sticky top-0 z-50 border-b transition-colors duration-300 ${
+        className={`site-header sticky top-0 z-50 border-b transition-colors duration-300 ${
           scrolled
-            ? "border-border bg-surface/95 backdrop-blur-md"
+            ? "is-scrolled border-border bg-surface/95 backdrop-blur-md"
             : "border-transparent bg-surface"
         }`}
       >
