@@ -258,9 +258,9 @@ jobs:
           echo "prévia: status=$pstatus"
           # O domínio oficial deve servir a mesma página e permanecer indexável.
           ch="$(hdr "$CUSTOM_URL/")"
-          cstatus="$(printf '%s\\n' "$ch" | head -1 | awk '{print $2}')"
+          cstatus="$(printf '%s\n' "$ch" | head -1 | awk '{print $2}')"
           [ "$cstatus" = 200 ] || fails+=("domínio oficial: status $cstatus (esperado 200)")
-          if printf '%s\\n' "$ch" | grep -iq '^x-robots-tag: noindex'; then
+          if printf '%s\n' "$ch" | grep -iq '^x-robots-tag: noindex'; then
             fails+=("domínio oficial: recebeu X-Robots-Tag noindex indevidamente")
           fi
           echo "domínio oficial: status=$cstatus"
