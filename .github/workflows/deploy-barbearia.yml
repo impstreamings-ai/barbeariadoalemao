@@ -8,9 +8,10 @@
 #   Usa o GitHub Environment "barbeariadoalemao-deploy" e é o único com acesso aos secrets
 #   CLOUDFLARE_API_TOKEN e CLOUDFLARE_ACCOUNT_ID, que devem ser cadastrados NESSE ambiente
 #   (e não como secrets gerais do repositório). O ambiente deve permitir somente a branch main.
-# - É um deploy de PRIMEIRA publicação: exige que o Worker "barbeariadoalemao" ainda NÃO exista e
-#   que os Workers "barbeariadoalemao-preview" e "operacao-os-preview-ux-loop" estejam presentes.
-#   Para atualizar o Worker depois, relaxe essa trava por PR revisado.
+# - Atualiza SOMENTE o Worker existente "barbeariadoalemao"; nunca cria outro destino.
+# - Exige que os Workers "barbeariadoalemao-preview" e "operacao-os-preview-ux-loop" estejam presentes.
+# - Antes/depois, verifica que o ID do Worker de produção permanece igual e que todos os outros
+#   Workers e suas datas de modificação continuam intactos.
 # Para publicar outro commit, altere EXPECTED_SHA por PR revisado.
 name: Deploy Barbearia do Alemão (manual)
 
@@ -27,7 +28,7 @@ permissions:
   contents: read
 
 env:
-  EXPECTED_SHA: c3310b604007ae4392be4aebcea934341597acaa
+  EXPECTED_SHA: d843031fb9916d74c27b494e372665b58ba09230
   WORKER_NAME: barbeariadoalemao
   NODE_VERSION: 24.18.0
   WRANGLER_VERSION: 4.159.0
@@ -141,6 +142,7 @@ jobs:
       CF_API: https://api.cloudflare.com/client/v4
       PREVIEW_URL: https://barbeariadoalemao-preview.impstreamings.workers.dev
       NEW_URL: https://barbeariadoalemao.impstreamings.workers.dev
+      CUSTOM_URL: https://barbeariadoalemao.imperiuslab.com.br
     steps:
       - name: Baixar o resultado do build
         uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
@@ -172,7 +174,7 @@ jobs:
             exit 1
           fi
 
-      - name: Proteger o destino (o Worker novo NÃO pode existir; os atuais DEVEM existir)
+      - name: Confirmar o destino existente e preservar os demais Workers
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -182,14 +184,15 @@ jobs:
             "${CF_API}/accounts/${CLOUDFLARE_ACCOUNT_ID}/workers/scripts" \
             | jq -r '.result[] | "\(.id) \(.modified_on)"' | sort > /tmp/scripts-before.txt
           echo "Workers existentes (id, última modificação):"; cat /tmp/scripts-before.txt
-          if grep -q "^${WORKER_NAME} " /tmp/scripts-before.txt; then
-            echo "::error::O Worker ${WORKER_NAME} já existe. Esta automação só faz a primeira publicação; interrompendo sem publicar."
+          grep -q "^${WORKER_NAME} " /tmp/scripts-before.txt || {
+            echo "::error::Worker de produção esperado ausente: ${WORKER_NAME}. Interrompendo sem criar outro destino."
             exit 1
-          fi
+          }
           for w in barbeariadoalemao-preview operacao-os-preview-ux-loop; do
             grep -q "^${w} " /tmp/scripts-before.txt || { echo "::error::Worker esperado ausente: ${w}. Interrompendo sem publicar."; exit 1; }
           done
-          echo "Destino livre e Workers esperados presentes."
+          awk -v target="${WORKER_NAME}" '$1 != target' /tmp/scripts-before.txt > /tmp/scripts-before-others.txt
+          echo "Worker de produção existente confirmado; os demais serão protegidos."
 
       - name: Publicar (Wrangler ${{ env.WRANGLER_VERSION }}) somente barbeariadoalemao
         env:
@@ -197,7 +200,7 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: npx --yes wrangler@${WRANGLER_VERSION} deploy --name "${WORKER_NAME}"
 
-      - name: Conferir que nenhum Worker preexistente mudou
+      - name: Confirmar que somente o Worker autorizado foi atualizado
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -208,10 +211,16 @@ jobs:
             | jq -r '.result[] | "\(.id) \(.modified_on)"' | sort > /tmp/scripts-after.txt
           echo "--- depois"; cat /tmp/scripts-after.txt
           grep -q "^${WORKER_NAME} " /tmp/scripts-after.txt || { echo "::error::O Worker ${WORKER_NAME} não aparece na conta após o deploy"; exit 1; }
+          before_target="$(awk -v target="${WORKER_NAME}" '$1 == target {print $1}' /tmp/scripts-before.txt)"
+          after_target="$(awk -v target="${WORKER_NAME}" '$1 == target {print $1}' /tmp/scripts-after.txt)"
+          test "$before_target" = "$after_target" || { echo "::error::O ID do Worker de produção mudou"; exit 1; }
+          cut -d' ' -f1 /tmp/scripts-before.txt | sort > /tmp/script-names-before.txt
+          cut -d' ' -f1 /tmp/scripts-after.txt | sort > /tmp/script-names-after.txt
+          diff -u /tmp/script-names-before.txt /tmp/script-names-after.txt || { echo "::error::A lista de Workers mudou (novo ou removido)"; exit 1; }
           while read -r id modified; do
-            grep -qx "${id} ${modified}" /tmp/scripts-after.txt || { echo "::error::Worker preexistente alterado: ${id}"; exit 1; }
-          done < /tmp/scripts-before.txt
-          echo "Nenhum Worker preexistente foi alterado."
+            grep -qx "${id} ${modified}" /tmp/scripts-after.txt || { echo "::error::Worker diferente do destino autorizado foi alterado: ${id}"; exit 1; }
+          done < /tmp/scripts-before-others.txt
+          echo "Somente o código do Worker ${WORKER_NAME} pôde ser atualizado; ID e demais Workers preservados."
 
       - name: Verificar a URL publicada e a prévia (sem credenciais)
         run: |
@@ -247,6 +256,14 @@ jobs:
           [ "$pstatus" = 200 ] || fails+=("prévia: status $pstatus (esperado 200)")
           if printf '%s\n' "$ph" | grep -iq '^x-robots-tag:'; then fails+=("prévia: X-Robots-Tag presente (não deveria)"); fi
           echo "prévia: status=$pstatus"
+          # O domínio oficial deve servir a mesma página e permanecer indexável.
+          ch="$(hdr "$CUSTOM_URL/")"
+          cstatus="$(printf '%s\\n' "$ch" | head -1 | awk '{print $2}')"
+          [ "$cstatus" = 200 ] || fails+=("domínio oficial: status $cstatus (esperado 200)")
+          if printf '%s\\n' "$ch" | grep -iq '^x-robots-tag: noindex'; then
+            fails+=("domínio oficial: recebeu X-Robots-Tag noindex indevidamente")
+          fi
+          echo "domínio oficial: status=$cstatus"
           if [ "${#fails[@]}" -gt 0 ]; then
             echo "::error::Verificação pós-deploy FALHOU (${#fails[@]}):"
             printf '::error::%s\n' "${fails[@]}"
